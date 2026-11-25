@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = '/login';
     return;
   }
+  document.getElementById('dash-name').textContent = user.name.split(' ').pop();
 
   async function loadStats() {
     try {
@@ -261,7 +262,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
       const data = await res.json();
       if (data.success) {
-        window.AppUtils.showToast('✅ Đã cập nhật trạng thái', 'success');
+        window.AppUtils.showToast('Đã cập nhật trạng thái', 'success');
         // Update badge in-place
         const card = selectEl.closest('[data-product-id]');
         if (card) {

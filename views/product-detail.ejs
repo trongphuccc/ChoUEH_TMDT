@@ -2,17 +2,8 @@
 <html lang="vi">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chi tiết sản phẩm - Chợ UEH</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet" />
-  <link href="/css/custom.css" rel="stylesheet" />
-  <script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#00464d", "primary-container": "#005f69", "primary-fixed": "#a7eefa", "secondary": "#35618c", "secondary-container": "#a2cdfe", "secondary-fixed": "#d0e4ff", "on-secondary-fixed": "#001d35", "tertiary": "#712600", "tertiary-fixed": "#ffdbce", "surface": "#f2fbfc", "surface-container-lowest": "#ffffff", "surface-container-low": "#ecf5f6", "surface-container": "#e7f0f0", "surface-container-high": "#e1eaeb", "on-surface": "#151d1e", "on-surface-variant": "#3f484a", "outline": "#6f797a", "outline-variant": "#bec8ca", "background": "#f2fbfc", "error": "#ba1a1a", "accent-orange": "#EC6D33" }, fontFamily: { "headline": ["Bricolage Grotesque"], "body": ["Be Vietnam Pro"] }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" } } } }</script>
+  <%- include('partials/head') %>
 </head>
 
 <body class="bg-background text-on-surface antialiased">
@@ -30,15 +21,15 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div class="lg:col-span-7 space-y-4">
-          <div class="bg-surface-container-lowest rounded-xl overflow-hidden aspect-[4/3] group relative">
+          <div class="card overflow-hidden aspect-[4/3] group relative cursor-zoom-in">
             <img id="main-image" alt="Product"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="" />
           </div>
           <div id="thumbnails" class="grid grid-cols-5 gap-3"></div>
 
           <div id="quick-info-block"
-            class="hidden bg-surface-container-lowest rounded-xl border border-outline-variant/15 p-5 space-y-3">
-            <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider">Thông tin sản phẩm</h3>
+            class="hidden card p-5 space-y-3">
+            <h3 class="text-sm font-bold text-on-surface-variant">Thông tin sản phẩm</h3>
             <div class="grid grid-cols-2 gap-3">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary text-base">visibility</span>
@@ -71,12 +62,12 @@
             </div>
           </div>
 
-          <div class="bg-[#fff8e1] border border-[#f4ddb0] rounded-xl p-5">
+          <div class="card-deep grid-paper p-5">
             <div class="flex items-center gap-2 mb-3">
-              <span class="material-symbols-outlined text-[#c68a00] text-base">verified_user</span>
-              <h3 class="text-sm font-bold text-[#c68a00]">Giao dịch an toàn</h3>
+              <span class="material-symbols-outlined text-[#f0a273] text-base">verified_user</span>
+              <h3 class="text-base font-bold text-white">Giao dịch an toàn</h3>
             </div>
-            <ul class="space-y-2 text-xs text-[#7a5500]">
+            <ul class="space-y-2 text-sm text-white/80">
               <li class="flex items-start gap-2"><span
                   class="material-symbols-outlined text-xs mt-0.5">check_circle</span>Gặp mặt trực tiếp tại các điểm hẹn
                 trong campus UEH</li>
@@ -93,10 +84,10 @@
           </div>
 
           <%# Block: Chia sẻ sản phẩm %>
-            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/15 p-5">
+            <div class="card p-5">
               <div class="flex items-center gap-2 mb-3">
                 <span class="material-symbols-outlined text-primary text-base">share</span>
-                <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider">Chia sẻ sản phẩm</h3>
+                <h3 class="text-sm font-bold text-on-surface-variant">Chia sẻ sản phẩm</h3>
               </div>
               <div class="flex items-center gap-2">
                 <button id="share-copy-link"
@@ -121,7 +112,7 @@
                   Zalo
                 </a>
               </div>
-              <p id="share-copied-msg" class="hidden text-xs text-primary mt-2 text-center">✓ Đã sao chép link vào
+              <p id="share-copied-msg" class="hidden text-xs text-primary mt-2 text-center">Đã sao chép link vào
                 clipboard!</p>
             </div>
 
@@ -181,20 +172,20 @@
                 class="px-3 py-1 rounded-full text-xs font-semibold bg-primary-fixed text-primary">Đang bán</span>
             </div>
 
-            <h1 id="product-title" class="text-3xl font-extrabold text-on-surface leading-tight mb-2"></h1>
+            <h1 id="product-title" class="text-3xl md:text-4xl font-extrabold text-on-surface leading-[1.05] mb-2"></h1>
             <p id="product-meta" class="text-on-surface-variant text-sm mb-3"></p>
             <p id="product-price-caption"
-              class="text-xs font-semibold uppercase tracking-[0.18em] text-on-surface-variant mb-2">Giá bán</p>
-            <div id="product-price" class="text-4xl font-black text-primary mb-6 tracking-tight"></div>
+              class="text-xs font-semibold text-on-surface-variant mb-2">Giá bán</p>
+            <div id="product-price" class="price-tag tabular mb-6"></div>
 
-            <div id="wanted-context-card" class="hidden mb-4 rounded-2xl border border-[#f1dca9] bg-[#fff9ea] p-4">
+            <div id="wanted-context-card" class="hidden mb-4 rounded-2xl border border-[#f6c4a5] bg-[#fdf3ec] p-4">
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-white/80 text-[#b88400] flex items-center justify-center shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/80 text-[#c4511a] flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined">campaign</span>
                 </div>
                 <div class="space-y-2 flex-1">
                   <div>
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#9a6b00]">Bài đăng đang cần</p>
+                    <p class="text-xs font-semibold text-[#a3421a]">Bài đăng đang cần</p>
                     <h2 class="text-base font-bold text-on-surface">Sinh viên đang tìm món đồ phù hợp</h2>
                   </div>
                   <div id="wanted-context-meta" class="flex flex-wrap gap-2 text-xs"></div>
@@ -203,14 +194,14 @@
             </div>
 
             <div id="ueh-context-badge"
-              class="hidden mb-4 rounded-2xl border border-primary/15 bg-primary-fixed/20 p-4">
+              class="hidden mb-4 rounded-2xl bg-[#eef1ec] p-4">
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-white/70 text-primary flex items-center justify-center shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white text-primary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined">school</span>
                 </div>
                 <div class="space-y-2 flex-1">
                   <div>
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Ngữ cảnh UEH</p>
+                    <p class="text-xs font-semibold text-primary">Ngữ cảnh UEH</p>
                     <h2 id="ueh-context-title" class="text-base font-bold text-on-surface"></h2>
                   </div>
                   <div id="ueh-context-meta" class="flex flex-wrap gap-2 text-xs"></div>
@@ -219,14 +210,13 @@
             </div>
 
             <div id="meeting-context-card"
-              class="hidden mb-8 rounded-2xl border border-secondary/15 bg-secondary-fixed/30 p-4">
+              class="hidden mb-8 rounded-2xl bg-[#eef1ec] p-4">
               <div class="flex items-start gap-3">
                 <div
-                  class="w-10 h-10 rounded-xl bg-white/70 text-secondary flex items-center justify-center shrink-0 text-lg">
-                  📍</div>
+                  class="w-10 h-10 rounded-xl bg-white text-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined">location_on</span></div>
                 <div class="space-y-3 flex-1">
                   <div>
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Điểm hẹn UEH</p>
+                    <p class="text-xs font-semibold text-secondary">Điểm hẹn UEH</p>
                     <h2 class="text-base font-bold text-on-surface">Địa điểm và khung giờ giao nhận</h2>
                   </div>
                   <div id="meeting-points-badges" class="flex flex-wrap gap-2 text-xs"></div>
@@ -236,12 +226,12 @@
             </div>
 
             <div id="seller-card"
-              class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl mb-8 cursor-pointer hover:bg-surface-container transition-colors">
+              class="flex items-center gap-4 p-4 bg-[#eef1ec] rounded-2xl mb-8 cursor-pointer hover:bg-[#e8ece6] transition-colors">
             </div>
 
             <!-- Rating Section - will be shown/hidden by JS based on conditions -->
             <div id="rating-section"
-              class="hidden mb-8 bg-surface-container-lowest rounded-xl border border-outline-variant/15 p-5">
+              class="hidden mb-8 card p-5">
               <h3 class="text-base font-bold text-on-surface mb-4 flex items-center gap-2">
                 <span class="material-symbols-outlined text-yellow-500">star</span>
                 Đánh giá người bán
@@ -280,7 +270,7 @@
               </div>
               <div id="rating-success" class="hidden text-center py-4">
                 <span class="material-symbols-outlined text-4xl text-green-500 mb-2">check_circle</span>
-                <p class="text-green-700 font-semibold">✅ Cảm ơn bạn đã đánh giá!</p>
+                <p class="text-green-700 font-semibold">Cảm ơn bạn đã đánh giá!</p>
               </div>
             </div>
 
@@ -291,7 +281,7 @@
                 <span id="btn-message-label">Nhắn tin</span>
               </button>
               <button id="btn-favorite" type="button" aria-pressed="false"
-                class="w-full border-2 border-[#00464d]/20 text-[#00464d] py-3 rounded-lg font-bold hover:bg-[#ecf5f6] active:scale-[0.98] transition-colors flex items-center justify-center gap-2">
+                class="w-full border-2 border-[#004e57]/20 text-[#004e57] py-3 rounded-lg font-bold hover:bg-[#eef1ec] active:scale-[0.98] transition-colors flex items-center justify-center gap-2">
                 <span class="material-symbols-outlined" id="btn-favorite-icon">favorite</span>
                 <span id="btn-favorite-label">Lưu tin</span>
               </button>
@@ -308,8 +298,8 @@
       </div>
 
       <section class="mt-16">
-        <h2 class="text-2xl font-black text-on-surface tracking-tight mb-8">Bài đăng tương tự</h2>
-        <div id="related-products" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+        <h2 class="section-title">Có thể bạn cũng cần</h2>
+        <div id="related-products" class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6"></div>
       </section>
 
       <div id="lightbox" class="hidden fixed inset-0 z-[9999] flex items-center justify-center"

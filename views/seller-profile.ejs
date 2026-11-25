@@ -2,17 +2,8 @@
 <html lang="vi">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hồ sơ người bán - Chợ UEH</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet" />
-  <link href="/css/custom.css" rel="stylesheet" />
-  <script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#00464d", "primary-container": "#005f69", "primary-fixed": "#a7eefa", "secondary": "#35618c", "secondary-container": "#a2cdfe", "secondary-fixed": "#d0e4ff", "on-secondary-fixed": "#001d35", "tertiary": "#712600", "tertiary-fixed": "#ffdbce", "surface": "#f2fbfc", "surface-container-lowest": "#ffffff", "surface-container-low": "#ecf5f6", "surface-container": "#e7f0f0", "surface-container-high": "#e1eaeb", "on-surface": "#151d1e", "on-surface-variant": "#3f484a", "outline": "#6f797a", "outline-variant": "#bec8ca", "background": "#f2fbfc", "error": "#ba1a1a", "accent-orange": "#EC6D33" }, fontFamily: { "headline": ["Bricolage Grotesque"], "body": ["Be Vietnam Pro"] }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" } } } }</script>
+  <%- include('partials/head') %>
 </head>
 
 <body class="bg-background text-on-surface antialiased">
@@ -90,7 +81,7 @@
         <section>
           <h2 id="reviews-title" class="text-xl font-bold text-on-surface mb-4 flex items-center gap-2">
             <span class="material-symbols-outlined text-primary">reviews</span>
-            Đánh giá từ người mua (<span id="reviews-total">0</span> đánh giá)
+            <span>Đánh giá từ người mua (<span id="reviews-total">0</span>)</span>
           </h2>
 
           <div id="reviews-list" class="space-y-4">
@@ -189,10 +180,10 @@
               const badgesContainer = document.getElementById('trust-badges');
               let badgesHtml = '';
               if (rating >= 4.5) {
-                badgesHtml += '<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold">✅ UEHer Uy tín</span>';
+                badgesHtml += '<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold"><span class="material-symbols-outlined text-sm" aria-hidden="true">verified</span> UEHer Uy tín</span>';
               }
               if (totalReviews >= 10) {
-                badgesHtml += '<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 text-xs font-semibold">🏆 Nhiều giao dịch</span>';
+                badgesHtml += '<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 text-xs font-semibold"><span class="material-symbols-outlined text-sm" aria-hidden="true">military_tech</span> Nhiều giao dịch</span>';
               }
               badgesContainer.innerHTML = badgesHtml;
 

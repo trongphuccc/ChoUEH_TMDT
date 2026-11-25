@@ -54,7 +54,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // ─── API Routes ───
-app.use('/api/auth', authLimiter, require('./routes/authRoutes'));
+// Brute-force limit only where passwords are tried; /me runs on every page view.
+app.use(['/api/auth/login', '/api/auth/register'], authLimiter);
+app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', apiLimiter, require('./routes/userRoutes'));
 app.use('/api/products', apiLimiter, require('./routes/productRoutes'));
 app.use('/api/messages', apiLimiter, require('./routes/messageRoutes'));

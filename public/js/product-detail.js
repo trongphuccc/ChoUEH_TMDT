@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const data = await res.json();
 
     if (!data.success) {
-      document.querySelector('main').innerHTML = '<div class="pt-24 pb-16 text-center"><span class="material-symbols-outlined text-6xl text-[#bec8ca] mb-4 block">error</span><p class="text-xl font-bold">Không tìm thấy bài đăng</p><a href="/products" class="inline-block mt-4 text-[#00464d] font-bold underline">Quay lại danh sách</a></div>';
+      document.querySelector('main').innerHTML = '<div class="pt-24 pb-16 text-center"><span class="material-symbols-outlined text-6xl text-[#c9d1cb] mb-4 block">error</span><p class="text-xl font-bold">Không tìm thấy bài đăng</p><a href="/products" class="inline-block mt-4 text-[#004e57] font-bold underline">Quay lại danh sách</a></div>';
       return;
     }
 
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const thumbnails = document.getElementById('thumbnails');
     if (product.images && product.images.length > 1) {
       thumbnails.innerHTML = product.images.map((image, index) => `
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer ${index === 0 ? 'ring-2 ring-[#00464d]' : 'hover:opacity-80'} transition-opacity" onclick="document.getElementById('main-image').src='${image}'; document.querySelectorAll('#thumbnails > div').forEach((thumbnail) => thumbnail.classList.remove('ring-2', 'ring-[#00464d]')); this.classList.add('ring-2', 'ring-[#00464d]'); openLightbox(${index})">
+        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer ${index === 0 ? 'ring-2 ring-[#004e57]' : 'hover:opacity-80'} transition-opacity" onclick="document.getElementById('main-image').src='${image}'; document.querySelectorAll('#thumbnails > div').forEach((thumbnail) => thumbnail.classList.remove('ring-2', 'ring-[#004e57]')); this.classList.add('ring-2', 'ring-[#004e57]'); openLightbox(${index})">
           <img class="w-full h-full object-cover" src="${image}" alt=""/>
         </div>
       `).join('');
@@ -58,14 +58,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (isWanted) {
       productCondition.textContent = window.AppUtils.urgencyLabel(product.urgency);
-      productCondition.className = 'bg-[#e7f6ef] text-[#24935e] px-3 py-1 rounded-full text-xs font-semibold';
+      productCondition.className = 'bg-[#eef6f5] text-[#004e57] px-3 py-1 rounded-full text-xs font-semibold';
       listingTypeBadge.textContent = 'Đang cần';
-      listingTypeBadge.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-[#fff2cc] text-[#8a6400]';
-      detailShell.classList.add('border-[#f1dca9]', 'bg-[#fffef8]');
+      listingTypeBadge.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-[#fbe3d3] text-[#a3421a]';
+      detailShell.classList.add('border-[#f6c4a5]', 'bg-[#fdf3ec]');
       productPriceCaption.textContent = 'Ngân sách mong muốn';
       productPrice.textContent = window.AppUtils.formatBudgetRange(product.budgetMin, product.budgetMax);
       productPrice.classList.remove('text-primary');
-      productPrice.classList.add('text-[#8a5f00]');
+      productPrice.classList.add('text-[#a3421a]');
       buttonLabel.textContent = 'Tôi có món này';
     } else {
       productCondition.textContent = product.condition === 'new' ? 'Mới 100%' : 'Đã qua sử dụng';
@@ -93,14 +93,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (txStatus === 'negotiating' || txStatus === 'deposited') {
         const bannerConfig = {
-          negotiating: { icon: '⚠️', text: 'Sản phẩm đang được thương lượng — bạn vẫn có thể liên hệ người bán', bg: 'bg-amber-50', border: 'border-amber-200', textColor: 'text-amber-800' },
-          deposited: { icon: '🔒', text: 'Sản phẩm đã được đặt cọc — khả năng cao đã có chủ', bg: 'bg-orange-50', border: 'border-orange-200', textColor: 'text-orange-800' }
+          negotiating: { icon: 'handshake', text: 'Đang có người thương lượng. Bạn vẫn có thể nhắn người bán.', bg: 'bg-orange-50', border: 'border-orange-200', textColor: 'text-orange-800' },
+          deposited: { icon: 'lock', text: 'Món này đã được đặt cọc, khả năng cao đã có chủ.', bg: 'bg-orange-50', border: 'border-orange-200', textColor: 'text-orange-800' }
         };
         const bc = bannerConfig[txStatus];
         const banner = document.createElement('div');
         banner.id = 'tx-status-banner';
         banner.className = `${bc.bg} ${bc.border} border rounded-xl p-4 flex items-start gap-3 mt-4`;
-        banner.innerHTML = `<span class="text-xl">${bc.icon}</span><p class="text-sm font-medium ${bc.textColor}">${bc.text}</p>`;
+        banner.innerHTML = `<span class="material-symbols-outlined text-orange-600">${bc.icon}</span><p class="text-sm font-medium ${bc.textColor}">${bc.text}</p>`;
         productPrice.parentElement.insertBefore(banner, productPrice.nextSibling);
       }
 
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               const data = await res.json();
 
               if (data.success) {
-                window.AppUtils.showToast('✅ Đã cập nhật trạng thái', 'success');
+                window.AppUtils.showToast('Đã cập nhật trạng thái', 'success');
                 // Update badge in-place
                 const newTxS = txConfig[newStatus] || txConfig.available;
                 const newDotHtml = newTxS.dot ? '<span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-1"></span>' : '';
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderBadgeGroup(
         wantedContextMeta,
         wantedTokens,
-        'px-3 py-1 rounded-full bg-white text-[#8a6400] border border-[#f1dca9] font-semibold'
+        'px-3 py-1 rounded-full bg-white text-[#a3421a] border border-[#f6c4a5] font-semibold'
       );
       wantedContextCard.classList.remove('hidden');
     }
@@ -342,13 +342,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         meetingPointsBadges,
         meetingPoints,
         'px-3 py-1 rounded-full bg-white text-secondary border border-secondary/15 font-semibold',
-        '📍 '
+        ''
       );
       renderBadgeGroup(
         preferredTimeSlotsBadges,
         preferredTimeSlots,
         'px-3 py-1 rounded-full bg-white text-secondary border border-secondary/15 font-semibold',
-        '📍 '
+        ''
       );
       meetingContextCard.classList.remove('hidden');
     }
@@ -362,12 +362,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       document.getElementById('seller-card').innerHTML = `
         <a href="/sellers/${product.sellerId}" class="flex items-center gap-4 flex-1">
-          <div class="w-14 h-14 bg-[#a7eefa] rounded-full flex items-center justify-center text-[#00464d]">
+          <div class="w-14 h-14 bg-[#d6eae8] rounded-full flex items-center justify-center text-[#004e57]">
             <span class="material-symbols-outlined text-2xl">person</span>
           </div>
           <div class="flex-1">
             <h3 class="font-bold text-on-surface">${window.AppUtils.esc(sellerName)}</h3>
-            <div class="flex items-center gap-1 text-xs text-[#3f484a]">
+            <div class="flex items-center gap-1 text-xs text-[#4a6164]">
               <span class="material-symbols-outlined text-sm text-yellow-500" style="font-variation-settings: 'FILL' 1;">star</span>
               <span class="font-bold">${window.AppUtils.esc(sellerRating)}</span>
               <span>${window.AppUtils.esc(sellerMeta)}</span>
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           ratingSection.innerHTML = `
             <div class="text-center py-4">
               <span class="material-symbols-outlined text-4xl text-green-500 mb-2">check_circle</span>
-              <p class="text-green-700 font-semibold">✅ Bạn đã đánh giá giao dịch này</p>
+              <p class="text-green-700 font-semibold">Bạn đã đánh giá giao dịch này</p>
             </div>
           `;
           return;

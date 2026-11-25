@@ -11,21 +11,13 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Chợ UEH · Đồ cũ của khoá trên, giá của sinh viên</title>
   <meta name="description" content="Sàn mua bán đồ cũ nội bộ cho sinh viên UEH. Giáo trình, điện tử, đồ dùng. Hẹn nhận đồ ngay tại cơ sở A, B, N." />
   <meta property="og:title" content="Chợ UEH · Đồ cũ của khoá trên, giá của sinh viên" />
   <meta property="og:description" content="Mua bán đồ cũ nội bộ sinh viên UEH. Hẹn nhận đồ ngay trong khuôn viên trường." />
   <% if (hero) { %><meta property="og:image" content="<%= img(hero.images[0], 1200) %>" /><% } %>
-  <meta name="theme-color" content="#f3f5f1" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <%- include('partials/head') %>
   <link rel="stylesheet" href="/vendor/scrollcraft.css" />
-  <link rel="stylesheet" href="/css/custom.css" />
   <link rel="stylesheet" href="/css/home.css" />
   <% if (hero) { %><link rel="preload" as="image" href="<%= img(hero.images[0], 900) %>" /><% } %>
 </head>
@@ -43,6 +35,9 @@
           <a class="btn btn--primary" href="/products">Xem đồ đang bán</a>
           <a class="btn btn--ghost" href="/post-ad">Đăng tin</a>
         </div>
+        <% if (stats.activeCount) { %>
+          <p class="hero__live"><span class="hero__dot" aria-hidden="true"></span><span class="tabular"><%= stats.activeCount %></span> món đang bán, hẹn giao ngay trong trường</p>
+        <% } %>
       </div>
 
       <div class="hero__scene" aria-hidden="<%= hero ? 'false' : 'true' %>">
@@ -67,6 +62,17 @@
         <img class="hero__zeen" src="/images/zeen-mascot.png" alt="" width="840" height="884" data-sc-parallax="-1.4" />
       </div>
     </section>
+
+    <% if (rail.length > 3) { %>
+    <!-- Bảng giá chạy: tin thật vừa lên kệ, như bảng giá ở chợ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <% [0, 1].forEach(() => { rail.forEach((p) => { %>
+          <span class="ticker__item"><span class="ticker__name"><%= p.title %></span><strong class="tabular"><%= fmt(p.price) %></strong><span class="ticker__place"><%= places(p)[0] %></span></span>
+        <% }) }) %>
+      </div>
+    </div>
+    <% } %>
 
     <!-- 2 · Định hướng: mục lục các món, số đếm thật -->
     <section class="index" data-sc-act="flow" aria-labelledby="index-title">

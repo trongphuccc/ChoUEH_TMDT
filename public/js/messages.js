@@ -40,8 +40,8 @@ function renderConversationList(list, conversations, activeChat) {
 
   if (!conversations.length) {
     const emptyState = document.createElement('div');
-    emptyState.className = 'p-6 text-center text-[#3f484a] text-sm';
-    emptyState.appendChild(createIcon('material-symbols-outlined text-4xl text-[#bec8ca] mb-2 block', 'chat_bubble_outline'));
+    emptyState.className = 'p-6 text-center text-[#4a6164] text-sm';
+    emptyState.appendChild(createIcon('material-symbols-outlined text-4xl text-[#c9d1cb] mb-2 block', 'chat_bubble_outline'));
     emptyState.appendChild(document.createTextNode('Chưa có tin nhắn nào'));
     list.appendChild(emptyState);
     return;
@@ -55,7 +55,7 @@ function renderConversationList(list, conversations, activeChat) {
       && activeChat.productId === conversation.product._id;
 
     const item = document.createElement('div');
-    item.className = `flex items-center gap-3 p-4 hover:bg-[#e1eaeb] cursor-pointer transition-all ${isActive ? 'bg-white border-l-4 border-[#00464d]' : ''}`;
+    item.className = `flex items-center gap-3 p-4 hover:bg-[#dfe4de] cursor-pointer transition-all ${isActive ? 'bg-white border-l-4 border-[#004e57]' : ''}`;
     item.addEventListener('click', () => {
       window.openChat(
         conversation.otherUser._id,
@@ -66,7 +66,7 @@ function renderConversationList(list, conversations, activeChat) {
     });
 
     const avatar = document.createElement('div');
-    avatar.className = 'w-12 h-12 bg-[#a7eefa] rounded-full flex items-center justify-center text-[#00464d] shrink-0';
+    avatar.className = 'w-12 h-12 bg-[#d6eae8] rounded-full flex items-center justify-center text-[#004e57] shrink-0';
     avatar.appendChild(createIcon('material-symbols-outlined', 'person'));
 
     const content = document.createElement('div');
@@ -75,10 +75,10 @@ function renderConversationList(list, conversations, activeChat) {
     const header = document.createElement('div');
     header.className = 'flex justify-between items-baseline';
     appendTextElement(header, 'h3', 'font-semibold text-sm truncate', conversation.otherUser.name);
-    appendTextElement(header, 'span', 'text-[10px] text-[#6f797a]', window.AppUtils.timeAgo(conversation.lastDate));
+    appendTextElement(header, 'span', 'text-[10px] text-[#6e8083]', window.AppUtils.timeAgo(conversation.lastDate));
 
-    appendTextElement(content, 'p', 'text-xs text-[#6f797a] truncate', conversation.lastMessage);
-    appendTextElement(content, 'span', 'text-[10px] text-[#6f797a]', conversation.product.title);
+    appendTextElement(content, 'p', 'text-xs text-[#6e8083] truncate', conversation.lastMessage);
+    appendTextElement(content, 'span', 'text-[10px] text-[#6e8083]', conversation.product.title);
     content.insertBefore(header, content.firstChild);
 
     item.appendChild(avatar);
@@ -111,7 +111,7 @@ function renderMessageLoading(container) {
 
 function renderEmptyMessages(container) {
   clearElement(container);
-  appendTextElement(container, 'div', 'text-center text-[#6f797a] text-sm py-8', 'Bắt đầu cuộc trò chuyện');
+  appendTextElement(container, 'div', 'text-center text-[#6e8083] text-sm py-8', 'Bắt đầu cuộc trò chuyện');
 }
 
 function renderMessagesError(container) {
@@ -135,7 +135,7 @@ function createMessageBubble(message, currentUserId) {
     bubble.className = 'bg-[#005f69] text-white px-4 py-2.5 rounded-2xl rounded-br-none shadow-md max-w-[80%]';
 
     appendTextElement(bubble, 'p', 'text-sm', message.content);
-    appendTextElement(bubble, 'span', 'text-[9px] text-[#a7eefa]/60 mt-1 block text-right', timeText);
+    appendTextElement(bubble, 'span', 'text-[9px] text-[#d6eae8]/60 mt-1 block text-right', timeText);
 
     wrapper.appendChild(bubble);
     return wrapper;
@@ -146,14 +146,14 @@ function createMessageBubble(message, currentUserId) {
   wrapper.dataset.messageId = message._id;
 
   const avatar = document.createElement('div');
-  avatar.className = 'w-6 h-6 bg-[#e1eaeb] rounded-full flex items-center justify-center';
-  avatar.appendChild(createIcon('material-symbols-outlined text-xs text-[#3f484a]', 'person'));
+  avatar.className = 'w-6 h-6 bg-[#dfe4de] rounded-full flex items-center justify-center';
+  avatar.appendChild(createIcon('material-symbols-outlined text-xs text-[#4a6164]', 'person'));
 
   const bubble = document.createElement('div');
-  bubble.className = 'bg-[#F1F1F1] text-[#151d1e] px-4 py-2.5 rounded-2xl rounded-bl-none shadow-sm';
+  bubble.className = 'bg-[#F1F1F1] text-[#10282b] px-4 py-2.5 rounded-2xl rounded-bl-none shadow-sm';
 
   appendTextElement(bubble, 'p', 'text-sm', message.content);
-  appendTextElement(bubble, 'span', 'text-[9px] text-[#6f797a] mt-1 block text-right', timeText);
+  appendTextElement(bubble, 'span', 'text-[9px] text-[#6e8083] mt-1 block text-right', timeText);
 
   wrapper.appendChild(avatar);
   wrapper.appendChild(bubble);
@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('chat-placeholder').classList.add('hidden');
     document.getElementById('chat-window').classList.remove('hidden');
+    document.getElementById('main').classList.add('is-chatting');
     document.getElementById('chat-name').textContent = name;
     document.getElementById('chat-product-name').textContent = productTitle;
 

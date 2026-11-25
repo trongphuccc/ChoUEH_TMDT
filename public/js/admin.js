@@ -202,8 +202,8 @@ window.AdminApp = {
               <div class="min-w-0">
                 <p class="font-semibold text-sm truncate max-w-[220px]">${window.AppUtils.esc(product.title)}</p>
                 <div class="flex gap-2 mt-1 flex-wrap">
-                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${product.listingType === 'wanted' ? 'bg-[#fff2cc] text-[#8a6400]' : 'bg-[#d0e4ff] text-[#295781]'}">${window.AppUtils.listingTypeLabel(product.listingType)}</span>
-                  ${product.listingType === 'wanted' && product.urgency ? `<span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-[#e7f6ef] text-[#24935e]">${window.AppUtils.urgencyLabel(product.urgency)}</span>` : ''}
+                  <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${product.listingType === 'wanted' ? 'bg-[#fbe3d3] text-[#a3421a]' : 'bg-[#d6eae8] text-[#004e57]'}">${window.AppUtils.listingTypeLabel(product.listingType)}</span>
+                  ${product.listingType === 'wanted' && product.urgency ? `<span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-[#eef6f5] text-[#004e57]">${window.AppUtils.urgencyLabel(product.urgency)}</span>` : ''}
                 </div>
               </div>
             </div>
@@ -249,7 +249,7 @@ window.AdminApp = {
     let html = '';
     for (let i = 1; i <= pagination.pages; i += 1) {
       const active = i === pagination.page
-        ? 'bg-[#0f2027] text-white'
+        ? 'bg-[#0b2f33] text-white'
         : 'bg-white text-gray-600 hover:bg-gray-100';
       html += `<button class="w-9 h-9 rounded-lg ${active} text-xs font-bold border border-gray-200 transition-colors" data-page="${i}">${i}</button>`;
     }
@@ -502,7 +502,7 @@ async function loadReports() {
         ${r.status === 'open'
           ? `<button class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold" onclick="setReportStatus('${r._id}','resolved')">Đã xử lý</button>
              <button class="px-3 py-1.5 rounded-lg border text-xs font-bold" onclick="setReportStatus('${r._id}','dismissed')">Bỏ qua</button>`
-          : `<span class="text-xs font-bold uppercase">${r.status === 'resolved' ? 'Đã xử lý' : 'Đã bỏ qua'}</span>`}
+          : `<span class="text-xs font-semibold text-gray-500">${r.status === 'resolved' ? 'Đã xử lý' : 'Đã bỏ qua'}</span>`}
       </div>`).join('');
   } catch (err) {
     list.innerHTML = '<p class="text-red-500">Không tải được báo cáo.</p>';

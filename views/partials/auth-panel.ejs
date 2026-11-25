@@ -1,0 +1,24 @@
+<%# Left panel shared by /login and /register. Only real promises, no invented numbers. %>
+<section class="auth-panel card-deep grid-paper hidden md:flex flex-col justify-between p-10 lg:p-12 text-white rounded-none">
+  <a href="/" class="cho-ueh-logo logo-white" aria-label="Chợ UEH, trang chủ">
+    <div class="logo-emblem" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3L2 7.5L11 12L20 7.5L11 3Z" fill="white" opacity="0.95"/><path d="M5 9.5V14.5C5 14.5 7.5 17 11 17C14.5 17 17 14.5 17 14.5V9.5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/><line x1="18.5" y1="8" x2="18.5" y2="13" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="18.5" cy="7" r="1.5" fill="white"/></svg></div>
+    <div class="logo-wordmark"><span class="logo-cho">Chợ</span><span class="logo-ueh-text">UEH<span class="accent-dot">.</span></span></div>
+  </a>
+
+  <div class="relative z-10 mt-12">
+    <h2 class="font-headline text-4xl lg:text-5xl font-extrabold leading-[1.02] tracking-tight"><%= locals.panelTitle || 'Đồ cũ của khoá trên, giá của sinh viên.' %></h2>
+    <ul class="mt-8 space-y-4 text-white/85">
+      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">verified_user</span><span>Chỉ email <strong class="text-white">@student.ueh.edu.vn</strong> và MSSV hợp lệ mới đăng ký được.</span></li>
+      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">location_on</span><span>Hẹn giao nhận ngay tại cơ sở A, B, N, thư viện hoặc căn tin.</span></li>
+      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">lock</span><span>Email, MSSV và số điện thoại không hiện công khai.</span></li>
+    </ul>
+  </div>
+
+  <div class="relative mt-10 flex items-end gap-4">
+    <img src="/images/zeen-mascot.png" alt="" width="120" height="126" class="drop-shadow-xl">
+    <div class="tag-paper text-[#10282b] px-4 py-3 mb-6 -rotate-2">
+      <p class="font-headline font-bold leading-tight">Chào bạn, mình là Zeen.</p>
+      <p class="text-sm text-[#4a6164]">Cần tìm gì cứ hỏi mình ở góc phải nhé.</p>
+    </div>
+  </div>
+</section>

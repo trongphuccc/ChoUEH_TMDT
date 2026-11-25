@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!chips.length) { container.innerHTML = ''; return; }
     window._filterChips = chips;
     container.innerHTML = chips.map((c, i) => `
-      <button onclick="removeFilter(${i})" class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#00464d] text-white text-xs font-semibold hover:bg-[#005f69] transition-colors">
+      <button onclick="removeFilter(${i})" class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#004e57] text-white text-xs font-semibold hover:bg-[#005f69] transition-colors">
         ${esc(c.label)}
         <span class="material-symbols-outlined" style="font-size:14px;line-height:1">close</span>
       </button>`).join('');
@@ -86,15 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabs.forEach((tab) => {
       const tabIsActive = tab.dataset.listingType === currentFilters.listingType;
-      tab.className = tabIsActive
-        ? (isWanted
-          ? 'listing-type-tab px-4 py-2 rounded-full bg-[#fff2cc] text-[#8a6400] text-sm font-bold border border-[#f1dca9]'
-          : 'listing-type-tab px-4 py-2 rounded-full bg-primary text-white text-sm font-bold')
-        : 'listing-type-tab px-4 py-2 rounded-full bg-white text-on-surface-variant text-sm font-bold border border-outline-variant/30';
+      tab.setAttribute('aria-selected', String(tabIsActive));
     });
 
-    listingHeading.textContent = isWanted ? 'Bảng nhu cầu sinh viên UEH' : 'Bài đăng đang bán';
-    countEl.textContent = '(đang tải...)';
+    listingHeading.textContent = isWanted ? 'Bảng Đang cần' : 'Đồ đang bán';
+    countEl.textContent = 'Đang tải...';
     priceFilterLabel.textContent = isWanted ? 'Ngân sách mong muốn (VND)' : 'Khoảng giá (VND)';
     conditionFilterSection.classList.toggle('hidden', isWanted);
   }
@@ -102,13 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function setActiveConditionButton(conditionValue = '') {
     document.querySelectorAll('.condition-btn').forEach((button) => {
       const isActive = button.dataset.condition === conditionValue;
-      button.classList.toggle('bg-[#a2cdfe]', isActive);
-      button.classList.toggle('text-[#295781]', isActive);
+      button.classList.toggle('bg-[#d6eae8]', isActive);
+      button.classList.toggle('text-[#004e57]', isActive);
     });
   }
 
   async function loadProducts() {
-    grid.innerHTML = Array(6).fill('<div class="skeleton h-72 rounded-xl"></div>').join('');
+    grid.innerHTML = Array(6).fill('<div class="skeleton aspect-square"></div>').join('');
 
     const params = new URLSearchParams();
     params.set('page', currentPage);
@@ -132,19 +128,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.success && data.data.length > 0) {
         grid.innerHTML = data.data.map((product) => window.AppUtils.productCard(product)).join('');
         countEl.textContent = isWanted
-          ? `(${data.pagination.total} nhu cầu)`
-          : `(${data.pagination.total} sản phẩm)`;
+          ? `${data.pagination.total} nhu cầu`
+          : `${data.pagination.total} món`;
         if (resultCountEl) resultCountEl.textContent = `${data.pagination.total} bài đăng`;
         renderPagination(data.pagination);
       } else {
         grid.innerHTML = `
-          <div class="col-span-full text-center py-16">
-            <span class="material-symbols-outlined text-6xl text-[#bec8ca] mb-4 block">${isWanted ? 'forum' : 'search_off'}</span>
-            <p class="text-lg font-semibold text-[#3f484a]">${isWanted ? 'Chưa có bài “Đang cần” phù hợp' : 'Không tìm thấy sản phẩm nào'}</p>
-            <p class="text-sm text-[#6f797a]">${isWanted ? 'Thử đổi khoa, môn học hoặc ngân sách để xem thêm nhu cầu khác.' : 'Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm.'}</p>
+          <div class="col-span-full empty">
+            <img src="/images/zeen-mascot.png" alt="" width="110" height="116" loading="lazy">
+            <h3>${isWanted ? 'Chưa có bài “Đang cần” phù hợp' : 'Chưa có món nào khớp'}</h3>
+            <p>${isWanted ? 'Thử đổi khoa, môn học hoặc ngân sách.' : 'Thử bỏ bớt bộ lọc, hoặc đăng bài “Đang cần” để người có món nhắn bạn.'}</p>
           </div>
         `;
-        countEl.textContent = isWanted ? '(0 nhu cầu)' : '(0 sản phẩm)';
+        countEl.textContent = isWanted ? '0 nhu cầu' : '0 món';
         if (resultCountEl) resultCountEl.textContent = '0 bài đăng';
         paginationEl.innerHTML = '';
       }
@@ -161,18 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let html = '';
     if (pagination.page > 1) {
-      html += `<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-[#e7f0f0] hover:bg-[#dbe4e5] text-[#3f484a] transition-colors" onclick="goToPage(${pagination.page - 1})"><span class="material-symbols-outlined">chevron_left</span></button>`;
+      html += `<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-[#e8ece6] hover:bg-[#d6ddd6] text-[#4a6164] transition-colors" onclick="goToPage(${pagination.page - 1})"><span class="material-symbols-outlined">chevron_left</span></button>`;
     }
 
     for (let i = 1; i <= pagination.pages; i += 1) {
       const active = i === pagination.page
-        ? 'bg-[#00464d] text-white font-bold'
-        : 'bg-[#e7f0f0] hover:bg-[#dbe4e5] text-[#3f484a]';
+        ? 'bg-[#004e57] text-white font-bold'
+        : 'bg-[#e8ece6] hover:bg-[#d6ddd6] text-[#4a6164]';
       html += `<button class="w-10 h-10 flex items-center justify-center rounded-lg ${active} transition-colors" onclick="goToPage(${i})">${i}</button>`;
     }
 
     if (pagination.page < pagination.pages) {
-      html += `<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-[#e7f0f0] hover:bg-[#dbe4e5] text-[#3f484a] transition-colors" onclick="goToPage(${pagination.page + 1})"><span class="material-symbols-outlined">chevron_right</span></button>`;
+      html += `<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-[#e8ece6] hover:bg-[#d6ddd6] text-[#4a6164] transition-colors" onclick="goToPage(${pagination.page + 1})"><span class="material-symbols-outlined">chevron_right</span></button>`;
     }
 
     paginationEl.innerHTML = html;

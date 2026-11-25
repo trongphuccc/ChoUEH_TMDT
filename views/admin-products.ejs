@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quản lý Sản phẩm - Admin</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <link href="/css/custom.css" rel="stylesheet"/>
-  <script>tailwind.config={theme:{extend:{colors:{"primary":"#00464d","primary-container":"#005f69","surface":"#f2fbfc","on-surface":"#151d1e","on-surface-variant":"#3f484a","outline":"#6f797a","accent":"#EC6D33"},fontFamily:{"headline":["Bricolage Grotesque"],"body":["Be Vietnam Pro"]}}}}</script>
+  <%- include('partials/head') %>
   <style>
     #admin-mobile-bar { display: flex; }
     #admin-sidebar { transform: translateX(-100%); }
@@ -19,10 +14,10 @@
     }
   </style>
 </head>
-<body class="bg-[#f0f4f8] text-on-surface min-h-screen">
+<body class="bg-[#eef1ec] text-on-surface min-h-screen">
 
 <!-- Mobile top bar -->
-<div id="admin-mobile-bar" class="fixed top-0 left-0 right-0 z-50 bg-[#0f2027] px-4 py-3 items-center justify-between">
+<div id="admin-mobile-bar" class="fixed top-0 left-0 right-0 z-50 bg-[#0b2f33] px-4 py-3 items-center justify-between">
   <a href="/" class="cho-ueh-logo logo-white">
     <div class="logo-emblem"><svg width="18" height="18" viewBox="0 0 22 22" fill="none"><path d="M11 3L2 7.5L11 12L20 7.5L11 3Z" fill="white" opacity="0.95"/><path d="M5 9.5V14.5C5 14.5 7.5 17 11 17C14.5 17 17 14.5 17 14.5V9.5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div>
     <div class="logo-wordmark"><span class="logo-cho">Chợ</span><span class="logo-ueh-text">UEH<span class="accent-dot">.</span></span></div>
@@ -34,13 +29,13 @@
 <div id="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:40;"></div>
 
 <div class="flex min-h-screen">
-  <aside id="admin-sidebar" class="w-64 bg-[#0f2027] text-white flex flex-col fixed h-full z-50" style="transition:transform 0.3s;">
+  <aside id="admin-sidebar" class="w-64 bg-[#0b2f33] text-white flex flex-col fixed h-full z-50" style="transition:transform 0.3s;">
     <div class="p-6 border-b border-white/10">
       <a href="/" class="cho-ueh-logo logo-white">
         <div class="logo-emblem"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3L2 7.5L11 12L20 7.5L11 3Z" fill="white" opacity="0.95"/><path d="M5 9.5V14.5C5 14.5 7.5 17 11 17C14.5 17 17 14.5 17 14.5V9.5" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div>
         <div class="logo-wordmark"><span class="logo-cho">Chợ</span><span class="logo-ueh-text">UEH<span class="accent-dot">.</span></span></div>
       </a>
-      <p class="text-xs text-white/40 mt-2 uppercase tracking-widest font-bold">Admin Panel</p>
+      <p class="text-xs text-white/40 mt-2st font-bold">Admin Panel</p>
     </div>
     <nav class="flex-1 p-4 space-y-1">
       <a href="/admin" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-white/70 hover:text-white font-medium text-sm transition-all"><span class="material-symbols-outlined text-lg">dashboard</span>Dashboard</a>
@@ -51,27 +46,27 @@
     </nav>
   </aside>
 
-  <main id="admin-main" class="flex-1">
-    <div class="flex items-center justify-between mb-8">
+  <main id="admin-main" class="flex-1 min-w-0">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
       <div>
-        <h1 class="text-3xl font-extrabold text-[#0f2027]">Quản lý Sản phẩm</h1>
+        <h1 class="text-3xl font-extrabold text-[#0b2f33]">Quản lý Sản phẩm</h1>
         <p class="text-on-surface-variant mt-1">Quản lý cả bài đăng bán hàng và bảng nhu cầu “Đang cần” của sinh viên UEH.</p>
       </div>
-      <div class="flex gap-3">
+      <div class="flex flex-wrap gap-3">
         <select id="product-category-filter" class="px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none">
           <option value="">Tất cả DM</option>
           <option value="sach">Sách</option><option value="dien-tu">Điện tử</option>
           <option value="do-dung">Đồ dùng</option><option value="thoi-trang">Thời trang</option>
           <option value="xe">Xe</option><option value="khac">Khác</option>
         </select>
-        <div class="relative w-64">
+        <div class="relative w-full sm:w-64">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
           <input id="product-search" class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="Tìm sản phẩm, nhu cầu..." type="text"/>
         </div>
       </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
       <table class="w-full text-sm">
         <thead class="bg-gray-50 border-b border-gray-100">
           <tr>
@@ -127,15 +122,15 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">Ngân sách từ</label>
-          <input id="edit-product-budget-min" class="w-full px-3 py-2.5 bg-[#fff8e8] rounded-lg border border-[#f4ddb0] focus:ring-2 focus:ring-[#c68a00] text-sm" type="number"/>
+          <input id="edit-product-budget-min" class="w-full px-3 py-2.5 bg-[#fdf3ec] rounded-lg border border-[#f6c4a5] focus:ring-2 focus:ring-[#c4511a] text-sm" type="number"/>
         </div>
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">Ngân sách đến</label>
-          <input id="edit-product-budget-max" class="w-full px-3 py-2.5 bg-[#fff8e8] rounded-lg border border-[#f4ddb0] focus:ring-2 focus:ring-[#c68a00] text-sm" type="number"/>
+          <input id="edit-product-budget-max" class="w-full px-3 py-2.5 bg-[#fdf3ec] rounded-lg border border-[#f6c4a5] focus:ring-2 focus:ring-[#c4511a] text-sm" type="number"/>
         </div>
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">Mức độ gấp</label>
-          <select id="edit-product-urgency" class="w-full px-3 py-2.5 bg-[#fff8e8] rounded-lg border border-[#f4ddb0] focus:ring-2 focus:ring-[#c68a00] text-sm">
+          <select id="edit-product-urgency" class="w-full px-3 py-2.5 bg-[#fdf3ec] rounded-lg border border-[#f6c4a5] focus:ring-2 focus:ring-[#c4511a] text-sm">
             <option value="medium">Cần trong tuần</option>
             <option value="high">Cần gấp</option>
             <option value="low">Chưa gấp</option>

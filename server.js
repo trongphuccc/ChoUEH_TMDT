@@ -60,10 +60,19 @@ app.use('/api/products', apiLimiter, require('./routes/productRoutes'));
 app.use('/api/messages', apiLimiter, require('./routes/messageRoutes'));
 app.use('/api/admin', apiLimiter, require('./routes/adminRoutes'));
 app.use('/api/reviews', apiLimiter, require('./routes/reviewRoutes'));
+app.use('/api/reports', apiLimiter, require('./routes/reportRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
 
 // ─── View Routes ───
 app.use('/', require('./routes/viewRoutes'));
+
+// ─── 404 ───
+app.use((req, res) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ success: false, message: 'Không tìm thấy API' });
+  }
+  res.status(404).render('404');
+});
 
 // ─── Error Handler ───
 app.use((err, req, res, next) => {

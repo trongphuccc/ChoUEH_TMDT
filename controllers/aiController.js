@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const escapeRegex = require('../utils/escapeRegex');
 
 // Search intent keywords
 const SEARCH_KEYWORDS = ['tìm', 'cần', 'mua', 'có không', 'giá', 'bao nhiêu', 'sách', 'laptop', 'xe', 'điện thoại', 'máy tính', 'đồ', 'bán'];
@@ -107,13 +108,14 @@ exports.chat = async (req, res) => {
     // STEP 2: Search products if search intent detected
     let products = [];
     if (searchQuery) {
+      const pattern = escapeRegex(searchQuery);
       const searchFilter = {
         status: 'available',
         listingType: 'sell',
         $or: [
-          { title: { $regex: searchQuery, $options: 'i' } },
-          { description: { $regex: searchQuery, $options: 'i' } },
-          { courseCode: { $regex: searchQuery, $options: 'i' } }
+          { title: { $regex: pattern, $options: 'i' } },
+          { description: { $regex: pattern, $options: 'i' } },
+          { courseCode: { $regex: pattern, $options: 'i' } }
         ]
       };
 

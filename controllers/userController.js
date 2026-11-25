@@ -29,6 +29,9 @@ exports.getUserProfile = async (req, res) => {
 
     res.json({ success: true, user: responseUser });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy người dùng' });
+    }
     res.status(500).json({
       success: false,
       message: error.message
@@ -174,5 +177,41 @@ exports.getGreenScore = async (req, res) => {
       success: false,
       message: error.message
     });
+  }
+};
+
+// @desc    List my saved listings
+// @route   GET /api/users/me/favorites
+// @access  Private
+exports.getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('favorites').populate({
+      path: 'favorites',
+      populate: { path: 'seller', select: 'name avatar rating' }
+    });
+    const favorites = (user?.favorites || []).filter(Boolean); // drop deleted listings
+    res.json({ success: true, ids: favorites.map((p) => p._id), data: favorites });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Save / unsave a listing
+// @route   POST /api/users/me/favorites/:productId
+// @access  Private
+exports.toggleFavorite = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    if (!(await Product.exists({ _id: productId }))) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy bài đăng' });
+    }
+    const saved = (req.user.favorites || []).some((id) => id.toString() === productId);
+    await User.updateOne({ _id: req.user._id }, saved
+      ? { $pull: { favorites: productId } }
+      : { $addToSet: { favorites: productId } });
+    res.json({ success: true, saved: !saved });
+  } catch (error) {
+    if (error.name === 'CastError') return res.status(400).json({ success: false, message: 'ID không hợp lệ' });
+    res.status(500).json({ success: false, message: error.message });
   }
 };

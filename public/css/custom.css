@@ -7,21 +7,21 @@
 .logo-emblem svg{position:relative;z-index:1;}
 .logo-wordmark{display:flex;flex-direction:column;line-height:1;}
 .logo-cho{font-size:10px;font-weight:700;color:#6f797a;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1px;}
-.logo-ueh-text{font-family:'Playfair Display','Georgia',serif;font-size:23px;font-weight:900;color:#005f69;letter-spacing:-0.02em;line-height:1;}
+.logo-ueh-text{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:24px;font-weight:800;color:#005f69;letter-spacing:-0.02em;line-height:1;}
 .logo-ueh-text .accent-dot{color:#EC6D33;}
 .logo-white .logo-cho{color:rgba(255,255,255,0.6);}
 .logo-white .logo-ueh-text{color:#fff;}
 .logo-white .logo-ueh-text .accent-dot{color:#ffb598;}
 
 /* Body */
-body{font-family:'Inter',sans-serif;background-color:#f2fbfc;color:#151d1e;}
-h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background-color:#f2fbfc;color:#151d1e;}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',system-ui,sans-serif;}
 .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;}
 
 /* Gradients */
 .primary-gradient{background:linear-gradient(135deg,#00464d 0%,#005f69 100%);}
 .accent-gradient{background:linear-gradient(135deg,#ec6d33 0%,#ff8c5a 100%);}
-.editorial-headline{font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.02em;}
+.editorial-headline{font-family:'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-0.02em;}
 
 /* Toast notifications */
 .toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;}
@@ -57,3 +57,13 @@ h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;}
 .hero-float-delay{animation:heroFloat 6s ease-in-out 2s infinite;}
 @keyframes heroFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.05);}}
 .hero-slide{transition:opacity 1s ease-in-out,transform 1.2s ease-in-out;}
+
+/* Shared polish (2026 redesign) */
+h1,h2,h3{letter-spacing:-0.02em;text-wrap:balance;}
+::selection{background:#005f69;color:#fff;}
+:focus-visible{outline:2px solid #c4511a;outline-offset:3px;border-radius:4px;}
+.tabular{font-variant-numeric:tabular-nums;}
+@media (prefers-reduced-motion: reduce){.hero-float,.hero-float-delay,.product-card{animation:none!important;transition:none!important;}}
+.nav-link{color:#10282b;padding:.5rem .75rem;border-radius:.5rem;transition:background-color .15s,color .15s;}
+.nav-link:hover{background:#eef3f2;color:#005f69;}
+.nav-menu summary::-webkit-details-marker{display:none;}

@@ -456,3 +456,36 @@ exports.removeProductImage = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+// @desc    Reported listings, open ones first
+// @route   GET /api/admin/reports
+exports.getReports = async (req, res) => {
+  try {
+    const Report = require('../models/Report');
+    const reports = await Report.find()
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .populate('product', 'title images status createdAt')
+      .populate('reporter', 'name');
+    reports.sort((a, b) => (a.status === 'open' ? 0 : 1) - (b.status === 'open' ? 0 : 1)); // open first, stable
+    res.json({ success: true, data: reports });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Resolve or dismiss a report
+// @route   PATCH /api/admin/reports/:id   body: { status: 'resolved' | 'dismissed' }
+exports.updateReport = async (req, res) => {
+  try {
+    const Report = require('../models/Report');
+    const { status } = req.body;
+    if (!['resolved', 'dismissed', 'open'].includes(status)) {
+      return res.status(400).json({ success: false, message: 'Trạng thái không hợp lệ' });
+    }
+    const report = await Report.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    if (!report) return res.status(404).json({ success: false, message: 'Không tìm thấy báo cáo' });
+    res.json({ success: true, data: report });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

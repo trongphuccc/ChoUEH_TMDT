@@ -1,5 +1,7 @@
 const Message = require('../models/Message');
 const User = require('../models/User');
+const Product = require('../models/Product');
+const mongoose = require('mongoose');
 
 // @desc    Send a message
 // @route   POST /api/messages
@@ -20,6 +22,23 @@ exports.sendMessage = async (req, res) => {
         success: false,
         message: 'Không thể nhắn tin cho chính mình'
       });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(receiverId) || !mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({ success: false, message: 'Dữ liệu không hợp lệ' });
+    }
+
+    // A conversation is always about one product and must include its seller.
+    const product = await Product.findById(productId).select('seller');
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' });
+    }
+    const sellerId = product.seller.toString();
+    if (sellerId !== receiverId && sellerId !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, message: 'Chỉ có thể nhắn tin với người đăng bài' });
+    }
+    if (!(await User.exists({ _id: receiverId }))) {
+      return res.status(404).json({ success: false, message: 'Người nhận không tồn tại' });
     }
 
     const message = await Message.create({

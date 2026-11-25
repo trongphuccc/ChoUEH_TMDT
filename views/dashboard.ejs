@@ -4,10 +4,10 @@
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - Chợ UEH</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link href="/css/custom.css" rel="stylesheet"/>
-  <script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#00464d","primary-container":"#005f69","primary-fixed":"#a7eefa","secondary":"#35618c","tertiary":"#712600","tertiary-fixed":"#ffdbce","surface":"#f2fbfc","surface-container-lowest":"#ffffff","surface-container-low":"#ecf5f6","surface-container":"#e7f0f0","surface-container-high":"#e1eaeb","on-surface":"#151d1e","on-surface-variant":"#3f484a","outline":"#6f797a","outline-variant":"#bec8ca","background":"#f2fbfc","error":"#ba1a1a","accent":"#EC6D33","ueh-green":"#2ecc71","ueh-green-deep":"#27ae60"},fontFamily:{"headline":["Plus Jakarta Sans"],"body":["Inter"]},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"}}}}</script>
+  <script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#00464d","primary-container":"#005f69","primary-fixed":"#a7eefa","secondary":"#35618c","tertiary":"#712600","tertiary-fixed":"#ffdbce","surface":"#f2fbfc","surface-container-lowest":"#ffffff","surface-container-low":"#ecf5f6","surface-container":"#e7f0f0","surface-container-high":"#e1eaeb","on-surface":"#151d1e","on-surface-variant":"#3f484a","outline":"#6f797a","outline-variant":"#bec8ca","background":"#f2fbfc","error":"#ba1a1a","accent":"#EC6D33","ueh-green":"#2ecc71","ueh-green-deep":"#27ae60"},fontFamily:{"headline":["Bricolage Grotesque"],"body":["Be Vietnam Pro"]},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"}}}}</script>
 </head>
 <body class="bg-background text-on-surface">
 
@@ -150,9 +150,9 @@
     </div>
   </div>
 
-  <div class="mt-10 bg-surface-container-low rounded-xl p-6 border-2 border-dashed border-outline-variant/30 text-center">
-    <p class="text-on-surface-variant font-medium">📊 Thống kê chi tiết sắp ra mắt — Theo dõi lượt xem từng bài đăng và tỷ lệ phản hồi</p>
-  </div>
+  <h2 class="text-xl font-bold mt-14 mb-6">Tin đã lưu</h2>
+  <div id="saved-products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+  <p id="no-saved" class="hidden text-on-surface-variant">Chưa có tin nào. Bấm <strong>Lưu tin</strong> ở trang chi tiết để theo dõi món bạn quan tâm.</p>
 </main>
 
 <%- include('partials/footer') %>

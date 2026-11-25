@@ -237,11 +237,54 @@ document.addEventListener('DOMContentLoaded', async () => {
       reportBtn.addEventListener('click', () => { reportModal.classList.remove('hidden'); reportModal.classList.add('flex'); });
       reportCancel.addEventListener('click', () => { reportModal.classList.add('hidden'); reportModal.classList.remove('flex'); });
       reportModal.addEventListener('click', (e) => { if (e.target === reportModal) { reportModal.classList.add('hidden'); reportModal.classList.remove('flex'); } });
-      reportSubmit.addEventListener('click', () => {
+      reportSubmit.addEventListener('click', async () => {
         const reason = document.querySelector('input[name="report-reason"]:checked');
-        if (!reason) { alert('Vui lòng chọn lý do báo cáo.'); return; }
-        reportModal.classList.add('hidden'); reportModal.classList.remove('flex');
-        alert('Cảm ơn bạn đã báo cáo. Chúng tôi sẽ xem xét sớm nhất có thể.');
+        if (!reason) { window.AppUtils.showToast('Vui lòng chọn lý do báo cáo', 'error'); return; }
+        if (!window.AppUtils.getUser()) { window.location.href = '/login'; return; }
+        reportSubmit.disabled = true;
+        try {
+          const res = await fetch('/api/reports', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: product._id, reason: reason.value })
+          });
+          const data = await res.json();
+          window.AppUtils.showToast(data.message, res.ok ? 'success' : 'error');
+          if (res.ok || res.status === 409) {
+            reportModal.classList.add('hidden'); reportModal.classList.remove('flex');
+          }
+        } catch (err) {
+          window.AppUtils.showToast('Lỗi kết nối server', 'error');
+        } finally {
+          reportSubmit.disabled = false;
+        }
+      });
+    }
+
+    // Save / unsave listing
+    const favBtn = document.getElementById('btn-favorite');
+    if (favBtn) {
+      const paintFav = (saved) => {
+        favBtn.setAttribute('aria-pressed', String(saved));
+        document.getElementById('btn-favorite-label').textContent = saved ? 'Đã lưu' : 'Lưu tin';
+        document.getElementById('btn-favorite-icon').style.fontVariationSettings = saved ? "'FILL' 1" : "'FILL' 0";
+      };
+      if (window.AppUtils.getUser()) {
+        fetch('/api/users/me/favorites').then((r) => r.json()).then((d) => {
+          paintFav((d.ids || []).some((id) => String(id) === String(product._id)));
+        }).catch(() => {});
+      }
+      favBtn.addEventListener('click', async () => {
+        if (!window.AppUtils.getUser()) { window.location.href = '/login'; return; }
+        try {
+          const res = await fetch(`/api/users/me/favorites/${product._id}`, { method: 'POST' });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message);
+          paintFav(data.saved);
+          window.AppUtils.showToast(data.saved ? 'Đã lưu tin' : 'Đã bỏ lưu', 'success');
+        } catch (err) {
+          window.AppUtils.showToast(err.message || 'Lỗi kết nối server', 'error');
+        }
       });
     }
 

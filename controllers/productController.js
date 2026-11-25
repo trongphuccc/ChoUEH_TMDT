@@ -2,6 +2,8 @@ const Product = require('../models/Product');
 const path = require('path');
 const fs = require('fs');
 const { PUBLIC_USER_SELECT, sanitizePublicUser } = require('../utils/userPrivacy');
+const escapeRegex = require('../utils/escapeRegex');
+const Message = require('../models/Message');
 
 const MEETING_POINT_OPTIONS = [
   'Cơ sở A - 59 Nguyễn Đình Chiểu',
@@ -249,11 +251,12 @@ exports.getProducts = async (req, res) => {
     const normalizedListingType = normalizeListingType(listingType, '');
 
     if (search) {
+      const pattern = escapeRegex(search);
       query.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { courseCode: { $regex: search, $options: 'i' } },
-        { courseName: { $regex: search, $options: 'i' } }
+        { title: { $regex: pattern, $options: 'i' } },
+        { description: { $regex: pattern, $options: 'i' } },
+        { courseCode: { $regex: pattern, $options: 'i' } },
+        { courseName: { $regex: pattern, $options: 'i' } }
       ];
     }
 
@@ -266,7 +269,7 @@ exports.getProducts = async (req, res) => {
       query.status = status || 'available';
       if (seller) query.seller = seller;
     }
-    if (courseCode) query.courseCode = { $regex: `^${normalizeText(courseCode)}`, $options: 'i' };
+    if (courseCode) query.courseCode = { $regex: `^${escapeRegex(normalizeText(courseCode))}`, $options: 'i' };
     if (faculty) query.faculty = faculty;
     if (normalizedListingType) query.listingType = normalizedListingType;
 
@@ -312,7 +315,7 @@ exports.getProducts = async (req, res) => {
 
     const [products, total] = await Promise.all([
       Product.find(query)
-        .populate('seller', 'name avatar studentId rating')
+        .populate('seller', 'name avatar rating')
         .sort(sortOption)
         .skip(skip)
         .limit(Number(limit)),
@@ -349,8 +352,7 @@ exports.getProduct = async (req, res) => {
 
     const seller = product.seller;
 
-    product.views += 1;
-    await product.save();
+    await Product.updateOne({ _id: product._id }, { $inc: { views: 1 } });
 
     const productData = product.toObject();
     productData.sellerId = seller?._id?.toString() || null;
@@ -402,7 +404,7 @@ exports.createProduct = async (req, res) => {
     attachCourseContextOnCreate(productPayload, req.body);
 
     const product = await Product.create(productPayload);
-    await product.populate('seller', 'name avatar studentId');
+    await product.populate('seller', 'name avatar');
 
     res.status(201).json({
       success: true,
@@ -464,7 +466,7 @@ exports.updateProduct = async (req, res) => {
     if (Object.keys(unset).length > 0) updateOperation.$unset = unset;
 
     if (Object.keys(updateOperation).length === 0) {
-      await product.populate('seller', 'name avatar studentId');
+      await product.populate('seller', 'name avatar');
       return res.json({
         success: true,
         message: 'Không có thay đổi nào cần cập nhật',
@@ -475,7 +477,7 @@ exports.updateProduct = async (req, res) => {
     product = await Product.findByIdAndUpdate(req.params.id, updateOperation, {
       new: true,
       runValidators: true
-    }).populate('seller', 'name avatar studentId');
+    }).populate('seller', 'name avatar');
 
     res.json({
       success: true,
@@ -594,6 +596,9 @@ exports.updateTransactionStatus = async (req, res) => {
     }
 
     product.transactionStatus = transactionStatus;
+    // Keep listing status in sync so sold items leave the public list.
+    product.status = transactionStatus === 'sold' ? 'sold'
+      : transactionStatus === 'deposited' ? 'reserved' : 'available';
 
     await product.save();
 
@@ -627,7 +632,6 @@ exports.getProductBuyers = async (req, res) => {
       });
     }
 
-    const Message = require('../models/Message');
     const User = require('../models/User');
 
     // Find unique senders who messaged the seller about this product
@@ -699,6 +703,15 @@ exports.setProductBuyer = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Người mua không thể là người bán'
+      });
+    }
+
+    // Buyer must be someone who actually chatted with the seller about this item.
+    const hasChatted = await Message.exists({ product: product._id, sender: buyerId, receiver: req.user._id });
+    if (!hasChatted) {
+      return res.status(400).json({
+        success: false,
+        message: 'Người mua phải là người đã nhắn tin về sản phẩm này'
       });
     }
 

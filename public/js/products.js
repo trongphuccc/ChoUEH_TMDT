@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('product-grid');
   const countEl = document.getElementById('product-count');
+  const resultCountEl = document.getElementById('result-count');
   const paginationEl = document.getElementById('pagination');
   const listingHeading = document.getElementById('listing-heading');
   const priceFilterLabel = document.getElementById('price-filter-label');
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         countEl.textContent = isWanted
           ? `(${data.pagination.total} nhu cầu)`
           : `(${data.pagination.total} sản phẩm)`;
+        if (resultCountEl) resultCountEl.textContent = `${data.pagination.total} bài đăng`;
         renderPagination(data.pagination);
       } else {
         grid.innerHTML = `
@@ -143,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
         countEl.textContent = isWanted ? '(0 nhu cầu)' : '(0 sản phẩm)';
+        if (resultCountEl) resultCountEl.textContent = '0 bài đăng';
         paginationEl.innerHTML = '';
       }
     } catch (error) {

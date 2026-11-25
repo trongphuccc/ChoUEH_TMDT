@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <%- include('partials/page-head') %>
+  <title>Chính sách bảo mật | Chợ UEH</title>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  <main id="main" class="doc">
+    <h1>Chính sách bảo mật</h1>
+    <p class="updated">Chợ UEH thu thập ít dữ liệu nhất có thể để sàn hoạt động.</p>
+
+    <h2>Dữ liệu chúng tôi lưu</h2>
+    <ul>
+      <li>Họ tên, email UEH, MSSV, số điện thoại (nếu bạn nhập), khoa và khoá học.</li>
+      <li>Tin đăng, ảnh tải lên (lưu trên Cloudinary), tin nhắn, đánh giá, tin đã lưu và báo cáo bạn gửi.</li>
+      <li>Mật khẩu được băm bằng bcrypt. Chúng tôi không thể xem mật khẩu gốc.</li>
+    </ul>
+
+    <h2>Ai thấy được gì</h2>
+    <ul>
+      <li>Người khác chỉ thấy <strong>tên hiển thị, ảnh đại diện, điểm đánh giá</strong> và ngày tham gia của bạn.</li>
+      <li>Email, MSSV và số điện thoại không xuất hiện trên trang công khai hay API công khai.</li>
+      <li>Quản trị viên xem được thông tin tài khoản để xử lý vi phạm.</li>
+    </ul>
+
+    <h2>Trợ lý Zeen AI</h2>
+    <p>Câu hỏi bạn gửi cho Zeen được chuyển tới dịch vụ AI bên ngoài (Groq) để tạo câu trả lời. Đừng gửi thông tin cá nhân trong khung chat.</p>
+
+    <h2>Đăng nhập</h2>
+    <p>Phiên đăng nhập dùng cookie <code>httpOnly</code>. Chợ UEH không dùng cookie quảng cáo hay theo dõi bên thứ ba.</p>
+
+    <h2>Xoá dữ liệu</h2>
+    <p>Bạn có thể xoá tin đăng bất kỳ lúc nào trong trang Quản lý. Để xoá tài khoản, liên hệ quản trị viên qua mục Hỗ trợ ở cuối trang.</p>
+
+    <p style="margin-top:2.5rem">Xem thêm <a href="/terms">Điều khoản sử dụng</a>.</p>
+  </main>
+  <%- include('partials/footer') %>
+  <div id="toast-container" class="toast-container"></div>
+  <script src="/js/app.js"></script>
+</body>
+</html>

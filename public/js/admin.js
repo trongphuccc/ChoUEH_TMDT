@@ -479,8 +479,47 @@ async function adminDeleteProduct(id) {
   }
 }
 
+const REPORT_REASON_LABELS = {
+  spam: 'Spam / quảng cáo', fake: 'Sai lệch / lừa đảo', duplicate: 'Trùng lặp',
+  inappropriate: 'Không phù hợp', other: 'Khác'
+};
+
+async function loadReports() {
+  const list = document.getElementById('report-list');
+  if (!list) return;
+  const esc = window.AppUtils.esc.bind(window.AppUtils);
+  try {
+    const res = await fetch('/api/admin/reports');
+    const data = await res.json();
+    const reports = data.data || [];
+    if (!reports.length) { list.innerHTML = '<p class="text-gray-400 py-2">Chưa có báo cáo nào.</p>'; return; }
+    list.innerHTML = reports.map((r) => `
+      <div class="py-3 flex flex-wrap items-center gap-3 ${r.status === 'open' ? '' : 'opacity-50'}">
+        <div class="flex-1 min-w-[12rem]">
+          ${r.product ? `<a class="font-semibold hover:underline" href="/product/${r.product._id}" target="_blank">${esc(r.product.title)}</a>` : '<span class="italic">Bài đã bị xóa</span>'}
+          <div class="text-gray-500 text-xs mt-0.5">${esc(REPORT_REASON_LABELS[r.reason] || r.reason)} · ${esc(r.reporter?.name || 'Ẩn danh')} · ${window.AppUtils.timeAgo(r.createdAt)}</div>
+        </div>
+        ${r.status === 'open'
+          ? `<button class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold" onclick="setReportStatus('${r._id}','resolved')">Đã xử lý</button>
+             <button class="px-3 py-1.5 rounded-lg border text-xs font-bold" onclick="setReportStatus('${r._id}','dismissed')">Bỏ qua</button>`
+          : `<span class="text-xs font-bold uppercase">${r.status === 'resolved' ? 'Đã xử lý' : 'Đã bỏ qua'}</span>`}
+      </div>`).join('');
+  } catch (err) {
+    list.innerHTML = '<p class="text-red-500">Không tải được báo cáo.</p>';
+  }
+}
+
+async function setReportStatus(id, status) {
+  const res = await fetch(`/api/admin/reports/${id}`, {
+    method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status })
+  });
+  if (res.ok) loadReports();
+  else window.AppUtils.showToast('Không cập nhật được báo cáo', 'error');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('stat-users') && !document.getElementById('users-table')) {
     window.AdminApp.initDashboard();
+    loadReports();
   }
 });

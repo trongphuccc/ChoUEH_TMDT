@@ -5,7 +5,8 @@ const { protect } = require('../middleware/auth');
 const { isAdmin } = require('../middleware/admin');
 const {
   getDashboardStats, getAllUsers, updateUser, deleteUser,
-  getAllProducts, updateProduct, deleteProduct, removeProductImage
+  getAllProducts, updateProduct, deleteProduct, removeProductImage,
+  getReports, updateReport
 } = require('../controllers/adminController');
 
 // All routes require admin
@@ -19,5 +20,7 @@ router.get('/products', getAllProducts);
 router.put('/products/:id', upload.array('images', 6), updateProduct);
 router.delete('/products/:id', deleteProduct);
 router.delete('/products/:id/images/:index', removeProductImage);
+router.get('/reports', getReports);
+router.patch('/reports/:id', updateReport);
 
 module.exports = router;

@@ -45,6 +45,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  async function loadSaved() {
+    try {
+      const res = await fetch('/api/users/me/favorites');
+      const data = await res.json();
+      const items = data.data || [];
+      document.getElementById('saved-products').innerHTML = items.map((p) => window.AppUtils.productCard(p)).join('');
+      document.getElementById('no-saved').classList.toggle('hidden', items.length > 0);
+    } catch (err) {
+      console.error('Failed to load saved listings:', err);
+    }
+  }
+
   // Load my products
   async function loadMyProducts() {
     try {
@@ -294,6 +306,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await Promise.all([
     refreshDashboardInsights(),
-    loadMyProducts()
+    loadMyProducts(),
+    loadSaved()
   ]);
 });

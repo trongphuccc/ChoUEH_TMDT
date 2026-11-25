@@ -88,7 +88,7 @@ function renderConversationList(list, conversations, activeChat) {
       appendTextElement(
         item,
         'div',
-        'w-5 h-5 bg-[#EC6D33] text-white text-[10px] font-bold rounded-full flex items-center justify-center',
+        'w-5 h-5 bg-[#C4511A] text-white text-[10px] font-bold rounded-full flex items-center justify-center',
         String(conversation.unreadCount)
       );
     }

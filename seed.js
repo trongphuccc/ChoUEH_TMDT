@@ -17,7 +17,7 @@ const seedDB = async () => {
     const users = await User.create([
       {
         name: 'Nguyễn Văn An',
-        email: 'an.nguyen@st.ueh.edu.vn',
+        email: 'an.nguyen@student.ueh.edu.vn',
         studentId: '31211020001',
         phone: '0901234567',
         department: 'Khoa Công nghệ thông tin kinh doanh',
@@ -27,7 +27,7 @@ const seedDB = async () => {
       },
       {
         name: 'Trần Thị Bảo',
-        email: 'bao.tran@st.ueh.edu.vn',
+        email: 'bao.tran@student.ueh.edu.vn',
         studentId: '31211020002',
         phone: '0912345678',
         department: 'Khoa Kinh tế',
@@ -36,7 +36,7 @@ const seedDB = async () => {
       },
       {
         name: 'Lê Minh Châu',
-        email: 'chau.le@st.ueh.edu.vn',
+        email: 'chau.le@student.ueh.edu.vn',
         studentId: '31211020003',
         phone: '0923456789',
         department: 'Khoa Tài chính',
@@ -45,7 +45,7 @@ const seedDB = async () => {
       },
       {
         name: 'Phạm Hoàng Duy',
-        email: 'duy.pham@st.ueh.edu.vn',
+        email: 'duy.pham@student.ueh.edu.vn',
         studentId: '31211020004',
         phone: '0934567890',
         department: 'Khoa Quản trị kinh doanh',
@@ -54,7 +54,7 @@ const seedDB = async () => {
       },
       {
         name: 'Võ Thanh Hà',
-        email: 'ha.vo@st.ueh.edu.vn',
+        email: 'ha.vo@student.ueh.edu.vn',
         studentId: '31211020005',
         phone: '0945678901',
         department: 'Khoa Kế toán',

@@ -4,10 +4,10 @@
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard - Chợ UEH</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link href="/css/custom.css" rel="stylesheet"/>
-  <script>tailwind.config={theme:{extend:{colors:{"primary":"#00464d","primary-container":"#005f69","primary-fixed":"#a7eefa","secondary":"#35618c","tertiary":"#712600","tertiary-fixed":"#ffdbce","surface":"#f2fbfc","surface-container-lowest":"#ffffff","surface-container-low":"#ecf5f6","surface-container":"#e7f0f0","surface-container-high":"#e1eaeb","on-surface":"#151d1e","on-surface-variant":"#3f484a","outline":"#6f797a","outline-variant":"#bec8ca","background":"#f2fbfc","accent":"#EC6D33"},fontFamily:{"headline":["Plus Jakarta Sans"],"body":["Inter"]}}}}</script>
+  <script>tailwind.config={theme:{extend:{colors:{"primary":"#00464d","primary-container":"#005f69","primary-fixed":"#a7eefa","secondary":"#35618c","tertiary":"#712600","tertiary-fixed":"#ffdbce","surface":"#f2fbfc","surface-container-lowest":"#ffffff","surface-container-low":"#ecf5f6","surface-container":"#e7f0f0","surface-container-high":"#e1eaeb","on-surface":"#151d1e","on-surface-variant":"#3f484a","outline":"#6f797a","outline-variant":"#bec8ca","background":"#f2fbfc","accent":"#EC6D33"},fontFamily:{"headline":["Bricolage Grotesque"],"body":["Be Vietnam Pro"]}}}}</script>
 </head>
 <body class="bg-[#f0f4f8] text-on-surface min-h-screen">
 
@@ -111,6 +111,12 @@
           <div class="skeleton h-12 rounded-lg"></div>
         </div>
       </div>
+    </div>
+
+    <!-- Reports -->
+    <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-red-600">flag</span>Báo cáo vi phạm</h2>
+      <div id="report-list" class="divide-y divide-gray-100 text-sm"><p class="text-gray-400">Đang tải...</p></div>
     </div>
 
     <!-- Category Breakdown -->

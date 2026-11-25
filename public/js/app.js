@@ -331,6 +331,7 @@ window.AppUtils = {
 
     const user = this.getUser();
     if (!user) return;
+    document.querySelectorAll('.nav-guest-only').forEach((el) => el.remove());
 
     const adminLink = user.role === 'admin'
       ? `<a href="/admin" class="text-slate-600 hover:bg-[#ecf5f6] p-2 rounded-lg transition-all" title="Admin"><span class="material-symbols-outlined text-red-500">admin_panel_settings</span></a>`
@@ -339,14 +340,14 @@ window.AppUtils = {
     authDiv.innerHTML = `
       ${adminLink}
       <a href="/messages" class="relative text-slate-600 hover:bg-[#ecf5f6] p-2 rounded-lg transition-all" title="Tin nhắn">
-        <span id="unread-badge" class="hidden absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 bg-[#EC6D33] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none z-10">0</span>
+        <span id="unread-badge" class="hidden absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 bg-[#C4511A] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none z-10">0</span>
         <span class="material-symbols-outlined">chat</span>
       </a>
-      <a href="/dashboard" class="text-slate-600 hover:bg-[#ecf5f6] p-2 rounded-lg transition-all" title="Dashboard"><span class="material-symbols-outlined">dashboard</span></a>
-      <a href="/profile" class="flex items-center gap-2 text-slate-600 hover:bg-[#ecf5f6] px-3 py-2 rounded-lg transition-all text-sm font-semibold">
-        <span class="material-symbols-outlined text-[#00464d]">account_circle</span>${user.name.split(' ').pop()}
+      <a href="/dashboard" class="hidden sm:inline-block text-slate-600 hover:bg-[#ecf5f6] p-2 rounded-lg transition-all" title="Dashboard"><span class="material-symbols-outlined">dashboard</span></a>
+      <a href="/profile" class="flex items-center gap-2 text-slate-600 hover:bg-[#ecf5f6] px-2 sm:px-3 py-2 rounded-lg transition-all text-sm font-semibold" title="Hồ sơ">
+        <span class="material-symbols-outlined text-[#00464d]">account_circle</span><span class="hidden sm:inline">${this.esc(user.name.split(' ').pop())}</span>
       </a>
-      <a href="/post-ad" class="bg-[#EC6D33] text-white px-5 py-2.5 rounded-lg font-bold shadow-sm hover:brightness-110 transition-all text-sm">Đăng tin</a>
+      <a href="/post-ad" class="bg-[#C4511A] text-white px-4 py-2.5 rounded-lg font-bold hover:brightness-95 active:translate-y-px transition text-sm whitespace-nowrap">Đăng tin</a>
     `;
   }
 };

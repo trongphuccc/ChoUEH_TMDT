@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "node server.js",
     "seed": "node seed.js",
-    "patch-products": "node patch-products.js"
+    "patch-products": "node patch-products.js",
+    "test": "node --test"
   },
   "keywords": [
     "ueh",

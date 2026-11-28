@@ -222,8 +222,11 @@ function build(sellerIds, photoUrls) {
 
   const sellerIds = {};
   for (const [key, s] of Object.entries(SELLERS)) {
-    let user = await User.findOne({ email: s.email }).select('_id');
-    if (!user) {
+    // Older databases hold the same demo accounts under @st.ueh.edu.vn, so match the MSSV too.
+    let user = await User.findOne({ $or: [{ email: s.email }, { studentId: s.studentId }] }).select('_id name email');
+    if (user) {
+      console.log(`  dùng tài khoản có sẵn: ${user.name} <${user.email}>`);
+    } else {
       console.log(`  ${apply ? 'tạo' : 'sẽ tạo'} tài khoản người bán ${s.email} (mật khẩu ngẫu nhiên, không đăng nhập được)`);
       if (apply) user = await User.create({ ...s, password: crypto.randomBytes(24).toString('base64url') });
     }

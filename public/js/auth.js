@@ -1,6 +1,26 @@
 // ===== Chợ UEH - Auth (Login & Register) =====
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Show/hide password: the eye button sits inside each password field.
+  document.querySelectorAll('[data-toggle-pw]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentElement.querySelector('input');
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.setAttribute('aria-pressed', String(show));
+      btn.setAttribute('aria-label', show ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
+      btn.firstElementChild.textContent = show ? 'visibility_off' : 'visibility';
+    });
+  });
+  const forgot = document.querySelector('[data-forgot]');
+  if (forgot) {
+    forgot.addEventListener('click', () => {
+      const help = document.getElementById('forgot-help');
+      help.hidden = !help.hidden;
+      forgot.setAttribute('aria-expanded', String(!help.hidden));
+    });
+  }
+
   const existingUser = window.AppUtils.getUser() || await window.AppUtils.syncCurrentUser();
   if (existingUser) {
     const path = window.location.pathname;
@@ -51,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorDiv.classList.remove('hidden');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = 'Đăng Nhập <span class="material-symbols-outlined">arrow_forward</span>';
+        btn.innerHTML = 'Đăng nhập <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>';
       }
     });
   }
@@ -99,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const res = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, studentId, phone, department, year, password })
+          body: JSON.stringify({ name, email, studentId, phone, department: department || undefined, year: year || undefined, password })
         });
         const data = await res.json();
 
@@ -116,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         errorDiv.classList.remove('hidden');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = 'Đăng Ký Ngay <span class="material-symbols-outlined">arrow_forward</span>';
+        btn.innerHTML = 'Đăng ký ngay <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>';
       }
     });
   }

@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     if (searchInput) searchInput.value = currentFilters.search;
   }
+  if (urlParams.get('sort')) {
+    currentFilters.sort = urlParams.get('sort');
+    const sortSelectEl = document.getElementById('sort-filter');
+    if (sortSelectEl) sortSelectEl.value = currentFilters.sort;
+  }
   if (urlParams.get('courseCode')) {
     currentFilters.courseCode = urlParams.get('courseCode');
     const courseCodeInput = document.getElementById('course-code-filter');
@@ -224,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const sortSelect = document.getElementById('sort-select');
+  const sortSelect = document.getElementById('sort-filter');
   if (sortSelect) {
     sortSelect.addEventListener('change', () => {
       currentFilters.sort = sortSelect.value;

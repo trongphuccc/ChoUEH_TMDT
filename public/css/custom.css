@@ -84,15 +84,20 @@ body > main, body > div > main { animation: pageIn 420ms var(--ease) both; }
 .pcard__photo { position: relative; aspect-ratio: 1; border-radius: .875rem; overflow: hidden; background: #fff; box-shadow: var(--e2); transition: box-shadow 240ms var(--ease), transform 240ms var(--ease); }
 .pcard__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 480ms var(--ease); }
 .pcard__flags { position: absolute; left: .6rem; top: .6rem; right: .6rem; display: flex; flex-wrap: wrap; gap: .35rem; }
-.pcard__flag { background: rgba(255,255,255,.94); color: var(--ink); font-size: .72rem; font-weight: 600; padding: .22rem .5rem; border-radius: .375rem; }
-.pcard__flag--warm { background: var(--orange); color: #fff; }
+/* Badges sit on any photo, so they carry their own solid fill and a hairline edge. */
+.pcard__flag { background: #fff; color: var(--ink); font-size: .72rem; font-weight: 700; padding: .2rem .5rem; border-radius: .375rem; border: 1px solid hsl(var(--shadow-color) / .18); box-shadow: 0 1px 2px hsl(var(--shadow-color) / .18); }
+.pcard__flag--warm { background: var(--orange); border-color: #a3421a; color: #fff; }
+.pcard__flag--new { background: var(--teal); border-color: var(--teal-dark); color: #fff; }
+.pcard__cond { font-size: .78rem; font-weight: 600; color: var(--ink-soft); }
+.pcard__meta .material-symbols-outlined { font-size: .95rem; color: var(--teal); margin-right: .15rem; vertical-align: -2px; }
+.pcard__code { font-weight: 700; color: #a3421a; }
 .pcard__save { position: absolute; right: .6rem; bottom: .6rem; }
 .pcard__label { border-top: 1px solid #c9d1cb; margin-top: .85rem; padding-top: .65rem; display: grid; gap: .2rem; }
 .pcard__name { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-size: 1.02rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5em; margin: 0; }
 .pcard__row { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; font-size: .88rem; margin: 0; }
-.pcard__price { font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; }
+.pcard__price { font-weight: 800; font-size: 1.05rem; color: var(--teal); font-variant-numeric: tabular-nums; }
 .pcard__meta { color: var(--ink-soft); font-size: .8rem; display: flex; justify-content: space-between; gap: .5rem; }
-.pcard__meta span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pcard__meta > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pcard.is-sold .pcard__photo img { filter: grayscale(1); opacity: .7; }
 @media (hover: hover) and (pointer: fine) {
   .pcard:hover .pcard__photo { box-shadow: var(--e3); transform: translateY(-3px); }
@@ -184,7 +189,7 @@ body > main, body > div > main { animation: pageIn 420ms var(--ease) both; }
   .msg.is-chatting .msg__chat { display: flex; }
 }
 /* phones: two-up cards have no room for the date */
-@media (max-width: 639px) { .pcard__meta span:last-child { display: none; } .pcard__name { font-size: .95rem; } }
+@media (max-width: 639px) { .pcard__meta > span:last-child:not(:first-child) { display: none; } .pcard__name { font-size: .95rem; } }
 
 /* ---------- listing page ---------- */
 .seg { display: inline-flex; padding: 4px; gap: 2px; background: var(--paper-2); border-radius: .875rem; border: 1px solid var(--line); align-self: flex-start; }
@@ -196,8 +201,24 @@ body > main, body > div > main { animation: pageIn 420ms var(--ease) both; }
 .filters__toggle::-webkit-details-marker { display: none; }
 @media (min-width: 768px) { .filters__toggle { display: none; } .filters { position: sticky; top: 88px; max-height: calc(100vh - 104px); overflow: auto; } }
 .pcard, .slipcard { min-width: 0; } /* grid items must not grow to fit a long meeting-point name */
-.pcard__meta span:first-child { min-width: 0; flex: 1; }
-.pcard__meta span:last-child { flex: none; }
+.pcard__meta > span:first-child { min-width: 0; flex: 1; }
+.pcard__meta > span:last-child:not(:first-child) { flex: none; }
 /* Tailwind's runtime styles load after this file, so beat its utility classes on specificity */
 @media (max-width: 767px) { .msg .msg__chat { display: none; } .msg.is-chatting .msg__chat { display: flex; } }
 .pcard__label { grid-template-columns: minmax(0, 1fr); }
+
+/* ---------- auth forms ---------- */
+.pw-toggle { position: absolute; right: .5rem; top: 50%; transform: translateY(-50%); width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: .5rem; color: var(--ink-soft); }
+.pw-toggle:hover { color: var(--teal); background: var(--paper-2); }
+.forgot-help { display: flex; gap: .6rem; margin-top: .75rem; padding: .8rem 1rem; border-radius: .75rem; background: var(--orange-soft); border: 1px solid #f6c4a5; font-size: .85rem; color: #5e2914; }
+.forgot-help[hidden] { display: none; }
+.forgot-help .material-symbols-outlined { color: var(--orange); }
+.forgot-help a { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+/* Browser autofill paints fields light blue; keep them on the site's own white field. */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, select:-webkit-autofill, textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink); caret-color: var(--ink);
+  -webkit-box-shadow: 0 0 0 1000px #fff inset; box-shadow: 0 0 0 1000px #fff inset;
+  transition: background-color 9999s ease-out 0s;
+}
+:where(main) select:invalid { color: #8a9a9c; }
+:where(main) select option { color: var(--ink); }

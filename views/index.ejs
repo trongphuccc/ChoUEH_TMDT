@@ -7,6 +7,8 @@
   const img = (url, w) => String(url || '').includes('/upload/') ? url.replace('/upload/', `/upload/w_${w},c_limit,f_auto,q_auto/`) : url;
   const places = (p) => [...new Set((p.meetingPoints && p.meetingPoints.length ? p.meetingPoints : [p.location]).map(shortPlace))];
   const urgency = { high: 'Cần gấp', medium: 'Trong tuần này', low: 'Không vội' };
+  const txFlag = { negotiating: 'Đang thương lượng', deposited: 'Đã cọc' };
+  const hhmm = (c) => c.padStart(5, '0');
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -26,7 +28,7 @@
 
   <main id="main">
 
-    <!-- 1 · Nhận ra: món đồ thật đầu tiên, nhiều lớp chuyển động khác nhau -->
+    <!-- 1 · Hero: món đồ thật đầu tiên, nhiều lớp chuyển động khác nhau -->
     <section class="hero" data-sc-act="flow">
       <div class="hero__copy">
         <h1 class="hero__title">Đồ cũ của khoá trên, <em>giá của sinh viên.</em></h1>
@@ -36,8 +38,13 @@
           <a class="btn btn--ghost" href="/post-ad">Đăng tin</a>
         </div>
         <% if (stats.activeCount) { %>
-          <p class="hero__live"><span class="hero__dot" aria-hidden="true"></span><span class="tabular"><%= stats.activeCount %></span> món đang bán, hẹn giao ngay trong trường</p>
+          <p class="hero__live"><span class="hero__dot" aria-hidden="true"></span><span><strong class="tabular"><%= stats.activeCount %> món</strong> đang bán, hẹn giao ngay trong trường</span></p>
         <% } %>
+        <ul class="hero__trust">
+          <li><span class="material-symbols-outlined" aria-hidden="true">verified_user</span>Chỉ tài khoản email UEH</li>
+          <li><span class="material-symbols-outlined" aria-hidden="true">savings</span>0đ phí trung gian</li>
+          <li><span class="material-symbols-outlined" aria-hidden="true">forum</span>Chat trong web, không lộ số điện thoại</li>
+        </ul>
       </div>
 
       <div class="hero__scene" aria-hidden="<%= hero ? 'false' : 'true' %>">
@@ -54,8 +61,8 @@
           <div class="hero__front" data-sc-parallax="-0.9">
             <a href="/product/<%= hero._id %>" class="tag hero__tag">
               <span class="tag__name"><%= hero.title %></span>
-              <span class="tag__row"><%= cond(hero.condition) %> · <strong class="tabular"><%= fmt(hero.price) %></strong></span>
-              <span class="tag__row">Hẹn: <%= places(hero).slice(0, 2).join(', ') %></span>
+              <span class="tag__row tag__row--price"><span class="tag__cond"><%= cond(hero.condition) %></span><strong class="tabular"><%= fmt(hero.price) %></strong></span>
+              <span class="tag__row"><span class="material-symbols-outlined" aria-hidden="true">location_on</span><%= places(hero).slice(0, 2).join(', ') %></span>
             </a>
           </div>
         <% } %>
@@ -74,23 +81,46 @@
     </div>
     <% } %>
 
-    <!-- 2 · Định hướng: mục lục các món, số đếm thật -->
-    <section class="index" data-sc-act="flow" aria-labelledby="index-title">
-      <div class="index__inner">
-        <h2 id="index-title" class="index__title">Bạn đang tìm gì?</h2>
-        <form class="index__search" action="/products" method="get" role="search">
-          <label class="sr-only" for="home-search">Tìm theo tên hoặc mã môn</label>
-          <span class="material-symbols-outlined" aria-hidden="true">search</span>
-          <input id="home-search" name="search" type="search" placeholder="Tên món, mã môn (VD: KTVM)…" />
-          <button type="submit" class="btn btn--primary">Tìm</button>
-        </form>
-        <ul class="index__list" data-sc-stagger="50" data-sc-in>
+    <!-- 2 · Tìm: một ô tìm kiếm + lọc nhanh theo cơ sở, từ khoá hay tìm, danh mục -->
+    <section class="finder" aria-labelledby="finder-title">
+      <div class="finder__inner">
+        <div class="finder__top">
+          <div>
+            <h2 id="finder-title" class="finder__title">Bạn đang tìm gì?</h2>
+            <p class="finder__sub">Gõ tên món hoặc mã môn, hoặc lọc nhanh theo cơ sở bạn học.</p>
+          </div>
+          <form class="finder__search" action="/products" method="get" role="search" data-home-search>
+            <label class="sr-only" for="home-search">Tìm theo tên hoặc mã môn</label>
+            <span class="material-symbols-outlined" aria-hidden="true">search</span>
+            <input id="home-search" name="search" type="search" placeholder="Tên món, mã môn (VD: KTVM)…" autocomplete="off" />
+            <button type="submit" class="btn btn--primary">Tìm</button>
+          </form>
+        </div>
+
+        <div class="finder__bar">
+          <div class="finder__group" role="group" aria-label="Lọc món mới đăng theo cơ sở">
+            <span class="finder__label">Cơ sở</span>
+            <button type="button" class="qchip" data-campus="" aria-pressed="true">Tất cả <span class="qchip__n tabular"><%= grid.length %></span></button>
+            <% campuses.forEach((c) => { %>
+              <button type="button" class="qchip" data-campus="<%= c.name %>" aria-pressed="false"><%= c.name %> <span class="qchip__n tabular"><%= c.count %></span></button>
+            <% }) %>
+          </div>
+          <div class="finder__group">
+            <span class="finder__label">Hay tìm</span>
+            <% popular.forEach((k) => { %>
+              <a class="qchip qchip--key" href="/products?search=<%= encodeURIComponent(k) %>">#<%= k %></a>
+            <% }) %>
+          </div>
+        </div>
+
+        <ul class="index__list">
           <% categories.forEach((c) => { %>
             <li>
-              <a href="/products?category=<%= c.slug %>" class="cat">
+              <a href="/products?category=<%= c.slug %>" class="cat<%= c.count ? '' : ' cat--empty' %>">
                 <span class="material-symbols-outlined cat__icon" aria-hidden="true"><%= c.icon %></span>
                 <span class="cat__label"><%= c.label %></span>
-                <span class="cat__count tabular"><%= c.count %> món</span>
+                <span class="cat__count tabular"><%= c.count ? `${c.count} món` : 'Chưa có tin' %></span>
+                <span class="material-symbols-outlined cat__go" aria-hidden="true">arrow_forward</span>
               </a>
             </li>
           <% }) %>
@@ -98,64 +128,99 @@
       </div>
     </section>
 
-    <% if (rail.length) { %>
-    <!-- 3 · Thèm: các món trôi ngang, cùng một kiểu nhãn -->
-    <section class="shelf" data-sc-act="pan" data-sc-span="<%= Math.max(2.4, rail.length * 0.3 + 0.8).toFixed(2) %>" aria-labelledby="shelf-title">
-      <div data-sc-stage class="shelf__stage">
-        <div class="shelf__rail" data-sc-pan="0.04">
-          <div class="shelf__lead">
-            <h2 id="shelf-title" class="shelf__title">Mới lên kệ</h2>
-            <p>Đăng bởi sinh viên UEH, ảnh thật, giá thật.</p>
+    <% if (grid.length) { %>
+    <!-- 3 · Mới đăng: lưới thẻ nhãn giá, lọc theo cơ sở và sắp xếp ngay tại chỗ -->
+    <section class="latest" aria-labelledby="latest-title">
+      <div class="latest__inner">
+        <div class="latest__head">
+          <div>
+            <h2 id="latest-title" class="latest__title">Mới đăng gần đây</h2>
+            <p class="latest__sub" data-latest-note aria-live="polite">Món mới nhất ở cả ba cơ sở.</p>
           </div>
-          <% rail.forEach((p, i) => { %>
-            <article class="item" style="--i:<%= i %>">
-              <a href="/product/<%= p._id %>" class="item__link">
-                <div class="item__photo" data-sc-tilt="5">
-                  <img src="<%= img(p.images[0], 600) %>" alt="<%= p.title %>" width="600" height="600" loading="lazy" />
-                  <% if (p.transactionStatus === 'negotiating' || p.transactionStatus === 'deposited') { %>
-                    <span class="item__flag"><%= p.transactionStatus === 'deposited' ? 'Đã cọc' : 'Đang thương lượng' %></span>
-                  <% } %>
+          <div class="latest__tools">
+            <div class="seg" role="group" aria-label="Sắp xếp">
+              <button type="button" data-sort="new" aria-pressed="true">Mới nhất</button>
+              <button type="button" data-sort="asc" aria-pressed="false">Giá thấp</button>
+              <button type="button" data-sort="desc" aria-pressed="false">Giá cao</button>
+            </div>
+            <a class="latest__all" href="/products">Xem tất cả <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <ul class="latest__grid" data-latest>
+          <% grid.forEach((p, i) => { %>
+            <li data-campus="<%= p.places.join('|') %>" data-price="<%= p.price || 0 %>" data-order="<%= i %>">
+              <a href="/product/<%= p._id %>" class="pcard">
+                <div class="pcard__photo">
+                  <img src="<%= img(p.images[0], 500) %>" alt="<%= p.title %>" width="500" height="500" loading="lazy" />
+                  <div class="pcard__flags">
+                    <% if (p.isNew) { %><span class="pcard__flag pcard__flag--new">Mới đăng</span><% } %>
+                    <% if (txFlag[p.transactionStatus]) { %><span class="pcard__flag pcard__flag--warm"><%= txFlag[p.transactionStatus] %></span><% } %>
+                  </div>
                 </div>
-                <div class="label">
-                  <h3 class="label__name"><%= p.title %></h3>
-                  <p class="label__row"><span><%= cond(p.condition) %></span><strong class="tabular"><%= fmt(p.price) %></strong></p>
-                  <p class="label__row label__row--soft">Hẹn: <%= places(p).slice(0, 2).join(', ') %><%= places(p).length > 2 ? ` +${places(p).length - 2}` : '' %></p>
+                <div class="pcard__label">
+                  <h3 class="pcard__name"><%= p.title %></h3>
+                  <p class="pcard__row"><span class="pcard__price"><%= fmt(p.price) %></span><span class="pcard__cond"><%= cond(p.condition) %></span></p>
+                  <p class="pcard__meta"><span><span class="material-symbols-outlined" aria-hidden="true">location_on</span><%= p.places.slice(0, 2).join(', ') %><%= p.places.length > 2 ? ` +${p.places.length - 2}` : '' %></span><% if (p.courseCode) { %><span class="pcard__code"><%= p.courseCode %></span><% } %></p>
                 </div>
               </a>
-            </article>
+            </li>
           <% }) %>
-          <a class="shelf__end" href="/products">
-            <span class="shelf__end-num tabular"><%= stats.activeCount %></span>
-            <span>món đang bán. Xem tất cả <span aria-hidden="true">→</span></span>
-          </a>
-        </div>
+        </ul>
+        <p class="latest__empty" data-latest-empty hidden>Chưa có món mới nào hẹn ở cơ sở này. <a href="/products">Xem tất cả món đang bán</a></p>
       </div>
     </section>
     <% } %>
 
-    <!-- 4 · Lặng: khoảng trống có chủ ý trước đỉnh -->
-    <section class="quiet" data-sc-act="flow">
-      <p class="quiet__line" data-sc-in>Một ngày học có bốn lúc rảnh.</p>
+    <!-- 4 · Cách hoạt động: ba bước, không ra khỏi trường -->
+    <section class="how" aria-labelledby="how-title">
+      <div class="how__inner">
+        <h2 id="how-title" class="how__title">Mua bán trong ba bước, không cần ra khỏi trường.</h2>
+        <ol class="how__steps">
+          <li class="how__step">
+            <span class="how__num tabular">01</span>
+            <span class="material-symbols-outlined how__icon" aria-hidden="true">travel_explore</span>
+            <h3>Tìm hoặc đăng</h3>
+            <p>Lọc theo mã môn, danh mục, cơ sở. Đăng tin chỉ cần ảnh, giá và điểm hẹn.</p>
+          </li>
+          <li class="how__step">
+            <span class="how__num tabular">02</span>
+            <span class="material-symbols-outlined how__icon" aria-hidden="true">chat</span>
+            <h3>Nhắn và chốt giá</h3>
+            <p>Chat ngay trên Chợ UEH. Email, MSSV và số điện thoại không hiện công khai.</p>
+          </li>
+          <li class="how__step">
+            <span class="how__num tabular">03</span>
+            <span class="material-symbols-outlined how__icon" aria-hidden="true">handshake</span>
+            <h3>Gặp nhau ở trường</h3>
+            <p>Chọn giờ rảnh giữa các tiết và gặp ở cơ sở A, B, N, thư viện hoặc căn tin.</p>
+          </li>
+        </ol>
+      </div>
     </section>
 
-    <!-- 5 · Đỉnh: đồng hồ tiết học. Cuộn kéo kim qua cả ngày, món đồ thật bật lên đúng giờ hẹn -->
+    <!-- 5 · Đỉnh: thời khoá biểu. Cuộn kéo kim dọc theo cột trái, món đồ thật bật lên đúng khung giờ -->
     <section class="day" data-sc-act="pin" data-sc-span="4.2" aria-labelledby="day-title" data-day>
       <div data-sc-stage class="day__stage">
         <div class="day__head">
-          <h2 id="day-title" class="day__title">Nhận món nào, lúc nào, ở đâu?</h2>
-          <div class="day__clock" aria-hidden="true">
-            <span class="day__time tabular" data-day-time>07:00</span>
+          <div>
+            <p class="day__eyebrow">Một ngày học có bốn lúc rảnh.</p>
+            <h2 id="day-title" class="day__title">Nhận món nào, lúc nào, ở đâu?</h2>
+          </div>
+          <div class="day__clock">
+            <span class="day__clock-label">Khung giờ đang xem</span>
+            <span class="day__time tabular" data-day-time aria-hidden="true">07:00</span>
             <span class="day__now" data-day-now>Đầu giờ sáng</span>
           </div>
         </div>
         <ol class="day__rows" data-day-rows>
+          <span class="day__rail" aria-hidden="true"><span class="day__fill" data-day-fill></span></span>
           <span class="day__hand" data-day-hand aria-hidden="true"></span>
           <% timetable.forEach((row) => { %>
-            <li class="day__row" data-clock="<%= row.clock %>" data-slot="<%= row.slot %>">
-              <div class="day__slot">
-                <span class="day__slot-time tabular"><%= row.clock %></span>
+            <li class="day__row" data-clock="<%= hhmm(row.clock) %>" data-slot="<%= row.slot %>">
+              <button type="button" class="day__slot" data-day-go>
+                <span class="day__slot-time tabular"><%= hhmm(row.clock) %></span>
                 <span class="day__slot-name"><%= row.slot %></span>
-              </div>
+              </button>
               <ul class="day__items">
                 <% row.items.forEach((p, i) => { %>
                   <li style="--i:<%= i %>">
@@ -177,8 +242,7 @@
       </div>
     </section>
 
-    <% if (wanted.length) { %>
-    <!-- 6 · Đồng cảm: người khác đang cần đúng món bạn có -->
+    <!-- 6 · Bảng Đang cần: người khác đang cần đúng món bạn có -->
     <section class="wanted" data-sc-act="flow" aria-labelledby="wanted-title">
       <div class="wanted__inner">
         <div class="wanted__head" data-sc-in>
@@ -186,18 +250,23 @@
           <p>Bảng "Đang cần" để sinh viên đăng thứ mình tìm. Nếu bạn có, nhắn cho họ.</p>
           <a class="btn btn--ghost" href="/products?listingType=wanted">Xem bảng Đang cần</a>
         </div>
-        <div class="wanted__board" data-sc-reveal="up" data-sc-reveal-at="0.12 0.5">
+        <div class="wanted__board<%= wanted.length % 2 ? '' : ' is-even' %>" data-sc-reveal="up" data-sc-reveal-at="0.12 0.5">
           <% wanted.forEach((p, i) => { %>
             <a class="slip slip--<%= i % 4 %>" href="/product/<%= p._id %>">
               <span class="slip__kicker"><%= urgency[p.urgency] || 'Đang cần' %><%= p.courseCode ? ` · ${p.courseCode}` : '' %></span>
               <span class="slip__name"><%= p.title %></span>
               <span class="slip__budget tabular"><%= budget(p) %></span>
+              <span class="slip__hint">Tôi có món này <span aria-hidden="true">→</span></span>
             </a>
           <% }) %>
+          <a class="slip slip--add" href="/post-ad?type=wanted">
+            <span class="material-symbols-outlined slip__plus" aria-hidden="true">add</span>
+            <span class="slip__name">Bạn đang tìm giáo trình hay đồ gì?</span>
+            <span class="slip__budget">Đăng lên bảng Đang cần, người có món sẽ nhắn bạn.</span>
+          </a>
         </div>
       </div>
     </section>
-    <% } %>
 
     <!-- 7 · Quyết: một nhãn trống chờ món của bạn -->
     <section class="close" data-sc-act="flow" aria-labelledby="close-title">
@@ -207,12 +276,14 @@
           <span class="tag__row">Tình trạng: <i class="blank"></i></span>
           <span class="tag__row">Giá: <i class="blank"></i></span>
           <span class="tag__row">Hẹn: <i class="blank"></i></span>
-          <a class="btn btn--primary tag__cta" href="/post-ad">Đăng tin</a>
+          <a class="btn btn--accent tag__cta" href="/post-ad">Đăng tin <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
         </div>
-        <ul class="close__facts" data-sc-stagger="80" data-sc-in>
-          <% if (stats.activeCount) { %><li><span class="tabular" data-sc-count="0 <%= stats.activeCount %>"><%= stats.activeCount %></span> món đang bán</li><% } %>
-          <% if (stats.soldCount) { %><li><span class="tabular" data-sc-count="0 <%= stats.soldCount %>"><%= stats.soldCount %></span> món đã có chủ mới</li><% } %>
-          <% if (stats.userCount) { %><li><span class="tabular" data-sc-count="0 <%= stats.userCount %>"><%= stats.userCount %></span> sinh viên đã tham gia</li><% } %>
+        <ul class="close__facts">
+          <li><span class="tabular">0đ</span>phí trung gian, tiền trao tay</li>
+          <li><span>3 cơ sở</span>A · B · N, cùng thư viện và căn tin</li>
+          <li><span>100%</span>tài khoản đăng ký bằng email UEH</li>
+          <% if (stats.activeCount >= 10) { %><li><span class="tabular"><%= stats.activeCount %></span>món đang chờ chủ mới</li>
+          <% } else { %><li><span>4</span>khung giờ hẹn theo tiết học</li><% } %>
         </ul>
       </div>
     </section>

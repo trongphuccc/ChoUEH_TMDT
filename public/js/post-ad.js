@@ -70,6 +70,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     input.addEventListener('change', syncListingTypeUI);
   });
 
+  // /post-ad?type=wanted opens the "Đang cần" form directly (linked from the homepage board).
+  const presetType = new URLSearchParams(location.search).get('type');
+  const presetInput = presetType && document.querySelector(`input[name="listingType"][value="${presetType === 'wanted' ? 'wanted' : 'sell'}"]`);
+  if (presetInput) presetInput.checked = true;
+
   syncListingTypeUI();
 
   // Character counter for description

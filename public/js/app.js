@@ -198,20 +198,21 @@ window.AppUtils = {
       : this.placeholderImage;
     const txStatus = product.transactionStatus || 'available';
     const txFlag = { negotiating: 'Đang thương lượng', deposited: 'Đã cọc', sold: 'Đã bán' }[txStatus];
+    const isNew = Date.now() - new Date(product.createdAt).getTime() < 7 * 24 * 3600 * 1000;
 
     return `
       <a href="/product/${product._id}" class="pcard ${txStatus === 'sold' ? 'is-sold' : ''}">
         <div class="pcard__photo">
           <img src="${image}" alt="${this.esc(product.title)}" loading="lazy" width="600" height="600"/>
           <div class="pcard__flags">
-            <span class="pcard__flag">${product.condition === 'new' ? 'Còn mới' : 'Đã dùng'}</span>
+            ${isNew ? '<span class="pcard__flag pcard__flag--new">Mới đăng</span>' : ''}
             ${txFlag ? `<span class="pcard__flag pcard__flag--warm">${txFlag}</span>` : ''}
           </div>
         </div>
         <div class="pcard__label">
           <h3 class="pcard__name">${this.esc(product.title)}</h3>
-          <p class="pcard__row"><span class="pcard__price">${this.formatPrice(product.price)}</span></p>
-          <p class="pcard__meta"><span>Hẹn: ${this.esc(this.shortPlace(product))}</span><span>${this.timeAgo(product.createdAt)}</span></p>
+          <p class="pcard__row"><span class="pcard__price">${this.formatPrice(product.price)}</span><span class="pcard__cond">${product.condition === 'new' ? 'Còn mới' : 'Đã dùng'}</span></p>
+          <p class="pcard__meta"><span><span class="material-symbols-outlined" aria-hidden="true">location_on</span>${this.esc(this.shortPlace(product))}</span><span>${this.timeAgo(product.createdAt)}</span></p>
         </div>
       </a>
     `;

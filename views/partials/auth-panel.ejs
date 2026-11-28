@@ -8,7 +8,7 @@
   <div class="relative z-10 mt-12">
     <h2 class="font-headline text-4xl lg:text-5xl font-extrabold leading-[1.02] tracking-tight"><%= locals.panelTitle || 'Đồ cũ của khoá trên, giá của sinh viên.' %></h2>
     <ul class="mt-8 space-y-4 text-white/85">
-      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">verified_user</span><span>Chỉ email <strong class="text-white">@student.ueh.edu.vn</strong> và MSSV hợp lệ mới đăng ký được.</span></li>
+      <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">verified_user</span><span>Chỉ email <strong class="text-white">@student.ueh.edu.vn</strong> hoặc <strong class="text-white">@ueh.edu.vn</strong> kèm MSSV hợp lệ mới đăng ký được.</span></li>
       <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">location_on</span><span>Hẹn giao nhận ngay tại cơ sở A, B, N, thư viện hoặc căn tin.</span></li>
       <li class="flex items-start gap-3"><span class="material-symbols-outlined text-[#f0a273]" aria-hidden="true">lock</span><span>Email, MSSV và số điện thoại không hiện công khai.</span></li>
     </ul>
@@ -18,7 +18,7 @@
     <img src="/images/zeen-mascot.png" alt="" width="120" height="126" class="drop-shadow-xl">
     <div class="tag-paper text-[#10282b] px-4 py-3 mb-6 -rotate-2">
       <p class="font-headline font-bold leading-tight">Chào bạn, mình là Zeen.</p>
-      <p class="text-sm text-[#4a6164]">Cần tìm gì cứ hỏi mình ở góc phải nhé.</p>
+      <p class="text-sm text-[#4a6164]"><%= locals.zeenTip || 'Dùng email UEH để mở khoá toàn bộ tin đăng trong trường nhé!' %></p>
     </div>
   </div>
 </section>

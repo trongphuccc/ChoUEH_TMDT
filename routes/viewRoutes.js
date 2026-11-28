@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
       Product.find(live).sort({ createdAt: -1 }).limit(24)
         .select('title price condition images location meetingPoints preferredTimeSlots courseCode category transactionStatus createdAt')
         .lean(),
-      Product.find({ status: 'available', listingType: 'wanted' }).sort({ createdAt: -1 }).limit(4)
+      Product.find({ status: 'available', listingType: 'wanted' }).sort({ createdAt: -1 }).limit(3)
         .select('title budgetMin budgetMax urgency courseCode description meetingPoints createdAt')
         .lean(),
       Product.aggregate([{ $match: live }, { $group: { _id: '$category', n: { $sum: 1 } } }]),
@@ -56,10 +56,23 @@ router.get('/', async (req, res, next) => {
       };
     });
 
+    const placesOf = (p) => [...new Set((p.meetingPoints && p.meetingPoints.length ? p.meetingPoints : [p.location]).filter(Boolean).map(shortPlace))];
+    const WEEK = 7 * 24 * 3600 * 1000;
+    // Homepage grid: newest first; the campus chips and sort buttons rearrange it in the browser.
+    const grid = withImage.slice(0, 16).map((p) => ({
+      ...p,
+      places: placesOf(p),
+      isNew: Date.now() - new Date(p.createdAt).getTime() < WEEK
+    }));
+    const campusCount = (c) => grid.filter((p) => p.places.includes(c)).length;
+
     res.render('index', {
       hero: withImage[0] || null,
       heroSide: withImage.slice(1, 3),
       rail: withImage.slice(0, 8),
+      grid,
+      campuses: ['Cơ sở A', 'Cơ sở B', 'Cơ sở N'].map((c) => ({ name: c, count: campusCount(c) })),
+      popular: ['KTVM', 'Toán cao cấp', 'Tư tưởng HCM', 'Laptop', 'Máy tính', 'Xe đạp'],
       wanted,
       categories: CATEGORIES.map((c) => ({ ...c, count: counts[c.slug] || 0 })),
       timetable,

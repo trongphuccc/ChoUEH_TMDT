@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <title>Đăng Ký - Chợ UEH</title>
+  <title>Đăng ký · Chợ UEH</title>
   <%- include('partials/head') %>
   
 </head>
 <body class="bg-background font-body text-on-surface overflow-x-hidden">
 <main id="main" class="auth min-h-screen grid md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-  <%- include('partials/auth-panel', { panelTitle: 'Một tài khoản, cả khu chợ của trường.' }) %>
+  <%- include('partials/auth-panel', { panelTitle: 'Một tài khoản, cả khu chợ của trường.', zeenTip: 'Dùng email UEH để mở khoá toàn bộ tin đăng trong trường nhé!' }) %>
 
   <!-- RIGHT PANEL -->
   <section class="flex flex-col justify-center px-6 py-12 md:p-16 lg:px-20">
@@ -16,49 +16,59 @@
         <h1 class="font-headline font-extrabold text-4xl text-on-surface tracking-tight mb-3">Tạo tài khoản mới</h1>
         <p class="text-on-surface-variant">Đã có tài khoản? <a class="text-tertiary font-semibold hover:underline" href="/login">Đăng nhập ngay</a></p>
       </div>
-      <form id="register-form" class="space-y-6">
+      <form id="register-form" class="space-y-6" novalidate>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Họ và tên *</label>
-            <input id="reg-name" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none placeholder:text-outline/50" placeholder="Nguyễn Văn A" type="text" required/>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-name">Họ và tên *</label>
+            <input id="reg-name" name="name" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50" placeholder="Nguyễn Văn A" type="text" autocomplete="name" required/>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Email *</label>
-            <input id="reg-email" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none placeholder:text-outline/50" placeholder="email@student.ueh.edu.vn" type="email" required/>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-email">Email UEH *</label>
+            <input id="reg-email" name="email" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50" placeholder="ten@student.ueh.edu.vn" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required aria-describedby="reg-email-hint"/>
+            <p id="reg-email-hint" class="text-xs text-on-surface-variant px-1">Nhận đuôi <strong>@student.ueh.edu.vn</strong> (sinh viên) hoặc <strong>@ueh.edu.vn</strong> (cán bộ).</p>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">MSSV *</label>
-            <input id="reg-studentId" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none placeholder:text-outline/50" placeholder="3124xxxxxxx" type="text" required/>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-studentId">MSSV *</label>
+            <input id="reg-studentId" name="studentId" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50" placeholder="3124xxxxxxx" type="text" inputmode="numeric" autocomplete="off" required/>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Số điện thoại</label>
-            <input id="reg-phone" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none placeholder:text-outline/50" placeholder="090 123 4567" type="tel"/>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-phone">Số điện thoại</label>
+            <input id="reg-phone" name="tel" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50" placeholder="090 123 4567" type="tel" autocomplete="tel" inputmode="tel"/>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Khoa</label>
-            <select id="reg-department" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none">
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-department">Khoa</label>
+            <select id="reg-department" name="department" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50" required>
+              <option value="" selected disabled>Chọn khoa</option>
               <option>Khoa Kinh tế</option><option>Khoa Quản trị</option><option>Khoa Tài chính</option><option>Khoa Kế toán</option><option>Khoa Công nghệ thông tin kinh doanh</option>
             </select>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Khóa</label>
-            <select id="reg-year" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none">
-              <option>Khóa 47</option><option>Khóa 48</option><option>Khóa 49</option><option>Khóa 50</option><option>Khóa 51</option>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-year">Khóa</label>
+            <select id="reg-year" name="year" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50" required>
+              <option value="" selected disabled>Chọn khóa</option>
+              <option>Khóa 52</option><option>Khóa 51</option><option>Khóa 50</option><option>Khóa 49</option><option>Khóa 48</option><option>Khóa 47</option><option>Khóa 46</option><option>Khóa 45</option>
             </select>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Mật khẩu *</label>
-            <input id="reg-password" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none placeholder:text-outline/50" placeholder="••••••••" type="password" required/>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-password">Mật khẩu *</label>
+            <div class="relative">
+              <input id="reg-password" name="new-password" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50 pr-12" placeholder="Ít nhất 6 ký tự" type="password" autocomplete="new-password" minlength="6" required/>
+              <button type="button" class="pw-toggle" data-toggle-pw aria-label="Hiện mật khẩu" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">visibility</span></button>
+            </div>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold text-on-surface-variant px-1">Xác nhận mật khẩu *</label>
-            <input id="reg-confirm" class="w-full px-4 py-3 rounded-xl bg-surface-container border-none focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none placeholder:text-outline/50" placeholder="••••••••" type="password" required/>
+            <label class="text-sm font-semibold text-on-surface-variant px-1" for="reg-confirm">Xác nhận mật khẩu *</label>
+            <div class="relative">
+              <input id="reg-confirm" name="confirm-password" class="w-full px-4 py-3 rounded-xl transition-all outline-none placeholder:text-outline/50 pr-12" placeholder="Nhập lại mật khẩu" type="password" autocomplete="new-password" required/>
+              <button type="button" class="pw-toggle" data-toggle-pw aria-label="Hiện mật khẩu" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">visibility</span></button>
+            </div>
           </div>
         </div>
-        <div id="register-error" class="hidden p-3 bg-red-50 text-red-700 rounded-lg text-sm font-medium"></div>
+        <div id="register-error" class="hidden p-3 bg-red-50 text-red-700 rounded-lg text-sm font-medium" role="alert"></div>
         <button class="btn btn--primary w-full !min-h-[52px] text-base" type="submit" id="register-btn">
-          Đăng Ký Ngay <span class="material-symbols-outlined">arrow_forward</span>
+          Đăng ký ngay <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
         </button>
+        <p class="text-xs text-center text-on-surface-variant">Khi đăng ký, bạn đồng ý với <a class="underline hover:text-primary" href="/terms">Điều khoản</a> và <a class="underline hover:text-primary" href="/privacy">Chính sách quyền riêng tư</a> của Chợ UEH.</p>
       </form>
     </div>
   </section>

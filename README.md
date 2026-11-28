@@ -1,18 +1,22 @@
-<!-- BADGES -->
 <div align="center">
 
-![Node.js](https://img.shields.io/badge/Node.js-22-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-4.18-000000?style=for-the-badge&logo=express&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 ![EJS](https://img.shields.io/badge/EJS-Template-B4CA65?style=for-the-badge&logo=ejs&logoColor=black)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-CDN-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge&logo=render&logoColor=black)
 
-# 🛒 Chợ UEH — Sàn Giao Dịch Nội Bộ Sinh Viên UEH
+# 🛒 Chợ UEH
 
-**🌐 Live Demo:** [https://choueh-tmdt.onrender.com](https://choueh-tmdt.onrender.com)
-<img width="2498" height="1351" alt="image" src="https://github.com/user-attachments/assets/fb4209fe-a5f0-4986-88a9-41defa1cc153" />
+### Đồ cũ của khoá trên, giá của sinh viên.
 
+Sàn mua bán đồ cũ nội bộ dành riêng cho sinh viên Đại học Kinh tế TP.HCM (UEH).<br/>
+Hẹn nhận đồ ngay tại cơ sở A, B, N, thư viện hoặc căn tin.
+
+**🌐 Live demo:** [choueh-tmdt.onrender.com](https://choueh-tmdt.onrender.com)
+
+<img src="docs/screenshots/home-hero.jpg" alt="Trang chủ Chợ UEH" width="100%" />
 
 </div>
 
@@ -20,76 +24,109 @@
 
 ## 📖 Giới thiệu
 
-**Chợ UEH** là marketplace mua bán đồ cũ dành **riêng cho sinh viên Đại học Kinh tế TP.HCM (UEH)**, được phát triển như đồ án môn **Thương mại điện tử** năm học 2025-2026. Khác với các nền tảng thông thường như Chợ Tốt hay Facebook Marketplace, Chợ UEH tích hợp xác thực email `@student.ueh.edu.vn`, gắn mã môn học/khoa/học kỳ vào từng bài đăng, hệ thống điểm hẹn campus, và AI Assistant **Zeen** — tạo ra một hệ sinh thái giao dịch an toàn, đáng tin cậy, hoàn toàn trong khuôn khổ cộng đồng UEH.
+**Chợ UEH** là marketplace C2C mua bán đồ cũ chỉ dành cho cộng đồng UEH, phát triển trong học phần **Thương mại điện tử** năm học 2025–2026. Khác với Chợ Tốt hay Facebook Marketplace, Chợ UEH:
+
+- chỉ nhận tài khoản đăng ký bằng email **`@student.ueh.edu.vn`** (sinh viên) hoặc **`@ueh.edu.vn`** (cán bộ) kèm MSSV hợp lệ;
+- gắn **mã môn, khoa, học kỳ** vào từng tin đăng, nên tìm giáo trình theo môn rất nhanh;
+- giao dịch **gặp mặt trong trường** theo điểm hẹn và khung giờ giữa các tiết học, không phí trung gian;
+- có **bảng "Đang cần"** để sinh viên đăng thứ mình đang tìm, và trợ lý AI **Zeen** hỗ trợ tìm món.
+
+> ⚠️ Chợ UEH là đồ án học thuật do sinh viên phát triển độc lập, **không phải sản phẩm chính thức** của Đại học Kinh tế TP.HCM.
 
 ---
 
-## 🏆 Chợ UEH vs. Nền tảng thông thường
+## 🖼️ Ảnh chụp màn hình
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/home-finder.jpg" alt="Thanh tìm kiếm và lọc nhanh" /><br/><sub><b>Tìm nhanh</b>: một ô tìm kiếm, lọc theo cơ sở, từ khoá hay tìm, danh mục</sub></td>
+    <td width="50%"><img src="docs/screenshots/home-latest.jpg" alt="Lưới món mới đăng" /><br/><sub><b>Mới đăng gần đây</b>: lọc theo cơ sở và sắp xếp giá ngay trên trang chủ</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/home-timetable.jpg" alt="Thời khoá biểu hẹn giao nhận" /><br/><sub><b>Nhận món nào, lúc nào, ở đâu?</b>: cuộn để kim chạy qua bốn khung giờ rảnh trong ngày học</sub></td>
+    <td><img src="docs/screenshots/home-wanted.jpg" alt="Bảng Đang cần" /><br/><sub><b>Bảng "Đang cần"</b>: nhu cầu thật, mã môn đang được tìm, ngân sách</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/products.jpg" alt="Trang danh sách sản phẩm" /><br/><sub><b>Đồ đang bán</b>: bộ lọc theo danh mục, khoa, mã môn, giá, tình trạng</sub></td>
+    <td><img src="docs/screenshots/detail.jpg" alt="Trang chi tiết sản phẩm" /><br/><sub><b>Chi tiết món</b>: nhãn giá, điểm hẹn, lưu tin, báo cáo vi phạm, nhắn người bán</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/login.jpg" alt="Trang đăng nhập" /><br/><sub><b>Đăng nhập</b> bằng email UEH hoặc MSSV</sub></td>
+    <td><img src="docs/screenshots/forgot.jpg" alt="Trang quên mật khẩu" /><br/><sub><b>Quên mật khẩu</b>: gửi link đặt lại qua email UEH</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/screenshots/mobile.jpg" alt="Giao diện trên điện thoại" /><br/><sub><b>Trên điện thoại</b>: trang chủ, lưới món mới, danh sách sản phẩm</sub></td>
+  </tr>
+</table>
+
+---
+
+## 🏆 Chợ UEH so với nền tảng thông thường
 
 | Tính năng | Chợ UEH | Chợ Tốt | Facebook Marketplace |
 |---|:---:|:---:|:---:|
-| Xác thực email UEH (`@student.ueh.edu.vn`) | ✅ | ❌ | ❌ |
-| Gắn mã môn học / khoa / học kỳ | ✅ | ❌ | ❌ |
-| Điểm hẹn campus cố định (6 địa điểm) | ✅ | ❌ | ❌ |
-| Bảng "Đang cần" (Wanted Board) | ✅ | ❌ | ❌ |
-| UEH Green Score (điểm môi trường) | ✅ | ❌ | ❌ |
-| AI Assistant nội bộ (Zeen) | ✅ | ❌ | ❌ |
-| Hệ thống đánh giá người bán (Review) | ✅ | ✅ | ❌ |
+| Chỉ tài khoản email UEH | ✅ | ❌ | ❌ |
+| Gắn mã môn / khoa / học kỳ vào tin | ✅ | ❌ | ❌ |
+| Điểm hẹn trong trường + khung giờ theo tiết | ✅ | ❌ | ❌ |
+| Bảng "Đang cần" | ✅ | ❌ | ❌ |
+| UEH Green Score | ✅ | ❌ | ❌ |
+| Trợ lý AI nội bộ (Zeen) | ✅ | ❌ | ❌ |
+| Đánh giá người bán | ✅ | ✅ | ❌ |
+| Phí trung gian | 0đ | Có gói trả phí | 0đ |
 
 ---
 
-## ✨ Tính năng chính
+## ✨ Tính năng
 
-### 🔐 Core
-- 👤 **Xác thực tài khoản** — Đăng ký/đăng nhập bằng email UEH hoặc MSSV (31xxxxxxxxxx), validate regex backend
-- 📦 **Đăng tin linh hoạt** — Hỗ trợ 2 loại: bán đồ (`sell`) và bảng tìm kiếm (`wanted board`), upload tối đa 6 ảnh qua Cloudinary
-- 🔍 **Tìm kiếm & Lọc nâng cao** — Full-text search, filter theo danh mục / khoa / mã môn / giá / tình trạng, sort đa tiêu chí
-- 🏷️ **Filter Chips** — Badge filter có thể xóa từng tiêu chí, UX thân thiện
-- 💬 **Chat 1-1** — Nhắn tin trực tiếp giữa người mua và người bán, polling 5s, unread badge trên navbar
-- ⭐ **Review System** — Đánh giá người bán (1–5 sao + bình luận) sau giao dịch, chống self-review và duplicate
-- 🖼️ **Product Detail** — Lightbox full-screen (prev/next/keyboard), quick-info block, chia sẻ Facebook/Zalo, report modal
-- 📊 **Dashboard cá nhân** — Thống kê tin đăng + UEH Green Score badge
+### Mua bán
+- 📦 **Hai loại tin**: bán đồ (`sell`) và bảng "Đang cần" (`wanted`) có ngân sách và mức độ cần gấp. Tối đa 6 ảnh mỗi tin, lưu trên Cloudinary.
+- 🔍 **Tìm kiếm và lọc**: theo tên, mã môn, danh mục, khoa, giá, tình trạng; sắp xếp mới nhất / giá thấp / giá cao.
+- 💬 **Chat 1-1** giữa người mua và người bán theo từng món, có số tin chưa đọc trên navbar.
+- 🤝 **Trạng thái giao dịch**: đang thương lượng, đã cọc, đã bán. Người bán chọn người mua trong số những người đã nhắn tin; món đã bán tự rời khỏi danh sách công khai.
+- ⭐ **Đánh giá người bán** (1–5 sao + bình luận), chặn tự đánh giá và đánh giá trùng.
+- ❤️ **Lưu tin** để xem lại trong Dashboard.
+- 🖼️ **Xem ảnh**: bấm ảnh thu nhỏ để đổi ảnh chính, bấm ảnh chính để phóng to toàn màn hình; chuyển ảnh bằng nút hoặc phím mũi tên, đóng bằng Esc.
+- 🚩 **Báo cáo vi phạm** (spam, lừa đảo, trùng lặp, không phù hợp); admin xử lý trong trang quản trị.
 
-### 🎓 UEH Exclusive
-- 📚 **UEH Context** — Gắn mã môn (`courseCode`), khoa (`faculty`), học kỳ, niên khóa, năm phù hợp vào mỗi bài đăng
-- 📍 **Điểm hẹn campus** — 6 địa điểm cố định (Cơ sở A/B/N, Thư viện, Căn tin, Sảnh chính) + 4 khung giờ
-- 🌱 **UEH Green Score** — Gamification môi trường: itemsReused, moneySaved, co2Reduced, level badge
-- 🤖 **Zeen AI Assistant** — Chatbot nội bộ hỗ trợ sinh viên tìm sản phẩm, hướng dẫn sử dụng, gợi ý danh mục
-- 🏡 **Homepage động** — Hero slider 3 slide, mascot Zeen float animation, wanted board dynamic, Green Score banner, reuse widget scroll animation
-- 👤 **Seller Profile** — Trang hồ sơ công khai người bán với danh sách bài đăng và rating
+### Riêng cho UEH
+- 📚 **Ngữ cảnh học tập**: mã môn, tên môn, khoa, niên khoá, học kỳ, năm học phù hợp.
+- 📍 **Điểm hẹn**: Cơ sở A, B, N, Thư viện, Căn tin, Sảnh chính và 4 khung giờ (sau tiết 2, buổi trưa, sau tiết 4, buổi chiều).
+- 🌱 **UEH Green Score**: số món được dùng lại, tiền tiết kiệm, CO₂ giảm được, cấp độ.
+- 🤖 **Zeen AI**: chatbot tìm món và hướng dẫn sử dụng (Groq, `llama-3.1-8b-instant`).
 
-### 🛡️ Security & Admin
-- 🔒 **Bảo mật** — XSS protection (`escapeHTML`), ẩn email/MSSV/SĐT khỏi API công khai (`userPrivacy.js`), rate limiting, Helmet, CORS
-- 🛠️ **Admin Panel** — Quản lý users & products, stats dashboard, xóa ảnh Cloudinary khi xóa sản phẩm
+### Trang chủ
+- Hero có slideshow 7 ảnh khuôn viên UEH trong khung Polaroid: tự chuyển sau 5 giây, chọn bằng chấm, tạm dừng được, vuốt trên điện thoại, và tự dừng khi rê chuột vào. Dòng ghi nguồn đổi theo từng ảnh.
+- Hiệu ứng mở đầu: chữ trượt lên, ảnh rơi xuống, thẻ giá đung đưa, Zeen nhảy lên. Trên máy tính, các lớp ảnh nghiêng theo con trỏ chuột.
+- Dải bảng giá chạy với các tin thật, thanh lọc nhanh theo cơ sở, lưới "Mới đăng gần đây", ba bước mua bán.
+- Thời khoá biểu hẹn giao nhận điều khiển bằng cuộn trang.
+- Bảng "Đang cần" và khối kêu gọi đăng tin.
+- Tôn trọng `prefers-reduced-motion`: tắt mọi hiệu ứng khi máy bật giảm chuyển động.
+
+### Tài khoản và bảo mật
+- 🔐 Đăng ký / đăng nhập bằng email UEH hoặc MSSV, JWT trong cookie `httpOnly` + `sameSite=strict`.
+- 🔑 **Quên mật khẩu**: link đặt lại một lần, hết hạn sau 30 phút. Chỉ lưu mã băm SHA-256 của token. Không tiết lộ email có tồn tại hay không. Đổi mật khẩu xong thì mọi phiên đăng nhập cũ bị đăng xuất.
+- 🛡️ Ẩn email / MSSV / số điện thoại khỏi API công khai, escape regex trong tìm kiếm, Helmet, CORS, giới hạn tần suất cho đăng nhập, đăng ký, đặt lại mật khẩu và API.
+- 🛠️ **Admin**: thống kê, quản lý người dùng, tin đăng, ảnh và báo cáo vi phạm.
 
 ---
 
-## 🏗️ Kiến trúc hệ thống
+## 🏗️ Kiến trúc
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                          CLIENT (Browser)                       │
-│              EJS Templates + Tailwind CSS + Font Awesome        │
-│              8 Client-side JS files (chat, lightbox, etc.)      │
-└───────────────────────────┬─────────────────────────────────────┘
-                            │ HTTP/HTTPS
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    EXPRESS SERVER (Node.js 22)                  │
-│  ┌──────────┐  ┌──────────┐  ┌───────────┐  ┌───────────────┐ │
-│  │  Routes  │→ │Middleware│→ │Controllers│→ │    Models     │ │
-│  │ (7 files)│  │JWT/Admin │  │(6 files)  │  │(User,Product, │ │
-│  └──────────┘  └──────────┘  └───────────┘  │Message,Review)│ │
-│                                              └───────┬───────┘ │
-└──────────────────────────────────────────────────────┼─────────┘
-                                                       │
-                    ┌──────────────────────────────────┤
-                    ▼                                  ▼
-     ┌──────────────────────┐           ┌─────────────────────────┐
-     │   MongoDB Atlas (M0)  │           │   Cloudinary (Images)   │
-     │  Users, Products,     │           │  Upload via Multer      │
-     │  Messages, Reviews    │           │  ≤6 ảnh / sản phẩm     │
-     └──────────────────────┘           └─────────────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│                        CLIENT (trình duyệt)                     │
+│  EJS + Tailwind CDN + Material Symbols · 9 file JS phía client   │
+│  scrollcraft (engine cuộn cho trang chủ)                         │
+└───────────────────────────────┬────────────────────────────────┘
+                                │ HTTPS
+┌───────────────────────────────▼────────────────────────────────┐
+│                     EXPRESS SERVER (Node.js)                    │
+│  Routes (9) → Middleware (JWT, admin, rate limit) → Controllers │
+│  Models: User · Product · Message · Review · Report             │
+└───────┬───────────────┬──────────────────┬───────────────┬─────┘
+        ▼               ▼                  ▼               ▼
+ MongoDB Atlas     Cloudinary          Groq API         Brevo API
+ dữ liệu           ảnh tin đăng        chatbot Zeen     email đặt lại mật khẩu
 ```
 
 ---
@@ -98,299 +135,218 @@
 
 ```
 ChoUEH_TMDT/
-├── config/
-│   ├── db.js                  # Kết nối MongoDB Atlas via Mongoose
-│   └── multer.js              # Cấu hình Multer + Cloudinary storage
-│
-├── controllers/
-│   ├── authController.js      # Đăng ký, đăng nhập, JWT, logout
-│   ├── productController.js   # CRUD sản phẩm, search, filter, stats
-│   ├── messageController.js   # Chat 1-1, unread count
-│   ├── userController.js      # Profile, cập nhật thông tin
-│   ├── adminController.js     # Admin dashboard, quản lý users/products
-│   └── aiController.js        # Zeen AI chatbot endpoint
-│
-├── middleware/
-│   ├── auth.js                # JWT protect + optionalAuth middleware
-│   └── admin.js               # Kiểm tra role admin
-│
-├── models/
-│   ├── User.js                # Schema người dùng UEH
-│   ├── Product.js             # Schema bài đăng sản phẩm
-│   ├── Message.js             # Schema tin nhắn chat
-│   └── Review.js             # Schema đánh giá người bán
-│
-├── routes/
-│   ├── authRoutes.js          # /api/auth/*
-│   ├── productRoutes.js       # /api/products/*
-│   ├── userRoutes.js          # /api/users/*
-│   ├── messageRoutes.js       # /api/messages/*
-│   ├── adminRoutes.js         # /api/admin/*
-│   ├── aiRoutes.js            # /api/ai/*
-│   ├── reviewRoutes.js        # /api/reviews/*
-│   └── viewRoutes.js          # Server-side rendered pages (EJS)
-│
+├── config/              # db.js (MongoDB), multer.js (Cloudinary storage)
+├── controllers/         # auth, product, message, user, admin, ai
+├── middleware/          # auth.js (JWT protect / optionalAuth), admin.js
+├── models/              # User, Product, Message, Review, Report
+├── routes/              # auth, product, user, message, review, report, admin, ai, view
 ├── utils/
-│   └── userPrivacy.js         # Ẩn email/MSSV/SĐT khỏi public API
-│
-├── views/                     # 14 EJS templates
-│   ├── partials/
-│   │   ├── navbar.ejs
-│   │   └── footer.ejs
-│   ├── index.ejs              # Homepage
-│   ├── login.ejs / register.ejs
-│   ├── product-detail.ejs
-│   ├── profile.ejs / seller-profile.ejs
-│   ├── dashboard.ejs
-│   ├── admin-dashboard.ejs
-│   ├── admin-users.ejs
-│   └── admin-products.ejs
-│
+│   ├── escapeRegex.js   # Escape ký tự đặc biệt trong tìm kiếm
+│   ├── mailer.js        # Gửi email qua Brevo HTTP API
+│   └── userPrivacy.js   # Ẩn email / MSSV / SĐT khỏi API công khai
+├── views/
+│   ├── partials/        # head, navbar, footer, auth-panel
+│   ├── index.ejs        # Trang chủ (render phía server)
+│   ├── products.ejs  product-detail.ejs  post-ad.ejs  messages.ejs
+│   ├── dashboard.ejs  profile.ejs  seller-profile.ejs
+│   ├── login.ejs  register.ejs  forgot-password.ejs  reset-password.ejs
+│   ├── admin.ejs  admin-users.ejs  admin-products.ejs
+│   └── terms.ejs  privacy.ejs  404.ejs
 ├── public/
-│   ├── css/                   # Custom CSS bổ sung Tailwind
-│   ├── js/                    # 8 file JS client-side
-│   │   ├── chat.js            # Logic chat polling
-│   │   ├── lightbox.js        # Fullscreen image viewer
-│   │   └── ...
-│   └── images/                # Assets tĩnh (logo, mascot Zeen...)
-│
-├── seed.js                    # Tạo dữ liệu mẫu (xóa data cũ trước)
-├── patch-products.js          # Migration: cập nhật UEH context cho products
-├── server.js                  # Entry point — khởi tạo Express, routes, middleware
-└── package.json
+│   ├── css/             # custom.css (hệ thiết kế chung), home.css (trang chủ)
+│   ├── js/              # app, home, products, product-detail, post-ad, messages, dashboard, auth, admin
+│   ├── vendor/          # scrollcraft.js / .css
+│   └── images/          # mascot Zeen; hero/ chứa ảnh khuôn viên UEH (slideshow)
+├── docs/screenshots/    # Ảnh dùng trong README
+├── test/                # node:test
+├── seed.js              # Dữ liệu mẫu (XOÁ dữ liệu cũ)
+├── fix-sold-status.js   # Ẩn các tin đã bán / đã cọc nhưng vẫn đang hiện
+├── patch-products.js    # Bổ sung ngữ cảnh UEH cho tin cũ
+└── server.js
 ```
 
 ---
 
-## 🗄️ Database Schema
+## 🗄️ Database schema (rút gọn)
 
 ```js
-// User.js — Người dùng UEH
-{
-  name:         String,                  // Họ tên
-  email:        String,                  // @student.ueh.edu.vn
-  studentId:    String,                  // MSSV: 31xxxxxxxxxx
-  phone:        String,
-  department:   String,                  // Khoa / ngành
-  year:         Number,                  // Năm học
-  password:     String,                  // bcrypt hash
-  avatar:       String,                  // Cloudinary URL
-  bio:          String,
-  rating:       Number,                  // Trung bình sao (1–5)
-  totalReviews: Number,
-  role:         { type: String, enum: ['user', 'admin'] }
-}
+// User
+{ name, email /* @student.ueh.edu.vn | @ueh.edu.vn */, studentId /* 31 + 9 số */, phone,
+  department, year, password /* bcrypt */, avatar, bio, rating, totalReviews,
+  role: 'user' | 'admin', favorites: [ProductId],
+  passwordResetToken /* SHA-256 */, passwordResetExpires, passwordChangedAt }
 
-// Product.js — Bài đăng sản phẩm
-{
-  title:           String,
-  listingType:     { type: String, enum: ['sell', 'wanted'] },
-  price:           Number,               // Nếu sell
-  budgetMin:       Number,               // Nếu wanted
-  budgetMax:       Number,
-  urgency:         String,               // Độ ưu tiên (wanted)
-  category:        String,               // 6 danh mục
-  condition:       String,               // Tình trạng sản phẩm
-  description:     String,
-  location:        String,
-  courseCode:      String,               // Mã môn học UEH
-  courseName:      String,
-  faculty:         String,               // Khoa UEH
-  academicYear:    String,               // Niên khóa
-  semester:        String,
-  suitableForYear: [Number],             // Năm học phù hợp
-  meetingPoints:   [String],             // Điểm hẹn campus
-  preferredTimeSlots: [String],          // Khung giờ giao dịch
-  images:          [String],             // Cloudinary URLs (≤6)
-  seller:          { type: ObjectId, ref: 'User' },
-  transactionStatus: String,
-  buyerId:         { type: ObjectId, ref: 'User' },
-  status:          String,
-  views:           Number
-}
+// Product
+{ title, listingType: 'sell' | 'wanted', price, budgetMin, budgetMax, urgency,
+  category, condition, description, location, courseCode, courseName, faculty,
+  academicYear, semester, suitableForYear: [Number],
+  meetingPoints: [String], preferredTimeSlots: [String], images: [String],
+  seller: UserId, status: 'available' | 'reserved' | 'sold' | ...,
+  transactionStatus: 'available' | 'negotiating' | 'deposited' | 'sold',
+  buyerId: UserId, views }
 
-// Message.js — Tin nhắn chat 1-1
-{
-  sender:   { type: ObjectId, ref: 'User' },
-  receiver: { type: ObjectId, ref: 'User' },
-  product:  { type: ObjectId, ref: 'Product' },
-  content:  String,
-  read:     Boolean
-}
+// Message
+{ sender: UserId, receiver: UserId, product: ProductId, content, read }
 
-// Review.js — Đánh giá người bán
-{
-  seller:   { type: ObjectId, ref: 'User' },
-  reviewer: { type: ObjectId, ref: 'User' },
-  product:  { type: ObjectId, ref: 'Product' },
-  rating:   { type: Number, min: 1, max: 5 },
-  comment:  String,
-  createdAt: Date
-}
+// Review
+{ seller: UserId, reviewer: UserId, product: ProductId, rating: 1..5, comment }
+
+// Report: mỗi người chỉ báo cáo một tin một lần
+{ product: ProductId, reporter: UserId,
+  reason: 'spam' | 'fake' | 'duplicate' | 'inappropriate' | 'other',
+  note, status: 'open' | 'resolved' | 'dismissed' }
 ```
 
 ---
 
-## 📡 API Reference
+## 📡 API
 
-### 🔐 Auth — `/api/auth`
-
-| Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `POST` | `/register` | ❌ | Đăng ký tài khoản UEH |
-| `POST` | `/login` | ❌ | Đăng nhập, trả về JWT cookie |
-| `GET` | `/me` | ✅ | Lấy thông tin tài khoản hiện tại |
-| `POST` | `/logout` | ✅ | Xóa JWT cookie, đăng xuất |
-
-### 📦 Product — `/api/products`
+**Auth: `/api/auth`**
 
 | Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `GET` | `/` | ❌ | Lấy danh sách sản phẩm (hỗ trợ filter & search) |
-| `GET` | `/:id` | ❌ | Lấy chi tiết 1 sản phẩm |
-| `POST` | `/` | ✅ | Đăng tin mới (sell hoặc wanted) |
-| `PUT` | `/:id` | ✅ | Cập nhật bài đăng |
-| `DELETE` | `/:id` | ✅ | Xóa bài đăng + ảnh Cloudinary |
-| `GET` | `/stats/me` | ✅ | Thống kê bài đăng của bản thân |
+|---|---|:---:|---|
+| `POST` | `/register` | | Đăng ký bằng email UEH + MSSV |
+| `POST` | `/login` | | Đăng nhập bằng email hoặc MSSV, đặt cookie JWT |
+| `GET` | `/me` | ✅ | Tài khoản hiện tại |
+| `POST` | `/logout` | | Xoá cookie |
+| `POST` | `/forgot-password` | | Gửi link đặt lại mật khẩu qua email |
+| `POST` | `/reset-password` | | Đặt mật khẩu mới bằng token trong email |
 
-### 👤 User — `/api/users`
-
-| Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `GET` | `/:id` | ❌ | Xem hồ sơ công khai người dùng |
-| `PUT` | `/:id` | ✅ | Cập nhật thông tin cá nhân |
-| `GET` | `/:id/green-score` | ❌ | Lấy UEH Green Score của người dùng |
-
-### 💬 Message — `/api/messages`
+**Products: `/api/products`**
 
 | Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `POST` | `/` | ✅ | Gửi tin nhắn |
-| `GET` | `/conversations` | ✅ | Danh sách hội thoại |
-| `GET` | `/:userId/:productId` | ✅ | Lịch sử chat theo sản phẩm |
-| `GET` | `/unread-count` | ✅ | Số tin nhắn chưa đọc (navbar badge) |
+|---|---|:---:|---|
+| `GET` | `/` | | Danh sách; `search`, `category`, `courseCode`, `faculty`, `minPrice`, `maxPrice`, `sort`, `listingType`, `seller`, `page`, `limit` |
+| `GET` | `/:id` | | Chi tiết (tăng lượt xem) |
+| `POST` | `/` | ✅ | Đăng tin (multipart, ≤ 6 ảnh) |
+| `PUT` | `/:id` | ✅ | Sửa tin |
+| `DELETE` | `/:id` | ✅ | Xoá tin và ảnh |
+| `PATCH` | `/:id/transaction-status` | ✅ | Đổi trạng thái giao dịch |
+| `GET` | `/:id/buyers` | ✅ | Những người đã nhắn về món này |
+| `PATCH` | `/:id/buyer` | ✅ | Chọn người mua |
+| `GET` | `/stats/me` | ✅ | Thống kê tin của tôi |
 
-### ⭐ Review — `/api/reviews`
-
-| Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `GET` | `/` | ❌ | Lấy review theo `?product=&reviewer=` |
-| `POST` | `/` | ✅ | Đăng đánh giá người bán |
-
-### 🤖 AI — `/api/ai`
+**Users: `/api/users`**
 
 | Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `POST` | `/chat` | ❌ | Gửi câu hỏi tới Zeen AI Assistant |
+|---|---|:---:|---|
+| `GET` | `/:id` | | Hồ sơ công khai |
+| `PUT` | `/:id` | ✅ | Cập nhật hồ sơ |
+| `GET` | `/:id/reviews` | | Đánh giá của người bán |
+| `GET` | `/:id/green-score` | ✅ | UEH Green Score |
+| `GET` | `/me/favorites` | ✅ | Tin đã lưu |
+| `POST` | `/me/favorites/:productId` | ✅ | Lưu / bỏ lưu tin |
 
-### 🛠️ Admin — `/api/admin`
+**Khác**
 
 | Method | Endpoint | Auth | Mô tả |
-|--------|----------|:----:|-------|
-| `GET` | `/stats` | ✅ Admin | Tổng quan thống kê hệ thống |
-| `GET` | `/users` | ✅ Admin | Danh sách tất cả người dùng |
-| `PUT` | `/users/:id` | ✅ Admin | Cập nhật thông tin người dùng |
-| `DELETE` | `/users/:id` | ✅ Admin | Xóa tài khoản người dùng |
-| `GET` | `/products` | ✅ Admin | Danh sách tất cả sản phẩm |
-| `PUT` | `/products/:id` | ✅ Admin | Cập nhật bài đăng |
-| `DELETE` | `/products/:id` | ✅ Admin | Xóa bài đăng + ảnh Cloudinary |
+|---|---|:---:|---|
+| `POST` | `/api/messages` | ✅ | Gửi tin nhắn (chỉ giữa người mua và người bán của món) |
+| `GET` | `/api/messages/conversations` | ✅ | Danh sách hội thoại |
+| `GET` | `/api/messages/:userId/:productId` | ✅ | Lịch sử chat theo món |
+| `GET` | `/api/messages/unread-count` | ✅ | Số tin chưa đọc |
+| `GET` | `/api/reviews` | | Lấy đánh giá |
+| `POST` | `/api/reviews` | ✅ | Đánh giá người bán |
+| `POST` | `/api/reports` | ✅ | Báo cáo tin vi phạm |
+| `POST` | `/api/ai/chat` | | Hỏi Zeen AI |
+| `GET` | `/ping` | | Kiểm tra server còn sống (cho UptimeRobot) |
+
+**Admin: `/api/admin`** (cần quyền admin)
+
+| Method | Endpoint | Mô tả |
+|---|---|---|
+| `GET` | `/stats` | Thống kê tổng quan |
+| `GET` · `PUT` · `DELETE` | `/users`, `/users/:id` | Quản lý người dùng |
+| `GET` · `PUT` · `DELETE` | `/products`, `/products/:id` | Quản lý tin đăng |
+| `DELETE` | `/products/:id/images/:index` | Xoá một ảnh của tin |
+| `GET` · `PATCH` | `/reports`, `/reports/:id` | Xem và xử lý báo cáo vi phạm |
 
 ---
 
-## 👥 Tài khoản demo
+## 💻 Chạy trên máy
 
-> Tất cả tài khoản sử dụng mật khẩu: `123456`
-
-| Role | Email | Mật khẩu |
-|------|-------|-----------|
-| 🔴 Admin | `phuc.hon@st.ueh.edu.vn` | `123456` |
-| 🟢 User | `bao.tran@st.ueh.edu.vn` | `123456` |
-| 🟢 User | `chau.le@st.ueh.edu.vn` | `123456` |
-| 🟢 User | `duy.pham@st.ueh.edu.vn` | `123456` |
-| 🟢 User | `ha.vo@st.ueh.edu.vn` | `123456` |
-
----
-
-## 🧰 Tech Stack
-
-| Layer | Công nghệ | Version |
-|-------|-----------|---------|
-| Runtime | Node.js | 22 |
-| Framework | Express | 4.18 |
-| Database | MongoDB Atlas + Mongoose | M0 Free / 8.x |
-| View Engine | EJS | Latest |
-| Styling | Tailwind CSS (CDN) + Font Awesome 6 Free | — |
-| Authentication | JWT + Cookie (httpOnly, sameSite:strict) | — |
-| File Upload | Multer + multer-storage-cloudinary | — |
-| Cloud Storage | Cloudinary | Free tier |
-| Security | Helmet, CORS, express-rate-limit, bcryptjs | — |
-| Validation | express-validator | — |
-| Deploy | Render (free tier) | — |
-| Keep-alive | UptimeRobot → `/ping` | — |
-
----
-
-## 🚀 Hướng dẫn Deploy
-
-### Yêu cầu cần chuẩn bị
-
-- Tài khoản [Render](https://render.com)
-- Tài khoản [MongoDB Atlas](https://cloud.mongodb.com) (cluster M0 Free)
-- Tài khoản [Cloudinary](https://cloudinary.com) (Free tier)
-
-### Các bước deploy
-
-**Bước 1 — Clone repository & push lên GitHub**
 ```bash
-git clone https://github.com/<your-username>/ChoUEH_TMDT.git
+git clone https://github.com/trongphuccc/ChoUEH_TMDT.git
+cd ChoUEH_TMDT
+npm install
+# tạo file .env theo bảng biến môi trường bên dưới (tối thiểu MONGODB_URI, JWT_SECRET)
+npm run seed     # tạo dữ liệu mẫu, XOÁ dữ liệu cũ
+npm start        # http://localhost:3000
+npm test         # chạy kiểm thử
 ```
-Đẩy code lên repository GitHub của bạn.
 
-**Bước 2 — Tạo MongoDB Atlas Cluster**
+Khi chạy trên máy mà chưa cấu hình Brevo, link đặt lại mật khẩu được in ra log của server thay vì gửi email.
 
-Vào [cloud.mongodb.com](https://cloud.mongodb.com) → Tạo cluster M0 Free → Tạo database user → Whitelist IP `0.0.0.0/0` → Copy connection string.
+**Tài khoản mẫu** (sau khi chạy `npm run seed`, mật khẩu `123456`):
 
-**Bước 3 — Tạo Cloudinary account**
-
-Vào [cloudinary.com](https://cloudinary.com) → Dashboard → Lấy `Cloud Name`, `API Key`, `API Secret`.
-
-**Bước 4 — Deploy lên Render**
-
-- Vào [render.com](https://render.com) → **New Web Service** → Connect GitHub repo
-- **Build Command:** `npm install`
-- **Start Command:** `npm start`
-- Thêm tất cả **Environment Variables** (bảng bên dưới)
-
-**Bước 5 — Cài UptimeRobot keep-alive (khuyến nghị)**
-
-Vào [uptimerobot.com](https://uptimerobot.com) → Tạo monitor HTTP → URL: `https://<your-app>.onrender.com/ping` → Interval: 5 phút (tránh server ngủ).
-
-### 🔑 Environment Variables
-
-| Biến | Mô tả | Ví dụ |
-|------|-------|-------|
-| `PORT` | Cổng server | `3000` |
-| `NODE_ENV` | Môi trường chạy | `production` |
-| `MONGODB_URI` | Connection string MongoDB Atlas | `mongodb+srv://...` |
-| `JWT_SECRET` | Chuỗi bí mật ký JWT | `your_super_secret_key` |
-| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name | `your_cloud_name` |
-| `CLOUDINARY_API_KEY` | Cloudinary API key | `123456789012345` |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret | `your_api_secret` |
-| `GEMINI_API_KEY` | Google Gemini API key (Zeen AI) | `AIza...` |
-| `BREVO_API_KEY` | Khoá API Brevo để gửi email đặt lại mật khẩu (Render bản miễn phí chặn SMTP nên gửi qua HTTP) | `xkeysib-...` |
-| `MAIL_FROM` | Địa chỉ người gửi đã xác minh trong Brevo | `choueh.noreply@gmail.com` |
-| `MAIL_FROM_NAME` | Tên người gửi (không bắt buộc) | `Chợ UEH` |
-| `APP_URL` | Địa chỉ web dùng trong link email (không bắt buộc, trên Render tự lấy `RENDER_EXTERNAL_URL`) | `https://choueh-tmdt.onrender.com` |
+| Vai trò | Email |
+|---|---|
+| Admin | `an.nguyen@student.ueh.edu.vn` |
+| User | `bao.tran@student.ueh.edu.vn` |
+| User | `chau.le@student.ueh.edu.vn` |
+| User | `duy.pham@student.ueh.edu.vn` |
+| User | `ha.vo@student.ueh.edu.vn` |
 
 ---
 
-## 📜 NPM Scripts
+## 🚀 Deploy lên Render
 
-| Script | Lệnh | Mô tả |
-|--------|------|-------|
-| `start` | `node server.js` | Khởi động server production |
-| `seed` | `node seed.js` | Tạo dữ liệu mẫu (**xóa toàn bộ data cũ**) |
-| `patch-products` | `node patch-products.js` | Cập nhật UEH context cho các sản phẩm hiện có |
+1. **MongoDB Atlas**: tạo cluster M0 Free, tạo database user, cho phép IP `0.0.0.0/0`, lấy connection string.
+2. **Cloudinary**: lấy `Cloud Name`, `API Key`, `API Secret`.
+3. **Brevo** (để gửi email đặt lại mật khẩu): xác minh một địa chỉ gửi trong *Senders*, tạo API key ở *SMTP & API*. Render bản miễn phí chặn cổng SMTP, nên app gửi email qua HTTP API của Brevo.
+4. **Render**: *New Web Service* → kết nối repo GitHub.
+   - Build command: `npm install`
+   - Start command: `npm start`
+   - Thêm các biến môi trường bên dưới, rồi chọn *Save, rebuild, and deploy*.
+5. **UptimeRobot** (khuyến nghị): tạo monitor HTTP tới `https://<app>.onrender.com/ping`, chu kỳ 5 phút, để server bản miễn phí không ngủ.
+
+### 🔑 Biến môi trường
+
+| Biến | Bắt buộc | Mô tả |
+|---|:---:|---|
+| `MONGODB_URI` | ✅ | Connection string MongoDB Atlas |
+| `JWT_SECRET` | ✅ | Chuỗi bí mật ký JWT |
+| `CLOUDINARY_CLOUD_NAME` | ✅ | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | ✅ | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | ✅ | Cloudinary API secret |
+| `GROQ_API_KEY` | | Khoá Groq cho chatbot Zeen |
+| `BREVO_API_KEY` | | Khoá API Brevo để gửi email đặt lại mật khẩu |
+| `MAIL_FROM` | | Địa chỉ người gửi đã xác minh trong Brevo |
+| `MAIL_FROM_NAME` | | Tên người gửi (mặc định `Chợ UEH`) |
+| `APP_URL` | | Địa chỉ web dùng trong link email. Trên Render tự lấy `RENDER_EXTERNAL_URL` |
+| `ALLOWED_ORIGINS` | | Danh sách origin cho CORS, cách nhau bởi dấu phẩy |
+| `JWT_EXPIRE` | | Thời hạn đăng nhập (mặc định `30d`) |
+| `NODE_ENV` | | `production` khi deploy |
+| `PORT` | | Cổng server (mặc định `3000`) |
+
+---
+
+## 📜 NPM scripts
+
+| Script | Mô tả |
+|---|---|
+| `npm start` / `npm run dev` | Chạy server |
+| `npm test` | Chạy kiểm thử (`node --test`) |
+| `npm run seed` | Tạo dữ liệu mẫu (**xoá toàn bộ dữ liệu cũ**) |
+| `npm run fix-sold-status` | Liệt kê tin đã bán / đã cọc nhưng vẫn đang hiện; thêm `-- --apply` để sửa |
+| `npm run patch-products` | Bổ sung ngữ cảnh UEH cho tin cũ |
+
+---
+
+## 🧰 Tech stack
+
+| Lớp | Công nghệ |
+|---|---|
+| Runtime / Framework | Node.js 18+, Express 4 |
+| Database | MongoDB Atlas + Mongoose 8 |
+| Giao diện | EJS, Tailwind CSS (CDN), Material Symbols, font Bricolage Grotesque + Be Vietnam Pro |
+| Hiệu ứng cuộn | scrollcraft (engine nhỏ, nằm trong `public/vendor`) |
+| Xác thực | JWT trong cookie `httpOnly`, bcryptjs |
+| Ảnh | Multer + Cloudinary |
+| AI | Groq API (`llama-3.1-8b-instant`) |
+| Email | Brevo transactional API |
+| Bảo mật | Helmet, CORS, express-rate-limit |
+| Deploy | Render (free tier) |
 
 ---
 
@@ -398,16 +354,22 @@ Vào [uptimerobot.com](https://uptimerobot.com) → Tạo monitor HTTP → URL: 
 
 | | |
 |---|---|
-| **Môn học** | Thương mại điện tử |
+| **Học phần** | Thương mại điện tử |
 | **Trường** | Đại học Kinh tế TP.HCM (UEH) |
 | **Năm học** | 2025 – 2026 |
 
 ---
 
+## 🙏 Ghi nguồn
+
+- Ảnh khuôn viên UEH ở trang chủ lấy từ Wikimedia Commons, đã được cắt và thu nhỏ:
+  - [Cơ sở A](https://commons.wikimedia.org/wiki/File:Campus_A_of_University_of_Economics_Ho_Chi_Minh_City,_Sep_2022.jpg): Tran Trong Nhan, CC BY-SA 1.0.
+  - [Cơ sở B](https://commons.wikimedia.org/wiki/File:Campus_B_of_University_of_Economics_Ho_Chi_Minh_City.jpg) và [Hội trường A.116](https://commons.wikimedia.org/wiki/File:Main_hall_A.116_of_University_of_Economics_Ho_Chi_Minh_City.jpg): Tran Trong Nhan, CC BY-SA 4.0.
+  - [Cơ sở N](https://commons.wikimedia.org/wiki/File:UEH_University_Campus_N_-_Classroom_Building.jpg), [Phòng học](https://commons.wikimedia.org/wiki/File:Classroom_at_University_of_Economics_Ho_Chi_Minh_City_(UEH).jpg), [Giảng đường N2](https://commons.wikimedia.org/wiki/File:Gi%E1%BA%A3ng_%C4%91%C6%B0%E1%BB%9Dng_N2_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_UEH.jpg) và [Smart Library](https://commons.wikimedia.org/wiki/File:UEH_University_Smart_Library.jpg): Tran Trong Nhan, CC0.
+  - [Sân toà B2](https://commons.wikimedia.org/wiki/File:B2_UEH.jpg): Trankhoa050902, CC BY-SA 4.0.
+  - [Cổng chính Cơ sở A](https://commons.wikimedia.org/wiki/File:University_of_Economics_Ho_Chi_Minh_City.jpg): LittleT889, CC BY-SA 4.0.
+- Tên, logo UEH và linh vật Zeen thuộc về Đại học Kinh tế TP.HCM, chỉ dùng cho mục đích học thuật, phi thương mại.
+
 ## 📄 License
 
-Dự án được phát hành dưới giấy phép **MIT License**. Xem chi tiết tại file [LICENSE](LICENSE).
-
----
-
-> ⚠️ **Disclaimer:** Chợ UEH là đồ án học thuật được phát triển độc lập bởi sinh viên UEH. Đây **không phải sản phẩm chính thức** của Đại học Kinh tế TP.HCM. Tên và logo UEH được sử dụng với mục đích học thuật phi thương mại.
+Mã nguồn phát hành theo giấy phép **MIT** (khai báo trong `package.json`). Giấy phép này không áp dụng cho ảnh và nhãn hiệu nêu ở phần Ghi nguồn.

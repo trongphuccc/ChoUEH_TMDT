@@ -34,7 +34,8 @@ input, select, textarea { accent-color: var(--teal); }
 @supports (scrollbar-color: auto) { html { scrollbar-color: #c9d1cb transparent; } }
 
 /* Pages fade up once on load: small, fast, and gone under reduced motion. */
-body > main, body > div > main { animation: pageIn 420ms var(--ease) both; }
+/* backwards, not both: a transform left on <main> after the animation would trap every position:fixed overlay inside it (lightbox, modals) */
+body > main, body > div > main { animation: pageIn 420ms var(--ease) backwards; }
 @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* ---------- logo ---------- */

@@ -1,6 +1,28 @@
 // Homepage: mount the scroll engine, then wire the finder, the latest grid and the "school day" timetable.
 ScrollCraft.mount(document.body);
 
+// Hero depth: on a mouse, the photo layers lean a little toward the pointer (CSS reads --mx / --my).
+(function heroTilt() {
+  const scene = document.querySelector('.hero__scene');
+  if (!scene || !matchMedia('(hover: hover) and (pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const hero = scene.closest('.hero');
+  let frame = 0;
+  hero.addEventListener('pointermove', (e) => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      const r = scene.getBoundingClientRect();
+      const x = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2)));
+      const y = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2)));
+      scene.style.setProperty('--mx', x.toFixed(3));
+      scene.style.setProperty('--my', y.toFixed(3));
+    });
+  });
+  hero.addEventListener('pointerleave', () => {
+    scene.style.setProperty('--mx', 0);
+    scene.style.setProperty('--my', 0);
+  });
+})();
+
 // Navbar search stays hidden until the finder's own search box scrolls out of view: one search box on screen at a time.
 (function navSearch() {
   const own = document.querySelector('[data-home-search]');
@@ -105,4 +127,75 @@ ScrollCraft.mount(document.body);
     visible = entry.isIntersecting;
     if (visible && !was) { lastY = -1; requestAnimationFrame(frame); }
   }).observe(act);
+})();
+
+// Hero slideshow: cross-fades campus photos every few seconds and keeps the photo credit in step.
+// Pauses on hover / keyboard focus, while the tab is hidden, and when the visitor presses pause.
+// With reduced motion it never advances on its own; the dots still work.
+(function heroSlides() {
+  const root = document.querySelector('[data-slides]');
+  if (!root) return;
+  const slides = [...root.querySelectorAll('.hero__slide')];
+  const dots = [...root.querySelectorAll('[data-go]')];
+  const caption = root.querySelector('[data-slide-caption]');
+  const author = document.querySelector('[data-credit-author]');
+  const link = document.querySelector('[data-credit-link]');
+  const pauseBtn = root.querySelector('[data-pause]');
+  const scene = root.closest('.hero__scene');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DELAY = 5000;
+  let current = 0;
+  let timer = 0;
+  let paused = still;
+  let hovering = false;
+
+  const show = (i) => {
+    current = (i + slides.length) % slides.length;
+    slides.forEach((img, k) => {
+      const on = k === current;
+      img.classList.toggle('is-on', on);
+      img.toggleAttribute('aria-hidden', !on);
+    });
+    dots.forEach((d, k) => d.setAttribute('aria-current', String(k === current)));
+    const s = slides[current].dataset;
+    caption.textContent = s.caption;
+    author.textContent = s.author;
+    link.textContent = s.license;
+    link.href = s.url;
+    // warm the next photo so the fade never shows an empty frame
+    const next = slides[(current + 1) % slides.length];
+    if (next.loading === 'lazy') next.loading = 'eager';
+  };
+  const schedule = () => {
+    clearTimeout(timer);
+    if (!paused && !hovering && !document.hidden) timer = setTimeout(() => { show(current + 1); schedule(); }, DELAY);
+  };
+  const setPaused = (value) => {
+    paused = value;
+    pauseBtn.setAttribute('aria-pressed', String(paused));
+    pauseBtn.setAttribute('aria-label', paused ? 'Tiếp tục trình chiếu' : 'Tạm dừng trình chiếu');
+    pauseBtn.firstElementChild.textContent = paused ? 'play_arrow' : 'pause';
+    schedule();
+  };
+
+  dots.forEach((d) => d.addEventListener('click', () => { show(Number(d.dataset.go)); schedule(); }));
+  pauseBtn.addEventListener('click', () => setPaused(!paused));
+  scene.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { hovering = true; schedule(); } });
+  scene.addEventListener('pointerleave', () => { hovering = false; schedule(); });
+  root.addEventListener('focusin', () => { hovering = true; schedule(); });
+  root.addEventListener('focusout', () => { hovering = false; schedule(); });
+  document.addEventListener('visibilitychange', schedule);
+
+  // swipe on touch screens
+  const frame = root.querySelector('.hero__frame');
+  let startX = null;
+  frame.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+  frame.addEventListener('pointerup', (e) => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    startX = null;
+    if (Math.abs(dx) > 40) { show(current + (dx < 0 ? 1 : -1)); schedule(); }
+  });
+
+  if (still) setPaused(true); else schedule();
 })();

@@ -9,6 +9,17 @@
   const urgency = { high: 'Cần gấp', medium: 'Trong tuần này', low: 'Không vội' };
   const txFlag = { negotiating: 'Đang thương lượng', deposited: 'Đã cọc' };
   const hhmm = (c) => c.padStart(5, '0');
+  // Hero slideshow: real UEH campus photos from Wikimedia Commons, each credited while it is on screen.
+  const slides = [
+    { file: 'campus-a', caption: 'Cơ sở A · 59C Nguyễn Đình Chiểu', alt: 'Toà nhà Cơ sở A của UEH với biển UEH University', author: 'Tran Trong Nhan', license: 'CC BY-SA 1.0', url: 'https://commons.wikimedia.org/wiki/File:Campus_A_of_University_of_Economics_Ho_Chi_Minh_City,_Sep_2022.jpg' },
+    { file: 'campus-n', caption: 'Cơ sở N · Nguyễn Văn Linh', alt: 'Toà giảng đường Cơ sở N của UEH giữa hàng cọ', author: 'Tran Trong Nhan', license: 'CC0', url: 'https://commons.wikimedia.org/wiki/File:UEH_University_Campus_N_-_Classroom_Building.jpg' },
+    { file: 'campus-b', caption: 'Cơ sở B · 279 Nguyễn Tri Phương', alt: 'Toà nhà cao tầng Cơ sở B của UEH', author: 'Tran Trong Nhan', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:Campus_B_of_University_of_Economics_Ho_Chi_Minh_City.jpg' },
+    { file: 'hall-a116', caption: 'Hội trường A.116', alt: 'Hội trường A.116 của UEH trong một buổi sự kiện', author: 'Tran Trong Nhan', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:Main_hall_A.116_of_University_of_Economics_Ho_Chi_Minh_City.jpg' },
+    { file: 'courtyard-b2', caption: 'Sân toà B2', alt: 'Khoảng sân có ghế cam và cây xanh ở toà B2 của UEH', author: 'Trankhoa050902', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:B2_UEH.jpg' },
+    { file: 'classroom', caption: 'Phòng học UEH', alt: 'Phòng học của UEH với bàn ghế và bục giảng', author: 'Tran Trong Nhan', license: 'CC0', url: 'https://commons.wikimedia.org/wiki/File:Classroom_at_University_of_Economics_Ho_Chi_Minh_City_(UEH).jpg' },
+    { file: 'gate-a', caption: 'Cổng chính Cơ sở A', alt: 'Cổng chính Cơ sở A của UEH trên đường Nguyễn Đình Chiểu', author: 'LittleT889', license: 'CC BY-SA 4.0', url: 'https://commons.wikimedia.org/wiki/File:University_of_Economics_Ho_Chi_Minh_City.jpg' }
+  ];
+  const slideSrc = (f, w) => `/images/hero/slide-${f}-${w}.jpg`;
   const ago = (d) => { const days = Math.floor((Date.now() - new Date(d)) / 864e5); return days < 1 ? 'Hôm nay' : days < 30 ? `${days} ngày trước` : days < 365 ? `${Math.floor(days / 30)} tháng trước` : `${Math.floor(days / 365)} năm trước`; };
 %>
 <!DOCTYPE html>
@@ -18,11 +29,11 @@
   <meta name="description" content="Sàn mua bán đồ cũ nội bộ cho sinh viên UEH. Giáo trình, điện tử, đồ dùng. Hẹn nhận đồ ngay tại cơ sở A, B, N." />
   <meta property="og:title" content="Chợ UEH · Đồ cũ của khoá trên, giá của sinh viên" />
   <meta property="og:description" content="Mua bán đồ cũ nội bộ sinh viên UEH. Hẹn nhận đồ ngay trong khuôn viên trường." />
-  <meta property="og:image" content="/images/hero/ueh-campus-a-1200.jpg" />
+  <meta property="og:image" content="/images/hero/slide-campus-a-900.jpg" />
   <%- include('partials/head') %>
   <link rel="stylesheet" href="/vendor/scrollcraft.css" />
   <link rel="stylesheet" href="/css/home.css" />
-  <link rel="preload" as="image" href="/images/hero/ueh-campus-a-1200.jpg" imagesrcset="/images/hero/ueh-campus-a-700.jpg 700w, /images/hero/ueh-campus-a-1200.jpg 1200w" imagesizes="(max-width: 860px) 60vw, 34vw" />
+  <link rel="preload" as="image" href="/images/hero/slide-campus-a-900.jpg" imagesrcset="/images/hero/slide-campus-a-600.jpg 600w, /images/hero/slide-campus-a-900.jpg 900w" imagesizes="(max-width: 860px) 80vw, 470px" />
 </head>
 <body class="home">
   <%- include('partials/navbar') %>
@@ -48,7 +59,7 @@
         </ul>
       </div>
 
-      <!-- Campus photos: Tran Trong Nhan, Wikimedia Commons (Campus A: CC BY-SA 1.0; N2, Smart Library: CC0). Credit below the scene. -->
+      <!-- Campus photos from Wikimedia Commons. N2 and Smart Library are CC0; each slideshow photo is credited below while it shows. -->
       <div class="hero__scene">
         <div class="hero__plane hero__plane--back" data-sc-parallax="1.6"></div>
         <figure class="hero__side hero__side--0" data-sc-parallax="0.8">
@@ -59,9 +70,21 @@
           <img src="/images/hero/ueh-library.jpg" alt="Smart Library của UEH" width="520" height="520" />
           <figcaption>Smart Library</figcaption>
         </figure>
-        <figure class="hero__object" data-sc-parallax="0.2">
-          <img src="/images/hero/ueh-campus-a-1200.jpg" srcset="/images/hero/ueh-campus-a-700.jpg 700w, /images/hero/ueh-campus-a-1200.jpg 1200w" sizes="(max-width: 860px) 60vw, 34vw" alt="Cơ sở A của UEH, 59C Nguyễn Đình Chiểu" width="1200" height="900" fetchpriority="high" />
-          <figcaption>Cơ sở A · 59C Nguyễn Đình Chiểu</figcaption>
+        <figure class="hero__object hero__slides" data-slides data-sc-parallax="0.2" aria-roledescription="carousel" aria-label="Ảnh khuôn viên UEH">
+          <div class="hero__frame">
+            <% slides.forEach((s, i) => { %>
+              <img class="hero__slide<%= i ? '' : ' is-on' %>" src="<%= slideSrc(s.file, 900) %>" srcset="<%= slideSrc(s.file, 600) %> 600w, <%= slideSrc(s.file, 900) %> 900w" sizes="(max-width: 860px) 80vw, 470px"
+                alt="<%= s.alt %>" width="900" height="675" <%- i ? 'loading="lazy" decoding="async"' : 'fetchpriority="high"' %>
+                data-caption="<%= s.caption %>" data-author="<%= s.author %>" data-license="<%= s.license %>" data-url="<%= s.url %>" <%- i ? 'aria-hidden="true"' : '' %> />
+            <% }) %>
+          </div>
+          <figcaption class="hero__cap">
+            <span class="hero__cap-text" data-slide-caption><%= slides[0].caption %></span>
+            <span class="hero__dots">
+              <% slides.forEach((s, i) => { %><button type="button" class="hero__dotbtn" data-go="<%= i %>" aria-label="Ảnh <%= i + 1 %>: <%= s.caption %>" aria-current="<%= i ? 'false' : 'true' %>"></button><% }) %>
+              <button type="button" class="hero__pause" data-pause aria-label="Tạm dừng trình chiếu" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">pause</span></button>
+            </span>
+          </figcaption>
         </figure>
         <% if (hero) { %>
           <div class="hero__front" data-sc-parallax="-0.9">
@@ -74,7 +97,7 @@
           </div>
         <% } %>
         <img class="hero__zeen" src="/images/zeen-mascot.png" alt="" width="840" height="884" data-sc-parallax="-1.4" />
-        <p class="hero__credit">Ảnh: Tran Trong Nhan, Wikimedia Commons (<a href="https://commons.wikimedia.org/wiki/File:Campus_A_of_University_of_Economics_Ho_Chi_Minh_City,_Sep_2022.jpg" target="_blank" rel="noopener">CC BY-SA 1.0</a>, <a href="https://commons.wikimedia.org/wiki/File:UEH_University_Smart_Library.jpg" target="_blank" rel="noopener">CC0</a>)</p>
+        <p class="hero__credit" data-slide-credit>Ảnh: <span data-credit-author><%= slides[0].author %></span>, Wikimedia Commons (<a data-credit-link href="<%= slides[0].url %>" target="_blank" rel="noopener"><%= slides[0].license %></a>)</p>
       </div>
     </section>
 

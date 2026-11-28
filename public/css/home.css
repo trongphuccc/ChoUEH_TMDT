@@ -82,9 +82,9 @@
 .hero__side img { display: block; width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; border-radius: 3px; }
 .hero__side figcaption, .hero__object figcaption { font-family: var(--sc-font-display); font-weight: 600; color: #34494c; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hero__side figcaption { font-size: .72rem; padding: .3rem 0 .4rem; }
-.hero__side--0 { left: 2%; top: 4%; rotate: -5deg; }
-.hero__side--1 { left: 7%; bottom: 25%; rotate: 4deg; width: 21%; }
-.hero__object { z-index: 2; left: 27%; top: 13%; width: 62%; padding: 10px 10px 0; border-radius: 8px; rotate: 1.5deg; box-shadow: var(--sc-e3); }
+.hero__side--0 { left: 2%; top: 4%; --r: -5deg; --d: 14px; --t: 320ms; }
+.hero__side--1 { left: 7%; bottom: 25%; width: 21%; --r: 4deg; --d: 18px; --t: 460ms; }
+.hero__object { z-index: 2; left: 27%; top: 13%; width: 62%; padding: 10px 10px 0; border-radius: 8px; box-shadow: var(--sc-e3); --r: 1.5deg; --d: 9px; --t: 180ms; }
 .hero__object img { display: block; width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; border-radius: 4px; }
 .hero__object figcaption { font-size: .9rem; padding: .55rem 0 .65rem; }
 .tag__kicker { font-size: .72rem; font-weight: 700; color: #a3421a; }
@@ -308,9 +308,9 @@ a.chip:hover { background: #185a62; }
   .hero { grid-template-columns: 1fr; min-height: 0; padding-top: 1.5rem; gap: 1.5rem; }
   .hero__title { font-size: clamp(2.1rem, 1.5rem + 3vw, 2.8rem); }
   .hero__trust { margin-top: 1.25rem; gap: .5rem 1rem; font-size: .8rem; }
-  .hero__scene { aspect-ratio: 1 / 0.95; max-height: none; justify-self: stretch; }
+  .hero__scene { aspect-ratio: 1 / 1.08; max-height: none; justify-self: stretch; }
   .hero__plane--back { inset: 4% 0 6% 8%; }
-  .hero__object { left: 19%; width: 79%; top: 9%; }
+  .hero__object { left: 17%; width: 81%; top: 6%; }
   .hero__side--0 { width: 28%; top: 1%; left: 0; }
   .hero__front { left: 2%; width: 54%; bottom: 0; }
   .hero__tag { padding: .7rem .8rem .7rem 1.7rem; gap: .2rem; }
@@ -321,7 +321,7 @@ a.chip:hover { background: #185a62; }
   .hero__object figcaption { font-size: .75rem; padding: .35rem 0 .45rem; }
   .hero__side figcaption { font-size: .6rem; }
   .hero__scene { margin-bottom: 1.4rem; }
-  .hero__zeen { width: 26%; right: 0; }
+  .hero__zeen { width: 23%; right: 0; }
   .hero__side--1 { display: none; }
   .finder__top { grid-template-columns: 1fr; }
   .finder__bar { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -366,3 +366,77 @@ a.chip:hover { background: #185a62; }
   .slip__foot { flex-direction: column; align-items: flex-start; gap: .2rem; }
 }
 @media (prefers-reduced-motion: reduce) { .ticker__track { animation: none; } .hero__dot { animation: none; } }
+
+/* ---------- hero motion ----------
+   The scroll engine owns `transform` (parallax), so everything here uses the individual
+   translate / rotate / scale properties and never fights it. Reduced motion: custom.css cuts
+   every animation to 1ms, and home.js skips the pointer tilt. */
+.hero__title, .hero__sub, .hero__ctas, .hero__live, .hero__trust { animation: heroRise 700ms var(--sc-ease-out) backwards; }
+.hero__sub { animation-delay: 120ms; }
+.hero__ctas { animation-delay: 220ms; }
+.hero__live { animation-delay: 320ms; }
+.hero__trust { animation-delay: 400ms; }
+@keyframes heroRise { from { opacity: 0; translate: 0 18px; } }
+
+/* highlighter stroke drawn under "giá của sinh viên." */
+.hero__title em {
+  background: linear-gradient(#f8cfb3, #f8cfb3) 0 88% / 0% .24em no-repeat;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  animation: heroInk 800ms 650ms cubic-bezier(.65, 0, .35, 1) forwards;
+}
+@keyframes heroInk { to { background-size: 100% .24em; } }
+
+/* polaroids drop in one by one and settle on their tilt; afterwards they follow the pointer */
+.hero__side, .hero__object {
+  rotate: var(--r);
+  translate: calc(var(--mx, 0) * var(--d)) calc(var(--my, 0) * var(--d));
+  animation: heroDrop 760ms var(--t) cubic-bezier(.2, .9, .25, 1.15) backwards;
+  transition: scale 260ms var(--sc-ease-out), box-shadow 260ms var(--sc-ease-out), translate 500ms var(--sc-ease-out);
+}
+@keyframes heroDrop { from { opacity: 0; translate: 0 -36px; rotate: calc(var(--r) - 9deg); scale: 1.06; } }
+.hero__plane--back { translate: calc(var(--mx, 0) * 5px) calc(var(--my, 0) * 5px); transition: translate 600ms var(--sc-ease-out); animation: heroPlane 800ms var(--sc-ease-out) backwards; }
+@keyframes heroPlane { from { opacity: 0; scale: .94; } }
+@media (hover: hover) and (pointer: fine) {
+  .hero__side:hover, .hero__object:hover { scale: 1.035; box-shadow: var(--sc-e3); z-index: 5; }
+}
+
+/* the price tag swings in on its punched hole, then keeps a slow sway */
+.hero__front { translate: calc(var(--mx, 0) * 22px) calc(var(--my, 0) * 22px); transition: translate 450ms var(--sc-ease-out); animation: heroRise 600ms 700ms var(--sc-ease-out) backwards; }
+.hero__tag { transform-origin: 1.1rem 50%; animation: tagSwing 1400ms 760ms cubic-bezier(.3, 1.4, .5, 1) backwards, tagSway 6s 2.2s ease-in-out infinite; }
+@keyframes tagSwing { from { rotate: -16deg; } }
+@keyframes tagSway { 0%, 100% { rotate: -2.5deg; } 50% { rotate: -1deg; } }
+
+/* Zeen pops up from behind the board, then idles */
+.hero__zeen { transform-origin: 50% 100%; animation: zeenIn 700ms 1000ms cubic-bezier(.2, 1.3, .4, 1) backwards, zeenBob 3.6s 1.8s ease-in-out infinite; }
+@keyframes zeenIn { from { opacity: 0; translate: 0 40%; scale: .85; } }
+@keyframes zeenBob { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -7px; rotate: -1.5deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero__title, .hero__sub, .hero__ctas, .hero__live, .hero__trust, .hero__title em, .hero__side, .hero__object,
+  .hero__plane--back, .hero__front, .hero__tag, .hero__zeen { animation: none !important; }
+  .hero__title em { background-size: 100% .24em; }
+}
+
+/* ---------- hero slideshow: the main polaroid cycles through campus photos ---------- */
+.hero__frame { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 4px; background: #dfe4de; touch-action: pan-y; }
+.hero__object .hero__slide { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; border-radius: 0; opacity: 0; transition: opacity 900ms ease; }
+.hero__object .hero__slide.is-on { opacity: 1; animation: kenBurns 7s ease-out both; }
+@keyframes kenBurns { from { scale: 1.07; } to { scale: 1; } }
+.hero__cap { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .5rem .15rem .6rem; text-align: left; white-space: normal; }
+.hero__cap-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hero__dots { display: flex; align-items: center; gap: .3rem; flex: none; }
+.hero__dotbtn { width: 7px; height: 7px; padding: 0; border-radius: 999px; background: #c9d1cb; transition: width 300ms var(--sc-ease-out), background-color 300ms; position: relative; }
+.hero__dotbtn::after { content: ""; position: absolute; inset: -8px -3px; } /* larger tap target */
+.hero__dotbtn:hover { background: #9aa7a3; }
+.hero__dotbtn[aria-current="true"] { width: 20px; background: var(--sc-accent); }
+.hero__pause { display: grid; place-items: center; width: 26px; height: 26px; margin-left: .25rem; border-radius: 50%; color: #4a6164; }
+.hero__pause:hover { background: #eef1ec; color: var(--teal); }
+.hero__pause .material-symbols-outlined { font-size: 1.05rem; }
+.hero__credit a { color: inherit; }
+@media (max-width: 860px) {
+  .hero__cap { padding: .3rem .1rem .4rem; }
+  .hero__dots { gap: .22rem; }
+  .hero__dotbtn { width: 5px; height: 5px; }
+  .hero__dotbtn[aria-current="true"] { width: 14px; }
+  .hero__pause { width: 22px; height: 22px; margin-left: .1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .hero__object .hero__slide { transition: none; } .hero__object .hero__slide.is-on { animation: none; } }

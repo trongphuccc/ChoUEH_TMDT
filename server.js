@@ -65,6 +65,9 @@ app.use('/api/reviews', apiLimiter, require('./routes/reviewRoutes'));
 app.use('/api/reports', apiLimiter, require('./routes/reportRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
 
+// Keep-alive target for an uptime monitor: no database work.
+app.get('/ping', (req, res) => res.type('text').send('ok'));
+
 // ─── View Routes ───
 app.use('/', require('./routes/viewRoutes'));
 

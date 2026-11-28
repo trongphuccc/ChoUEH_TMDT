@@ -35,18 +35,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (product.images && product.images.length > 0) {
       mainImage.src = product.images[0];
       mainImage.style.cursor = 'zoom-in';
-      mainImage.addEventListener('click', () => openLightbox(0));
+      mainImage.dataset.index = '0';
+      mainImage.addEventListener('click', () => openLightbox(Number(mainImage.dataset.index) || 0));
     } else {
       mainImage.src = 'https://placehold.co/800x600/e1eaeb/6f797a?text=No+Image';
     }
 
     const thumbnails = document.getElementById('thumbnails');
     if (product.images && product.images.length > 1) {
+      // Thumbnails swap the main photo; clicking the main photo opens it full screen.
       thumbnails.innerHTML = product.images.map((image, index) => `
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer ${index === 0 ? 'ring-2 ring-[#004e57]' : 'hover:opacity-80'} transition-opacity" onclick="document.getElementById('main-image').src='${image}'; document.querySelectorAll('#thumbnails > div').forEach((thumbnail) => thumbnail.classList.remove('ring-2', 'ring-[#004e57]')); this.classList.add('ring-2', 'ring-[#004e57]'); openLightbox(${index})">
-          <img class="w-full h-full object-cover" src="${image}" alt=""/>
-        </div>
+        <button type="button" data-thumb="${index}" aria-label="Xem ảnh ${index + 1}" class="aspect-square rounded-lg overflow-hidden cursor-pointer transition-opacity ${index === 0 ? 'ring-2 ring-[#004e57]' : 'hover:opacity-80'}">
+          <img class="w-full h-full object-cover" src="${window.AppUtils.esc(window.AppUtils.sizedImage(image, 240))}" alt="" loading="lazy"/>
+        </button>
       `).join('');
+      thumbnails.addEventListener('click', (e) => {
+        const thumb = e.target.closest('[data-thumb]');
+        if (!thumb) return;
+        const index = Number(thumb.dataset.thumb);
+        mainImage.src = product.images[index];
+        mainImage.dataset.index = String(index);
+        thumbnails.querySelectorAll('[data-thumb]').forEach((t) => {
+          t.classList.toggle('ring-2', t === thumb);
+          t.classList.toggle('ring-[#004e57]', t === thumb);
+          t.classList.toggle('hover:opacity-80', t !== thumb);
+        });
+      });
     }
 
     const productCondition = document.getElementById('product-condition');
@@ -529,47 +543,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Failed to load product:', error);
   }
 });
-
-(function initLightbox() {
-  let _imgs = [];
-  let _cur = 0;
-
-  window.openLightbox = function (index) {
-    const product = window._currentProduct;
-    if (!product || !product.images || !product.images.length) return;
-    _imgs = product.images;
-    _cur = index;
-    show();
-    document.getElementById('lightbox').classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  };
-
-  function show() {
-    const img = document.getElementById('lightbox-img');
-    const counter = document.getElementById('lightbox-counter');
-    img.src = _imgs[_cur];
-    if (counter) counter.textContent = `${_cur + 1} / ${_imgs.length}`;
-    document.getElementById('lightbox-prev').style.display = _imgs.length <= 1 ? 'none' : 'flex';
-    document.getElementById('lightbox-next').style.display = _imgs.length <= 1 ? 'none' : 'flex';
-  }
-
-  function close() {
-    document.getElementById('lightbox').classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('lightbox-close')?.addEventListener('click', close);
-  document.getElementById('lightbox-prev')?.addEventListener('click', () => { _cur = (_cur - 1 + _imgs.length) % _imgs.length; show(); });
-  document.getElementById('lightbox-next')?.addEventListener('click', () => { _cur = (_cur + 1) % _imgs.length; show(); });
-  document.getElementById('lightbox')?.addEventListener('click', (e) => { if (e.target === document.getElementById('lightbox')) close(); });
-  document.addEventListener('keydown', (e) => {
-    const lb = document.getElementById('lightbox');
-    if (!lb || lb.classList.contains('hidden')) return;
-    if (e.key === 'Escape') close();
-    if (e.key === 'ArrowLeft') { _cur = (_cur - 1 + _imgs.length) % _imgs.length; show(); }
-    if (e.key === 'ArrowRight') { _cur = (_cur + 1) % _imgs.length; show(); }
-  });
-})();
 
 (function initLightbox() {
   let _imgs = [];

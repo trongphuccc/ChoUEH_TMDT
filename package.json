@@ -9,7 +9,8 @@
     "seed": "node seed.js",
     "patch-products": "node patch-products.js",
     "test": "node --test",
-    "fix-sold-status": "node fix-sold-status.js"
+    "fix-sold-status": "node fix-sold-status.js",
+    "samples": "node seed-samples.js"
   },
   "keywords": [
     "ueh",

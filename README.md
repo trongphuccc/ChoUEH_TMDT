@@ -160,7 +160,7 @@ ChoUEH_TMDT/
 ├── docs/screenshots/    # Ảnh dùng trong README
 ├── test/                # node:test
 ├── seed.js              # Dữ liệu mẫu (XOÁ dữ liệu cũ)
-├── seed-samples.js      # Thêm / gỡ 31 tin mẫu, không đụng dữ liệu thật
+├── seed-samples.js      # Thêm / gỡ 31 tin mẫu (ảnh lên Cloudinary), không đụng dữ liệu thật
 ├── fix-sold-status.js   # Ẩn các tin đã bán / đã cọc nhưng vẫn đang hiện
 ├── patch-products.js    # Bổ sung ngữ cảnh UEH cho tin cũ
 └── server.js
@@ -331,7 +331,7 @@ Khi chạy trên máy mà chưa cấu hình Brevo, link đặt lại mật khẩ
 | `npm run seed` | Tạo dữ liệu mẫu (**xoá toàn bộ dữ liệu cũ**) |
 | `npm run fix-sold-status` | Liệt kê tin đã bán / đã cọc nhưng vẫn đang hiện; thêm `-- --apply` để sửa |
 | `npm run patch-products` | Bổ sung ngữ cảnh UEH cho tin cũ |
-| `npm run samples` | Liệt kê 31 tin mẫu (25 tin bán, 6 tin "Đang cần") sẽ thêm; `-- --apply` để thêm, `-- --remove --apply` để gỡ toàn bộ tin mẫu |
+| `npm run samples` | Liệt kê 31 tin mẫu (25 tin bán, 6 tin "Đang cần") sẽ thêm. `-- --apply` tải ảnh lên Cloudinary (`cho-ueh-marketplace/samples`) rồi thêm tin; `-- --remove --apply` gỡ toàn bộ tin mẫu và ảnh của chúng. Cần `MONGODB_URI` và các biến `CLOUDINARY_*` |
 
 ---
 
@@ -370,7 +370,7 @@ Khi chạy trên máy mà chưa cấu hình Brevo, link đặt lại mật khẩ
   - [Cơ sở N](https://commons.wikimedia.org/wiki/File:UEH_University_Campus_N_-_Classroom_Building.jpg), [Phòng học](https://commons.wikimedia.org/wiki/File:Classroom_at_University_of_Economics_Ho_Chi_Minh_City_(UEH).jpg), [Giảng đường N2](https://commons.wikimedia.org/wiki/File:Gi%E1%BA%A3ng_%C4%91%C6%B0%E1%BB%9Dng_N2_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_UEH.jpg) và [Smart Library](https://commons.wikimedia.org/wiki/File:UEH_University_Smart_Library.jpg): Tran Trong Nhan, CC0.
   - [Sân toà B2](https://commons.wikimedia.org/wiki/File:B2_UEH.jpg): Trankhoa050902, CC BY-SA 4.0.
   - [Cổng chính Cơ sở A](https://commons.wikimedia.org/wiki/File:University_of_Economics_Ho_Chi_Minh_City.jpg): LittleT889, CC BY-SA 4.0.
-- Ảnh của các tin mẫu (`public/images/samples`) cũng lấy từ Wikimedia Commons; tác giả và giấy phép từng ảnh nằm trong [CREDITS.md](public/images/samples/CREDITS.md) và ở cuối mô tả mỗi tin.
+- Ảnh của các tin mẫu (bản gốc trong `public/images/samples`, khi chạy script thì được tải lên Cloudinary) cũng lấy từ Wikimedia Commons; tác giả và giấy phép từng ảnh nằm trong [CREDITS.md](public/images/samples/CREDITS.md) và ở cuối mô tả mỗi tin.
 - Tên, logo UEH và linh vật Zeen thuộc về Đại học Kinh tế TP.HCM, chỉ dùng cho mục đích học thuật, phi thương mại.
 
 ## 📄 License

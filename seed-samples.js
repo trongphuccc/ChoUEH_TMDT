@@ -1,16 +1,22 @@
 // Adds a set of sample listings (25 for sale + 6 "Đang cần") so the marketplace does not look empty.
 // They are posted under the demo accounts from the README. Each description ends with a line saying it
-// is a sample, plus the photo credit (photos: Wikimedia Commons, see public/images/samples).
+// is a sample, plus the photo credit (photos: Wikimedia Commons, source files in public/images/samples).
+//
+// Photos go to Cloudinary like every other listing photo (folder cho-ueh-marketplace/samples), so the
+// CLOUDINARY_* variables must be set next to MONGODB_URI.
 //
 //   node seed-samples.js                    -> dry run: shows what would be added
-//   node seed-samples.js --apply            -> adds the listings (skips ones already there)
+//   node seed-samples.js --apply            -> uploads the photos and adds the listings (skips ones already there)
 //   node seed-samples.js --remove           -> dry run: shows which sample listings would be deleted
-//   node seed-samples.js --remove --apply   -> deletes every sample listing
+//   node seed-samples.js --remove --apply   -> deletes every sample listing and its Cloudinary photo
+//   add --local-images to skip Cloudinary and point at /images/samples (local testing only)
 //
 // Demo accounts that do not exist yet are created with a random password nobody knows,
 // so they can only act as sellers; nobody can sign in to them.
 const crypto = require('crypto');
+const path = require('path');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
 require('dotenv').config();
 const User = require('./models/User');
 const Product = require('./models/Product');
@@ -132,13 +138,38 @@ const WANTED = [
 ];
 
 const HOUR = 3600 * 1000;
+const FOLDER = 'cho-ueh-marketplace/samples';
 
-function build(sellerIds) {
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+const hasCloudinary = Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
+// Upload once under a fixed public_id; a second run gets the existing asset back instead of a copy.
+async function uploadPhoto(photo) {
+  const res = await cloudinary.uploader.upload(path.join(__dirname, 'public', 'images', 'samples', `${photo}.jpg`), {
+    public_id: `${FOLDER}/${photo}`,
+    overwrite: false,
+    resource_type: 'image'
+  });
+  return res.secure_url;
+}
+
+// Same public_id parsing as productController/adminController use when a listing is deleted.
+function publicIdOf(url) {
+  const parts = String(url).split('/');
+  const i = parts.indexOf('upload');
+  return i === -1 ? null : parts.slice(i + 2).join('/').replace(/\.[^/.]+$/, '');
+}
+
+function build(sellerIds, photoUrls) {
   const docs = [];
   SELL.forEach(([who, photo, f], i) => docs.push({
     listingType: 'sell', condition: 'used', status: 'available', ...f,
     location: f.meetingPoints[0],
-    images: [`/images/samples/${photo}.jpg`],
+    images: [photoUrls[photo]],
     description: `${f.description}\n\nẢnh minh hoạ: ${PHOTO[photo]}, Wikimedia Commons.\n${MARK}`,
     seller: sellerIds[who],
     createdAt: new Date(Date.now() - (i * 19 + 2) * HOUR) // spread over the last ~3 weeks, newest first
@@ -157,19 +188,32 @@ function build(sellerIds) {
 (async () => {
   const apply = process.argv.includes('--apply');
   const remove = process.argv.includes('--remove');
+  const localImages = process.argv.includes('--local-images');
   if (!process.env.MONGODB_URI) {
     console.error('Thiếu MONGODB_URI (đặt trong .env hoặc biến môi trường).');
+    process.exit(1);
+  }
+  if (apply && !remove && !localImages && !hasCloudinary) {
+    console.error('Thiếu CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET: ảnh tin đăng được lưu trên Cloudinary.\n'
+      + 'Dùng cùng giá trị như trên Render. Chỉ khi thử trên máy mới thêm --local-images.');
     process.exit(1);
   }
   await mongoose.connect(process.env.MONGODB_URI);
   const markRe = new RegExp(MARK.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 
   if (remove) {
-    const existing = await Product.find({ description: markRe }).select('title').lean();
+    const existing = await Product.find({ description: markRe }).select('title images').lean();
     existing.forEach((p) => console.log('  xoá:', p.title));
     if (apply) {
       const r = await Product.deleteMany({ description: markRe });
       console.log(`Đã xoá ${r.deletedCount} tin mẫu.`);
+      const ids = existing.flatMap((p) => p.images).filter((u) => u.includes('cloudinary.com')).map(publicIdOf).filter(Boolean);
+      if (ids.length && hasCloudinary) {
+        for (const id of ids) await cloudinary.uploader.destroy(id);
+        console.log(`Đã xoá ${ids.length} ảnh mẫu trên Cloudinary.`);
+      } else if (ids.length) {
+        console.log(`Còn ${ids.length} ảnh mẫu trên Cloudinary (thiếu biến CLOUDINARY_* nên chưa xoá).`);
+      }
     } else {
       console.log(`${existing.length} tin mẫu sẽ bị xoá. Chạy lại với --apply để xoá thật.`);
     }
@@ -186,10 +230,18 @@ function build(sellerIds) {
     sellerIds[key] = user ? user._id : new mongoose.Types.ObjectId();
   }
 
-  const docs = build(sellerIds);
   const already = new Set((await Product.find({ description: markRe }).select('title').lean()).map((p) => p.title));
+  const needed = SELL.filter(([, , f]) => !already.has(f.title)).map(([, photo]) => photo);
+  const photoUrls = {};
+  for (const [, photo] of SELL) photoUrls[photo] = localImages ? `/images/samples/${photo}.jpg` : `(Cloudinary) ${FOLDER}/${photo}`;
+  if (apply && !localImages && needed.length) {
+    console.log(`Đang tải ${needed.length} ảnh lên Cloudinary (${FOLDER})...`);
+    for (const photo of needed) photoUrls[photo] = await uploadPhoto(photo);
+  }
+
+  const docs = build(sellerIds, photoUrls);
   const fresh = docs.filter((d) => !already.has(d.title));
-  fresh.forEach((d) => console.log(`  ${d.listingType === 'sell' ? 'bán ' : 'cần '} ${d.title}`));
+  fresh.forEach((d) => console.log(`  ${d.listingType === 'sell' ? 'bán ' : 'cần '} ${d.title}${d.images[0] ? `  [${d.images[0]}]` : ''}`));
   console.log(`${fresh.length} tin mới, ${docs.length - fresh.length} tin đã có sẵn (bỏ qua).`);
   if (apply && fresh.length) {
     // timestamps: false keeps the spread-out createdAt dates instead of stamping everything "now"

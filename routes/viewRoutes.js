@@ -68,7 +68,6 @@ router.get('/', async (req, res, next) => {
 
     res.render('index', {
       hero: withImage[0] || null,
-      heroSide: withImage.slice(1, 3),
       rail: withImage.slice(0, 8),
       grid,
       campuses: ['Cơ sở A', 'Cơ sở B', 'Cơ sở N'].map((c) => ({ name: c, count: campusCount(c) })),
@@ -86,6 +85,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/login', (req, res) => res.render('login'));
 router.get('/register', (req, res) => res.render('register'));
+router.get('/forgot-password', (req, res) => res.render('forgot-password'));
+router.get('/reset-password', (req, res) => res.render('reset-password'));
 router.get('/products', (req, res) => res.render('products'));
 router.get('/product/:id', (req, res) => res.render('product-detail', { productId: req.params.id }));
 router.get('/post-ad', (req, res) => res.render('post-ad'));

@@ -2,6 +2,13 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Protect routes - verify JWT token
+// A login token issued before the last password change is no longer valid.
+const loadUser = async (decoded) => {
+  const user = await User.findById(decoded.id).select('+passwordChangedAt');
+  if (user && user.passwordChangedAt && decoded.iat * 1000 < user.passwordChangedAt.getTime()) return null;
+  return user;
+};
+
 const protect = async (req, res, next) => {
   let token;
 
@@ -21,11 +28,11 @@ const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    req.user = await loadUser(decoded);
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Tài khoản không tồn tại'
+        message: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại'
       });
     }
     next();
@@ -50,7 +57,7 @@ const optionalAuth = async (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id);
+      req.user = await loadUser(decoded);
     } catch (error) {
       req.user = null;
     }

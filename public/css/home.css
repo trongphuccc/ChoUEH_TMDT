@@ -43,7 +43,7 @@
 .tag__row .material-symbols-outlined { font-size: 1rem; color: var(--teal); }
 .tag__row strong { color: var(--sc-ink); font-weight: 800; font-size: 1rem; }
 .tag__row--price { justify-content: space-between; gap: .6rem; }
-.tag__cond { font-size: .75rem; font-weight: 700; color: #004e57; background: #d6eae8; border: 1px solid #add5d1; padding: .1rem .5rem; border-radius: 999px; }
+.tag__cond { white-space: nowrap; font-size: .75rem; font-weight: 700; color: #004e57; background: #d6eae8; border: 1px solid #add5d1; padding: .1rem .5rem; border-radius: 999px; }
 
 /* ---------- 1 · hero ---------- */
 .hero {
@@ -76,19 +76,21 @@
     linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
   background-size: 28px 28px;
 }
-.hero__side {
-  position: absolute; z-index: 1; width: 25%; aspect-ratio: 1; background: #fff; padding: 6px 6px 18px; border-radius: 6px;
-  box-shadow: var(--sc-e2);
-}
-.hero__side img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
-.hero__side--0 { left: 3%; top: 11%; rotate: -4deg; }
-.hero__side--1 { left: 6%; bottom: 13%; rotate: 3deg; width: 21%; }
-.hero__object {
-  position: absolute; z-index: 2; left: 31%; top: 10%; width: 52%; aspect-ratio: 1; background: #fff; padding: 10px 10px 30px;
-  border-radius: 8px; rotate: 1.5deg; box-shadow: var(--sc-e3);
-}
-.hero__object img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
-.hero__front { position: absolute; left: 21%; bottom: 5%; width: min(19rem, 46%); z-index: 3; }
+/* Polaroids of the real campus: white frame, caption written in the bottom strip */
+.hero__side, .hero__object { position: absolute; margin: 0; background: #fff; border-radius: 6px; }
+.hero__side { z-index: 1; width: 25%; padding: 6px 6px 0; box-shadow: var(--sc-e2); }
+.hero__side img { display: block; width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; border-radius: 3px; }
+.hero__side figcaption, .hero__object figcaption { font-family: var(--sc-font-display); font-weight: 600; color: #34494c; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero__side figcaption { font-size: .72rem; padding: .3rem 0 .4rem; }
+.hero__side--0 { left: 2%; top: 4%; rotate: -5deg; }
+.hero__side--1 { left: 7%; bottom: 25%; rotate: 4deg; width: 21%; }
+.hero__object { z-index: 2; left: 27%; top: 13%; width: 62%; padding: 10px 10px 0; border-radius: 8px; rotate: 1.5deg; box-shadow: var(--sc-e3); }
+.hero__object img { display: block; width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; border-radius: 4px; }
+.hero__object figcaption { font-size: .9rem; padding: .55rem 0 .65rem; }
+.tag__kicker { font-size: .72rem; font-weight: 700; color: #a3421a; }
+.hero__credit { position: absolute; right: 0; bottom: -1.6rem; margin: 0; font-size: .68rem; color: #6e8083; }
+.hero__credit a { text-decoration: underline; text-underline-offset: 2px; }
+.hero__front { position: absolute; left: 30%; bottom: 3%; width: min(19rem, 44%); z-index: 3; }
 .hero__tag { rotate: -2.5deg; }
 .hero__tag .tag__name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .hero__zeen { position: absolute; right: 1%; bottom: 0; width: 25%; height: auto; z-index: 4; filter: drop-shadow(0 10px 16px hsl(var(--sc-shadow-color) / .25)); pointer-events: none; }
@@ -287,9 +289,18 @@ a.chip:hover { background: #185a62; }
   .hero__trust { margin-top: 1.25rem; gap: .5rem 1rem; font-size: .8rem; }
   .hero__scene { aspect-ratio: 1 / 0.95; max-height: none; justify-self: stretch; }
   .hero__plane--back { inset: 4% 0 6% 8%; }
-  .hero__object { left: 26%; width: 58%; }
-  .hero__front { left: 3%; width: 62%; bottom: 3%; }
-  .hero__zeen { width: 30%; right: 0; }
+  .hero__object { left: 19%; width: 79%; top: 9%; }
+  .hero__side--0 { width: 28%; top: 1%; left: 0; }
+  .hero__front { left: 2%; width: 54%; bottom: 0; }
+  .hero__tag { padding: .7rem .8rem .7rem 1.7rem; gap: .2rem; }
+  .hero__tag::before { left: .6rem; }
+  .hero__tag .tag__name { font-size: .9rem; -webkit-line-clamp: 1; }
+  .hero__tag .tag__row:last-child { display: none; }
+  .hero__tag .tag__row strong { font-size: .9rem; }
+  .hero__object figcaption { font-size: .75rem; padding: .35rem 0 .45rem; }
+  .hero__side figcaption { font-size: .6rem; }
+  .hero__scene { margin-bottom: 1.4rem; }
+  .hero__zeen { width: 26%; right: 0; }
   .hero__side--1 { display: none; }
   .finder__top { grid-template-columns: 1fr; }
   .finder__bar { display: grid; grid-template-columns: minmax(0, 1fr); }

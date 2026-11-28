@@ -79,7 +79,12 @@ const userSchema = new mongoose.Schema({
   favorites: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
-  }]
+  }],
+  // Password reset: only the SHA-256 of the emailed token is stored.
+  passwordResetToken: { type: String, select: false },
+  passwordResetExpires: { type: Date, select: false },
+  // Login tokens issued before this moment stop working (see middleware/auth.js).
+  passwordChangedAt: { type: Date, select: false }
 }, {
   timestamps: true
 });
@@ -89,6 +94,8 @@ userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  // 1s back-dated so the login token issued right after a reset is still newer than this.
+  if (!this.isNew) this.passwordChangedAt = new Date(Date.now() - 1000);
   next();
 });
 

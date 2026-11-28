@@ -210,10 +210,9 @@ body > main, body > div > main { animation: pageIn 420ms var(--ease) both; }
 /* ---------- auth forms ---------- */
 .pw-toggle { position: absolute; right: .5rem; top: 50%; transform: translateY(-50%); width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: .5rem; color: var(--ink-soft); }
 .pw-toggle:hover { color: var(--teal); background: var(--paper-2); }
-.forgot-help { display: flex; gap: .6rem; margin-top: .75rem; padding: .8rem 1rem; border-radius: .75rem; background: var(--orange-soft); border: 1px solid #f6c4a5; font-size: .85rem; color: #5e2914; }
-.forgot-help[hidden] { display: none; }
-.forgot-help .material-symbols-outlined { color: var(--orange); }
-.forgot-help a { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.auth-done { display: flex; gap: .9rem; padding: 1.1rem 1.2rem; border-radius: .875rem; background: #eef6f5; border: 1px solid #add5d1; color: var(--ink-soft); }
+.auth-done[hidden] { display: none; }
+.auth-done > .material-symbols-outlined { color: var(--teal); font-size: 2rem; }
 /* Browser autofill paints fields light blue; keep them on the site's own white field. */
 input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, select:-webkit-autofill, textarea:-webkit-autofill {
   -webkit-text-fill-color: var(--ink); caret-color: var(--ink);

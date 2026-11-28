@@ -55,7 +55,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // ─── API Routes ───
 // Brute-force limit only where passwords are tried; /me runs on every page view.
-app.use(['/api/auth/login', '/api/auth/register'], authLimiter);
+app.use(['/api/auth/login', '/api/auth/register', '/api/auth/forgot-password', '/api/auth/reset-password'], authLimiter);
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', apiLimiter, require('./routes/userRoutes'));
 app.use('/api/products', apiLimiter, require('./routes/productRoutes'));

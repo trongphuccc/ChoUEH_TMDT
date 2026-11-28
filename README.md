@@ -377,6 +377,10 @@ Vào [uptimerobot.com](https://uptimerobot.com) → Tạo monitor HTTP → URL: 
 | `CLOUDINARY_API_KEY` | Cloudinary API key | `123456789012345` |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret | `your_api_secret` |
 | `GEMINI_API_KEY` | Google Gemini API key (Zeen AI) | `AIza...` |
+| `BREVO_API_KEY` | Khoá API Brevo để gửi email đặt lại mật khẩu (Render bản miễn phí chặn SMTP nên gửi qua HTTP) | `xkeysib-...` |
+| `MAIL_FROM` | Địa chỉ người gửi đã xác minh trong Brevo | `choueh.noreply@gmail.com` |
+| `MAIL_FROM_NAME` | Tên người gửi (không bắt buộc) | `Chợ UEH` |
+| `APP_URL` | Địa chỉ web dùng trong link email (không bắt buộc, trên Render tự lấy `RENDER_EXTERNAL_URL`) | `https://choueh-tmdt.onrender.com` |
 
 ---
 

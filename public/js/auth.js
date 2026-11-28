@@ -12,12 +12,85 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.firstElementChild.textContent = show ? 'visibility_off' : 'visibility';
     });
   });
-  const forgot = document.querySelector('[data-forgot]');
-  if (forgot) {
-    forgot.addEventListener('click', () => {
-      const help = document.getElementById('forgot-help');
-      help.hidden = !help.hidden;
-      forgot.setAttribute('aria-expanded', String(!help.hidden));
+
+  // Forgot password: ask for a reset link by email or MSSV.
+  const forgotForm = document.getElementById('forgot-form');
+  if (forgotForm) {
+    const done = document.getElementById('forgot-done');
+    const errorDiv = document.getElementById('forgot-error');
+    const btn = document.getElementById('forgot-btn');
+    const label = btn.innerHTML;
+    forgotForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('forgot-email').value.trim();
+      if (!email) {
+        errorDiv.textContent = 'Vui lòng nhập email UEH hoặc MSSV';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Đang gửi...';
+      errorDiv.classList.add('hidden');
+      try {
+        const res = await fetch('/api/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message || 'Không gửi được yêu cầu');
+        done.querySelector('[data-done-msg]').textContent = data.message;
+        forgotForm.hidden = true;
+        done.hidden = false;
+      } catch (err) {
+        errorDiv.textContent = err.message === 'Failed to fetch' ? 'Lỗi kết nối server. Vui lòng thử lại.' : err.message;
+        errorDiv.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = label;
+      }
+    });
+    done.querySelector('[data-again]').addEventListener('click', () => {
+      done.hidden = true;
+      forgotForm.hidden = false;
+    });
+  }
+
+  // Reset password: the token comes from the emailed link, then leaves the address bar.
+  const resetForm = document.getElementById('reset-form');
+  if (resetForm) {
+    const token = new URLSearchParams(location.search).get('token') || '';
+    history.replaceState(null, '', '/reset-password');
+    const errorDiv = document.getElementById('reset-error');
+    const btn = document.getElementById('reset-btn');
+    const label = btn.innerHTML;
+    const fail = (msg) => { errorDiv.textContent = msg; errorDiv.classList.remove('hidden'); };
+    if (!token) fail('Link không hợp lệ. Hãy mở đúng link trong email, hoặc yêu cầu link mới.');
+    resetForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('reset-password').value;
+      const confirm = document.getElementById('reset-confirm').value;
+      if (password.length < 6) return fail('Mật khẩu phải có ít nhất 6 ký tự');
+      if (password !== confirm) return fail('Mật khẩu xác nhận không khớp');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Đang lưu...';
+      errorDiv.classList.add('hidden');
+      try {
+        const res = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, password })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message || 'Không đặt được mật khẩu');
+        window.AppUtils.saveAuth(data.user);
+        window.AppUtils.showToast('Đã đặt mật khẩu mới, bạn đã được đăng nhập!', 'success');
+        setTimeout(() => { window.location.href = '/'; }, 900);
+      } catch (err) {
+        fail(err.message === 'Failed to fetch' ? 'Lỗi kết nối server. Vui lòng thử lại.' : err.message);
+        btn.disabled = false;
+        btn.innerHTML = label;
+      }
     });
   }
 

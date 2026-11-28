@@ -17,18 +17,18 @@
   <meta name="description" content="Sàn mua bán đồ cũ nội bộ cho sinh viên UEH. Giáo trình, điện tử, đồ dùng. Hẹn nhận đồ ngay tại cơ sở A, B, N." />
   <meta property="og:title" content="Chợ UEH · Đồ cũ của khoá trên, giá của sinh viên" />
   <meta property="og:description" content="Mua bán đồ cũ nội bộ sinh viên UEH. Hẹn nhận đồ ngay trong khuôn viên trường." />
-  <% if (hero) { %><meta property="og:image" content="<%= img(hero.images[0], 1200) %>" /><% } %>
+  <meta property="og:image" content="/images/hero/ueh-campus-a-1200.jpg" />
   <%- include('partials/head') %>
   <link rel="stylesheet" href="/vendor/scrollcraft.css" />
   <link rel="stylesheet" href="/css/home.css" />
-  <% if (hero) { %><link rel="preload" as="image" href="<%= img(hero.images[0], 900) %>" /><% } %>
+  <link rel="preload" as="image" href="/images/hero/ueh-campus-a-1200.jpg" imagesrcset="/images/hero/ueh-campus-a-700.jpg 700w, /images/hero/ueh-campus-a-1200.jpg 1200w" imagesizes="(max-width: 860px) 60vw, 34vw" />
 </head>
 <body class="home">
   <%- include('partials/navbar') %>
 
   <main id="main">
 
-    <!-- 1 · Hero: món đồ thật đầu tiên, nhiều lớp chuyển động khác nhau -->
+    <!-- 1 · Hero: khuôn viên UEH thật, nhiều lớp chuyển động khác nhau -->
     <section class="hero" data-sc-act="flow">
       <div class="hero__copy">
         <h1 class="hero__title">Đồ cũ của khoá trên, <em>giá của sinh viên.</em></h1>
@@ -47,19 +47,25 @@
         </ul>
       </div>
 
-      <div class="hero__scene" aria-hidden="<%= hero ? 'false' : 'true' %>">
+      <!-- Campus photos: Tran Trong Nhan, Wikimedia Commons (Campus A: CC BY-SA 1.0; N2, Smart Library: CC0). Credit below the scene. -->
+      <div class="hero__scene">
         <div class="hero__plane hero__plane--back" data-sc-parallax="1.6"></div>
-        <% heroSide.forEach((p, i) => { %>
-          <a href="/product/<%= p._id %>" class="hero__side hero__side--<%= i %>" data-sc-parallax="<%= i ? '1.1' : '0.8' %>" tabindex="-1">
-            <img src="<%= img(p.images[0], 400) %>" alt="" width="400" height="400" loading="eager" />
-          </a>
-        <% }) %>
+        <figure class="hero__side hero__side--0" data-sc-parallax="0.8">
+          <img src="/images/hero/ueh-n2.jpg" alt="Sân vườn giảng đường N2, UEH" width="520" height="520" />
+          <figcaption>Giảng đường N2</figcaption>
+        </figure>
+        <figure class="hero__side hero__side--1" data-sc-parallax="1.1">
+          <img src="/images/hero/ueh-library.jpg" alt="Smart Library của UEH" width="520" height="520" />
+          <figcaption>Smart Library</figcaption>
+        </figure>
+        <figure class="hero__object" data-sc-parallax="0.2">
+          <img src="/images/hero/ueh-campus-a-1200.jpg" srcset="/images/hero/ueh-campus-a-700.jpg 700w, /images/hero/ueh-campus-a-1200.jpg 1200w" sizes="(max-width: 860px) 60vw, 34vw" alt="Cơ sở A của UEH, 59C Nguyễn Đình Chiểu" width="1200" height="900" fetchpriority="high" />
+          <figcaption>Cơ sở A · 59C Nguyễn Đình Chiểu</figcaption>
+        </figure>
         <% if (hero) { %>
-          <a href="/product/<%= hero._id %>" class="hero__object" data-sc-parallax="0.2">
-            <img src="<%= img(hero.images[0], 900) %>" alt="<%= hero.title %>" width="900" height="900" fetchpriority="high" />
-          </a>
           <div class="hero__front" data-sc-parallax="-0.9">
             <a href="/product/<%= hero._id %>" class="tag hero__tag">
+              <span class="tag__kicker">Vừa lên kệ</span>
               <span class="tag__name"><%= hero.title %></span>
               <span class="tag__row tag__row--price"><span class="tag__cond"><%= cond(hero.condition) %></span><strong class="tabular"><%= fmt(hero.price) %></strong></span>
               <span class="tag__row"><span class="material-symbols-outlined" aria-hidden="true">location_on</span><%= places(hero).slice(0, 2).join(', ') %></span>
@@ -67,6 +73,7 @@
           </div>
         <% } %>
         <img class="hero__zeen" src="/images/zeen-mascot.png" alt="" width="840" height="884" data-sc-parallax="-1.4" />
+        <p class="hero__credit">Ảnh: Tran Trong Nhan, Wikimedia Commons (<a href="https://commons.wikimedia.org/wiki/File:Campus_A_of_University_of_Economics_Ho_Chi_Minh_City,_Sep_2022.jpg" target="_blank" rel="noopener">CC BY-SA 1.0</a>, <a href="https://commons.wikimedia.org/wiki/File:UEH_University_Smart_Library.jpg" target="_blank" rel="noopener">CC0</a>)</p>
       </div>
     </section>
 

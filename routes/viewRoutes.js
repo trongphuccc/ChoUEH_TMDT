@@ -26,17 +26,26 @@ const shortPlace = (place) => String(place || '').split(' - ')[0];
 router.get('/', async (req, res, next) => {
   try {
     const live = { status: 'available', listingType: 'sell' };
-    const [latest, wanted, categoryCounts, activeCount, soldCount, userCount] = await Promise.all([
+    const wantedLive = { status: 'available', listingType: 'wanted' };
+    const [latest, wanted, categoryCounts, activeCount, soldCount, userCount, wantedCount, wantedCodes] = await Promise.all([
       Product.find(live).sort({ createdAt: -1 }).limit(24)
         .select('title price condition images location meetingPoints preferredTimeSlots courseCode category transactionStatus createdAt')
         .lean(),
-      Product.find({ status: 'available', listingType: 'wanted' }).sort({ createdAt: -1 }).limit(3)
+      Product.find(wantedLive).sort({ createdAt: -1 }).limit(3)
         .select('title budgetMin budgetMax urgency courseCode description meetingPoints createdAt')
         .lean(),
       Product.aggregate([{ $match: live }, { $group: { _id: '$category', n: { $sum: 1 } } }]),
       Product.countDocuments(live),
       Product.countDocuments({ $or: [{ status: 'sold' }, { transactionStatus: 'sold' }] }),
-      User.countDocuments()
+      User.countDocuments(),
+      Product.countDocuments(wantedLive),
+      // Course codes students are hunting for most on the "Đang cần" board
+      Product.aggregate([
+        { $match: { ...wantedLive, courseCode: { $nin: [null, ''] } } },
+        { $group: { _id: '$courseCode', n: { $sum: 1 } } },
+        { $sort: { n: -1, _id: 1 } },
+        { $limit: 5 }
+      ])
     ]);
 
     const withImage = latest.filter((p) => p.images && p.images.length);
@@ -72,7 +81,9 @@ router.get('/', async (req, res, next) => {
       grid,
       campuses: ['Cơ sở A', 'Cơ sở B', 'Cơ sở N'].map((c) => ({ name: c, count: campusCount(c) })),
       popular: ['KTVM', 'Toán cao cấp', 'Tư tưởng HCM', 'Laptop', 'Máy tính', 'Xe đạp'],
-      wanted,
+      wanted: wanted.map((p) => ({ ...p, places: placesOf(p) })),
+      wantedCount,
+      wantedCodes: wantedCodes.map((c) => c._id),
       categories: CATEGORIES.map((c) => ({ ...c, count: counts[c.slug] || 0 })),
       timetable,
       stats: { activeCount, soldCount, userCount },

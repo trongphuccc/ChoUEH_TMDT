@@ -9,6 +9,7 @@
   const urgency = { high: 'Cần gấp', medium: 'Trong tuần này', low: 'Không vội' };
   const txFlag = { negotiating: 'Đang thương lượng', deposited: 'Đã cọc' };
   const hhmm = (c) => c.padStart(5, '0');
+  const ago = (d) => { const days = Math.floor((Date.now() - new Date(d)) / 864e5); return days < 1 ? 'Hôm nay' : days < 30 ? `${days} ngày trước` : days < 365 ? `${Math.floor(days / 30)} tháng trước` : `${Math.floor(days / 365)} năm trước`; };
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -250,48 +251,72 @@
     </section>
 
     <!-- 6 · Bảng Đang cần: người khác đang cần đúng món bạn có -->
-    <section class="wanted" data-sc-act="flow" aria-labelledby="wanted-title">
+    <section class="wanted" aria-labelledby="wanted-title">
       <div class="wanted__inner">
-        <div class="wanted__head" data-sc-in>
+        <div class="wanted__head">
+          <% if (wantedCount) { %><p class="wanted__eyebrow"><span class="hero__dot" aria-hidden="true"></span><strong class="tabular"><%= wantedCount %></strong> nhu cầu đang mở trên bảng</p><% } %>
           <h2 id="wanted-title" class="wanted__title">Có người đang cần đúng món bạn có.</h2>
-          <p>Bảng "Đang cần" để sinh viên đăng thứ mình tìm. Nếu bạn có, nhắn cho họ.</p>
-          <a class="btn btn--ghost" href="/products?listingType=wanted">Xem bảng Đang cần</a>
+          <p class="wanted__lede">Bảng "Đang cần" là nơi sinh viên đăng thứ mình đang tìm, kèm ngân sách. Bạn có món đó thì nhắn cho họ, hẹn nhau ở trường.</p>
+          <% if (wantedCodes.length) { %>
+            <div class="wanted__codes">
+              <span class="finder__label">Mã môn đang được tìm</span>
+              <% wantedCodes.forEach((c) => { %><a class="qchip qchip--key" href="/products?listingType=wanted&courseCode=<%= encodeURIComponent(c) %>"><%= c %></a><% }) %>
+            </div>
+          <% } %>
+          <div class="wanted__ctas">
+            <a class="btn btn--primary" href="/products?listingType=wanted">Xem bảng Đang cần</a>
+            <a class="btn btn--ghost" href="/post-ad?type=wanted">Đăng nhu cầu</a>
+          </div>
         </div>
-        <div class="wanted__board<%= wanted.length % 2 ? '' : ' is-even' %>" data-sc-reveal="up" data-sc-reveal-at="0.12 0.5">
+        <div class="wanted__board<%= wanted.length % 2 ? '' : ' is-even' %>">
           <% wanted.forEach((p, i) => { %>
             <a class="slip slip--<%= i % 4 %>" href="/product/<%= p._id %>">
-              <span class="slip__kicker"><%= urgency[p.urgency] || 'Đang cần' %><%= p.courseCode ? ` · ${p.courseCode}` : '' %></span>
+              <span class="slip__top">
+                <span class="slip__urgency slip__urgency--<%= p.urgency || 'medium' %>"><%= urgency[p.urgency] || 'Đang cần' %></span>
+                <span class="slip__time"><%= ago(p.createdAt) %></span>
+              </span>
               <span class="slip__name"><%= p.title %></span>
-              <span class="slip__budget tabular"><%= budget(p) %></span>
-              <span class="slip__hint">Tôi có món này <span aria-hidden="true">→</span></span>
+              <% if (p.description) { %><span class="slip__desc"><%= p.description %></span><% } %>
+              <span class="slip__meta">
+                <% if (p.courseCode) { %><span class="slip__code"><%= p.courseCode %></span><% } %>
+                <% if (p.places.length) { %><span class="slip__place"><span class="material-symbols-outlined" aria-hidden="true">location_on</span><%= p.places.slice(0, 2).join(', ') %></span><% } %>
+              </span>
+              <span class="slip__foot">
+                <span class="slip__budget tabular"><%= budget(p) %></span>
+                <span class="slip__hint">Tôi có món này <span aria-hidden="true">→</span></span>
+              </span>
             </a>
           <% }) %>
           <a class="slip slip--add" href="/post-ad?type=wanted">
             <span class="material-symbols-outlined slip__plus" aria-hidden="true">add</span>
             <span class="slip__name">Bạn đang tìm giáo trình hay đồ gì?</span>
-            <span class="slip__budget">Đăng lên bảng Đang cần, người có món sẽ nhắn bạn.</span>
+            <span class="slip__desc">Đăng lên bảng Đang cần kèm ngân sách, người có món sẽ nhắn bạn.</span>
+            <span class="slip__foot"><span class="slip__hint">Đăng nhu cầu <span aria-hidden="true">→</span></span></span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- 7 · Quyết: một nhãn trống chờ món của bạn -->
-    <section class="close" data-sc-act="flow" aria-labelledby="close-title">
-      <div class="close__inner">
-        <div class="tag tag--blank" data-sc-in>
+    <!-- 7 · Quyết: một nhãn trống chờ món của bạn, trên tấm bảng teal -->
+    <section class="close" aria-labelledby="close-title">
+      <div class="close__panel">
+        <div class="tag tag--blank">
           <h2 id="close-title" class="tag__name">Món tiếp theo trên kệ: của bạn.</h2>
           <span class="tag__row">Tình trạng: <i class="blank"></i></span>
           <span class="tag__row">Giá: <i class="blank"></i></span>
           <span class="tag__row">Hẹn: <i class="blank"></i></span>
           <a class="btn btn--accent tag__cta" href="/post-ad">Đăng tin <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
         </div>
-        <ul class="close__facts">
-          <li><span class="tabular">0đ</span>phí trung gian, tiền trao tay</li>
-          <li><span>3 cơ sở</span>A · B · N, cùng thư viện và căn tin</li>
-          <li><span>100%</span>tài khoản đăng ký bằng email UEH</li>
-          <% if (stats.activeCount >= 10) { %><li><span class="tabular"><%= stats.activeCount %></span>món đang chờ chủ mới</li>
-          <% } else { %><li><span>4</span>khung giờ hẹn theo tiết học</li><% } %>
-        </ul>
+        <div class="close__side">
+          <p class="close__lead">Chụp ảnh, ghi giá, chọn điểm hẹn. Món cũ của bạn là giáo trình khoá sau đang cần.</p>
+          <ul class="close__facts">
+            <li><span class="tabular">0đ</span>phí trung gian, tiền trao tay</li>
+            <li><span>3 cơ sở</span>A · B · N, thư viện, căn tin</li>
+            <li><span>100%</span>tài khoản bằng email UEH</li>
+            <% if (stats.activeCount >= 10) { %><li><span class="tabular"><%= stats.activeCount %></span>món đang chờ chủ mới</li>
+            <% } else { %><li><span>4</span>khung giờ hẹn theo tiết học</li><% } %>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
